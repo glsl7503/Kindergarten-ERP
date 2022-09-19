@@ -133,25 +133,12 @@
     </select>
     
     
-    <delete id="goItemDelete" parameterType="_int">
+    <delete id="goItemDelete">
     	DELETE
     	  FROM ITEM
     	 WHERE ITEM_NO = #{ itemNo }
     </delete>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-    
-    
     
 </mapper>

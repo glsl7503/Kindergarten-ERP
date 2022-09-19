@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" mlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
 	<meta charset="utf-8" />
@@ -11,7 +12,6 @@
 	<title>비품재고상세조회 페이지</title>
 
 </head>
-
 <body class="sb-nav-fixed">
 
 	<div th:replace="common/header"></div>
@@ -26,8 +26,12 @@
 				<br>
 				<br>
 
-					<form>
+              <form th:action="@{ /item/itemmanagement }" method="post">
 
+					<div class="btn-right-mv70">
+						<button class="btn-orange update" type="submit">수정하기 </button>
+						<button class="btn-orange delete" type="submit">삭제하기 </button>
+					</div>
 					<h4>[ 기본 정보 ]</h4>
 
 					<table class="tbTem">
@@ -39,7 +43,7 @@
 						</colgroup>
 						<tr>
 							<td class="bg-apricot">비품번호</td>
-							<td colspan="3" th:text="${ itemDetail.itemNo }"></td>
+							<td colspan="3"><p th:text="${ itemDetail.itemNo }"></p></td>
 							<input type="hidden" name="itemNo" th:value="${ itemDetail.itemNo }">
 						</tr>
 						<tr>
@@ -114,10 +118,6 @@
 						</tr>
 					</table>
 
-					<div class="btn-right-mv">
-						<button class="btn-orange update" type="submit">수정하기 </button>
-						<button class="btn-orange delete" type="submit">삭제하기 </button>
-					</div>
 					</form>
 
 			</div>

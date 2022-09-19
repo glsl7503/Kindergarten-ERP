@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kindergarten.hi.common.paging.SelectCriteria;
 import com.kindergarten.hi.food.controller.DeleteException;
-import com.kindergarten.hi.food.model.dto.FoodDTO;
 import com.kindergarten.hi.item.model.dao.ItemDAO;
 import com.kindergarten.hi.item.model.dto.ItemDTO;
 
@@ -48,8 +47,8 @@ public class ItemServiceImpl implements ItemService {
 	public void goItemDelete(ItemDTO item) throws DeleteException{
 		
 		int result  = itemDao.goItemDelete(item);
-		
-	   if(result < 0) {
+		System.out.println("result 조회 : " + result);
+	   if(result < 1) {
 		   
 		   throw new DeleteException("삭제 실패!!");
 	   }
