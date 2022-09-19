@@ -424,7 +424,7 @@
 				#{ rsGoals },
 				#{ rsContents },
 				#{ effect },
-				1,
+				#{ regMem },
 				SYSDATE,
 				NULL,
 				'N',

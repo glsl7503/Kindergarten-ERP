@@ -510,10 +510,12 @@ public class LessonsController {
 	
 	// 수업계획서 등록
 	@PostMapping("/plan/register")
-	public String planReg(@ModelAttribute LessonsPlanDTO lessonsPlanDTO, RedirectAttributes rttr) {
+	public String planReg(HttpServletRequest request, @ModelAttribute LessonsPlanDTO lessonsPlanDTO, RedirectAttributes rttr) {
 		
 		System.out.println("go>"+lessonsPlanDTO);
 		
+		int regMem = Integer.parseInt(request.getParameter("loginMemberIdx"));
+		lessonsPlanDTO.setRegMem(regMem);
 		int result = lessonsService.planReg(lessonsPlanDTO);
 		
 		String message = "";
