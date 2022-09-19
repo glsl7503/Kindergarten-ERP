@@ -21,9 +21,8 @@
           <div class="container-fluid px-4">
               <h1 class="mt-4">음식재고</h1>
               
-
               <br>
-
+              
               <form th:action="@{/food/stock/update}" method="post">
               
               <div class="btn-right-mv70">
@@ -32,8 +31,7 @@
               </div>
 
               <br>
-
-
+                           
               <table class="tbTem">
                   <colgroup>
                       <col width="25%">
@@ -43,16 +41,16 @@
                   </colgroup>
                   		<tr>
 	                      <td class="bg-apricot">음식번호</td>
-	                      <td colspan="3"><p th:text="${ stock.stockIdx }"></p></td>
+	                      <td colspan="3"><p th:text="${ stock.stockIdx }" align="left"></p></td>
 	                      <input type="hidden" name="stockIdx" th:value="${ stock.stockIdx }">
 	                  </tr>
 	                  <tr>
 	                      <td class="bg-apricot">음식명</td>
-	                      <td colspan="3"><input type="text" name="stockTitle" th:value="${ stock.stockTitle }"></td>
+	                      <td colspan="3"><input type="text" name="stockTitle" th:value="${ stock.stockTitle }" maxlength="10" placeholder="음식명을 입력해주세요! (ex: 10)"></td>
 	                  </tr>
 	                  <tr>
 	                      <td class="bg-apricot">개수</td>
-	                      <td colspan="3"><input type="text" name="stockCount" th:value="${ stock.stockCount }"></td>
+	                      <td colspan="3"><input type="number" style="width: 100%; height: 60px;" id="stockCount" name="stockCount" th:value="${ stock.stockCount }" maxlength="5" placeholder="수량을 입력해주세요! (ex: 10)"></td>
 	                  </tr>
               </table>
 			</form>
@@ -68,6 +66,25 @@ $(".update").click(function () {
 	$(".delete").click(function () {
     $("form").attr("action", "/food/stock/delete");
 	});
+
+ 	let userPhone = document.querySelector("#stockCount");
+ 	userPhone.addEventListener("change", (e) => {
+ 	  validPhone(e.target);
+ 	});
+ 	
+ 	function validPhone(obj) {
+ 	  console.log(obj);
+ 	  if (validPhoneCheck(obj) == false) {
+ 	    alert("올바른 수량을 입력하세요.");
+ 	    obj.value = "";
+ 	    obj.focus();
+ 	    return false;
+ 	  }
+ 	}
+ 	function validPhoneCheck(obj) {
+ 	  let pattern = /^[0-9]/g;
+ 	  return obj.value.match(pattern) != null;
+ 	}
 
 
 </script>

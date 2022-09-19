@@ -41,11 +41,11 @@
                     
                     <tr>
                         <td class="bg-apricot">음식명</td>
-                        <td colspan="3"><input type="text" name="stockTitle"></td>
+                        <td colspan="3"><input type="text" name="stockTitle" maxlength="10" placeholder="음식명을 입력해주세요! (ex: 하니버터칩)"></td>
                     </tr>
                     <tr>
-                        <td class="bg-apricot">갯수</td>
-                        <td colspan="3"><input type="text" id="stockCount" name="stockCount"></td>
+                        <td class="bg-apricot">개수</td>
+                        <td colspan="3"><input style="width: 100%; height: 60px;" type="text" id="stockCount" name="stockCount" maxlength="5" placeholder="수량을 입력해주세요! (ex: 10)"></td>
                     </tr>
                 </table>
 			  </form>
@@ -65,21 +65,25 @@
         $("form").attr("action", "/food/stock").attr("method", "get");
  	});
  	
- 	$("#stockCount").focusout(function() {
- 		
- 		console.log("asdmnakjlwdnklaewnfkasdma jwldnjlawnlawndklawndklanklwdlane")
- 		
-        let stockCount = document.getElementById("stockCount");
-
-
-        // 아이디검사
-        // 첫글자는 반드시 영문 소문자, 총 4~12자로 이뤄지고
-        // 숫자가 반드시 하나 이상 포함되어야한다.
-        // 영문 소문자와 숫자로 이루어져야한다.
-        if (!chk(/^[0-9]$/g,stockCount)) {
-        	
-          alert("김하니 성공");
-        }
+ 	let userPhone = document.querySelector("#stockCount");
+ 	userPhone.addEventListener("change", (e) => {
+ 	  validPhone(e.target);
  	});
+ 	
+ 	function validPhone(obj) {
+ 	  console.log(obj);
+ 	  if (validPhoneCheck(obj) == false) {
+ 	    alert("올바른 수량을 입력하세요.");
+ 	    obj.value = "";
+ 	    obj.focus();
+ 	    return false;
+ 	  }
+ 	}
+ 	function validPhoneCheck(obj) {
+ 	  let pattern = /^[0-9]/g;
+ 	  return obj.value.match(pattern) != null;
+ 	}
+
+ 
 </script>
 </html>
