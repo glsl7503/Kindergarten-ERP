@@ -24,280 +24,67 @@ import com.kindergarten.hi.food.controller.InsertException;
 import com.kindergarten.hi.food.controller.UpdateException;
 import com.kindergarten.hi.employee.model.dto.ManagementDTO;
 
-@Service
-public class EmployeeService {
+public interface EmployeeService {
 
-	private final PasswordEncoder passwordEncoder;
-	
-	private final EmployeeDAO employeedao;
-	
-	public EmployeeService(EmployeeDAO employeedao, PasswordEncoder passwordEncoder) {
-		
-		this.passwordEncoder = passwordEncoder;
-		this.employeedao = employeedao;
-		
-	}
-	
-	public List<EmployeeDTO> selectEmployeeList(SelectCriteria selectCriteria) {
-		List<EmployeeDTO> employeeList = employeedao.selectEmployeeList(selectCriteria);	
-		return employeeList;
-	}
+	int selectTotalCount(Map<String, String> searchMap);
 
-	public int selectTotalCount(Map<String, String> searchMap) {
-		int result = employeedao.selectTotalCount(searchMap);
-		return result;
-	}
+	List<EmployeeDTO> selectEmployeeList(SelectCriteria selectCriteria);
 
-	@Transactional
-	public int insertEmployee(EmployeeDTO employeeDTO, EmplAuthDTO emplAuthDTO) {
+	void employeeDelete(EmployeeDTO employee) throws employeeDeleteException;
 
-//		int result = employeeDao.insertEmployee(employeeDTO, value);
-		System.out.println(employeeDTO);
-		System.out.println(emplAuthDTO);
-		int result = 0;
-		result = employeedao.insertEmployee(employeeDTO);
-		if(result > 0) {
-			employeedao.insertInSelectEmployee(emplAuthDTO);
-		}
-		
-		
-//		if(!(result > 0 )) {
-//			throw new EmployeeRegistException("회원 가입에 실패였습니다.");
-//		}
-		
-		return result;
-	}
+	EmployeeDTO selectEmployeeDetail(Long no);
 
-	public boolean selectEmployeeById(String id) {
-		
-		String result = employeedao.selectEmployeeById(id);
+	void employeeUpdate(EmployeeDTO employee) throws employeeUpdateException;
 
-        return result != null? true : false;
-	}
-	
-	@Transactional
-	public void employeeDelete(EmployeeDTO employee) throws employeeDeleteException {
-		
-		int result = employeedao.deleteEmployee(employee);
-		
-		if(!(result>0)) {
-			throw new employeeDeleteException("회원정보가 삭제되었습니다 ! ");
-		}
-	}
-	
-	@Transactional
-	public void employeeUpdate(EmployeeDTO employee) throws employeeUpdateException {
-		int result = employeedao.employeeUpdate(employee);
-		
-		 if(!(result > 0)) {
-	            throw new employeeUpdateException("회원정보가 수정되었습니다 ! ");
-		 }
-		
-	}
+	void managementRegister(ManagementDTO management) throws managementRegisterException;
 
-	/* 휴가관리 토탈 카운트 조회 메소드 */
-	public int selectVacationTotalCount(Map<String, Object> searchMap) {
+	int selectTotalCount2(Map<String, String> searchMap);
+
+	List<ManagementDTO> selectManagementList(SelectCriteria selectCriteria);
+
+	ManagementDTO selectManagementDetail(Long no);
+
+	void managementsubmit(ManagementDTO management) throws managementUpdateException;
+
+	void managementUpdate(ManagementDTO management) throws managementUpdateException;
+
+	void managementDelete(int no) throws managementDeleteException;
+
+	List<CalenderEmployeeDTO> selectempCalenderList();
+
+	void insertemployeeCalender(CalenderEmployeeDTO calender, int no) throws employeeCalenderException;
+
+	void insertemployee2Calender(CalenderEmployeeDTO calender, int no) throws employeeCalenderException;
+
+	int insertEmployee(EmployeeDTO employeeDTO, EmplAuthDTO emplAuthDTO);
+
+	boolean selectEmployeeById(String id);
+
+	int selectVacationTotalCountPy(Map<String, Object> searchMap);
+
+	List<HolidayDTO> selectVacationListPy(Map<String, Object> foodMap);
+
+	int selectVacationTotalCount(Map<String, Object> searchMap);
+
+	List<HolidayDTO> selectVacationList(Map<String, Object> foodMap);
+
+	void insertVacation(HolidayDTO holi) throws InsertException;
+
+	void insertVacationEmp(int userNo) throws InsertException;
+
+	HolidayDTO selectVacationDetail(Long no);
+
+	void updateVacation(HolidayDTO holi) throws UpdateException;
+
+	void deteleVacation(HolidayDTO holi) throws DeleteException;
+
+	void detailInsertVacation(HolidayDTO holi) throws InsertException;
+
+	void detailUpdateVacation(HolidayDTO holi) throws InsertException;
+
+	void updateVacationPy(int no, String yN);
 
 
-        int result = employeedao.selectVacationTotalCount(searchMap);
-
-        return result;    
-	}
-
-	public List<HolidayDTO> selectVacationList(Map<String, Object> foodMap) {
-		
-		List<HolidayDTO> empList = employeedao.selectVacationList(foodMap);
-		
-		return empList;
-	
-	}
-
-	@Transactional
-	public void insertVacation(HolidayDTO holi) throws InsertException{
-
-		System.out.println("서비스 까지는 들고오네 : " + holi);
-		
-		int result = employeedao.insertVacation(holi);
-		
-		if(!(result > 0)) {
-			throw new InsertException("게시글 등록에 실패하셨습니다.");
-		}
-	}
-
-	public HolidayDTO selectVacationDetail(Long no) {
-		
-		HolidayDTO holiDetail = employeedao.selectVacationDetail(no);
-		
-		return holiDetail;
-	}
-	
-	@Transactional
-	public void updateVacation(HolidayDTO holi) throws UpdateException{
-		  int result = employeedao.updateVacation(holi);
-
-	        if(!(result > 0)) {
-	            throw new UpdateException("게시글 수정에 실패하셨습니다.");
-	        }
-	}
-	
-	@Transactional
-	public void deteleVacation(HolidayDTO holi) throws DeleteException{
-		
-		  int result = employeedao.deteleVacation(holi);
-
-	        if(!(result > 0)) {
-	        	
-	            throw new DeleteException("게시글 수정에 실패하셨습니다.");
-	        }
-	}
-	
-	@Transactional
-	public void detailInsertVacation(HolidayDTO holi) throws InsertException{
-
-		  int result = employeedao.detailInsertVacation(holi);
-
-	        if(!(result > 0)) {
-	        	
-	            throw new InsertException("게시글 제출에 실패하셨습니다.");
-	        }
-	}
-
-	
-	
-	
-
-	public EmployeeDTO selectEmployeeDetail(Long no) {
-
-		EmployeeDTO employeeDetail = employeedao.selectEmployeeDetail(no);
-		
-		return employeeDetail;
-	}
-
-	public List<ManagementDTO> selectManagementList(SelectCriteria selectCriteria) {
-		List<ManagementDTO> managementList = employeedao.selectManagementList(selectCriteria);
-		return managementList;
-	}
-
-	@Transactional
-	public void managementRegister(ManagementDTO management) throws managementRegisterException {
-		
-		int result = employeedao.managementRegister(management);
-		
-		if(!(result>0)) {
-			throw new managementRegisterException("근태등록에 실패하셨습니다.");
-		}			
-	}
-
-	@Transactional
-	public void managementDelete(int no) throws managementDeleteException {
-		
-		int result = employeedao.deletemanagement(no);
-		
-		if(!(result>0)) {
-			throw new managementDeleteException("근태정보가 삭제되었습니다 ! ");
-		}
-		
-	}
-
-	public int selectTotalCount2(Map<String, String> searchMap) {
-		int result = employeedao.selectTotalCount2(searchMap);
-		return result;
-	}
-
-	public ManagementDTO selectManagementDetail(Long no) {
-		
-		ManagementDTO managementDetail = employeedao.selectManagementDetail(no);
-		
-		return managementDetail;
-	}
-
-	@Transactional
-	public void managementUpdate(ManagementDTO management) throws managementUpdateException {
-		
-		int result = employeedao.managementUpdate(management);
-		
-		 if(!(result > 0)) {
-	            throw new managementUpdateException("게시글 수정에 실패하셨습니다.");
-		 }
-}
-	@Transactional
-	public void managementsubmit(ManagementDTO management) throws managementUpdateException {
-		
-		int result = employeedao.managementsubmit(management);
-		
-		 if(!(result > 0)) {
-	            throw new managementUpdateException("제출에 실패하셨습니다.");
-		 }
-	}
-
-	
-	public List<CalenderEmployeeDTO> selectempCalenderList() {
-		
-		List<CalenderEmployeeDTO> empcalList = employeedao.selectempCalenderList();
-		return empcalList;
-	}
-
-	@Transactional
-
-	public void insertVacationEmp(int userNo) throws InsertException{
-		
-		int result = employeedao.insertVacationEmp(userNo);
-		
-		if(!(result > 0)) {
-			throw new InsertException("게시글 등록에 실패하셨습니다.");
-		}
-		
-	}
-
-	public int selectVacationTotalCountPy(Map<String, Object> searchMap) {
-
-        int result = employeedao.selectVacationTotalCountPy(searchMap);
-
-        return result;  
-	}
-
-	public List<HolidayDTO> selectVacationListPy(Map<String, Object> foodMap) {
-		List<HolidayDTO> empList = employeedao.selectVacationListPy(foodMap);
-		
-		return empList;	}
-	
-	@Transactional
-	public void updateVacationPy(int no, String yN) {
-		
-		employeedao.updateVacationPy(no,yN);
-		
-	}
-
-	/*  제출 여부 Y 로 업데이트 해주는 메소드 */
-	@Transactional
-	public void detailUpdateVacation(HolidayDTO holi) throws InsertException{
-		
-		int result = employeedao.detailUpdateVacation(holi);
-		
-		if(!(result > 0)) {
-			throw new InsertException("게시글 등록에 실패하셨습니다.");
-		}
-	}
-
-	public void insertemployeeCalender(CalenderEmployeeDTO calender, int no) throws employeeCalenderException {
-		
-		int result = employeedao.insertemployeeCalender(calender, no);
-				
-		if(!(result>0)) {
-			throw new employeeCalenderException();
-		}
-	}
-
-	@Transactional
-	public void insertemployee2Calender(CalenderEmployeeDTO calender,int no) throws employeeCalenderException {
-		
-		int result = employeedao.insertemployee2Calender(calender, no);
-		
-		if(!(result>0)) {
-			throw new employeeCalenderException();
-		}
-		
-	}
 
 	
 }
