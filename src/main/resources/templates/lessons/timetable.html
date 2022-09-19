@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>HI KINDERGARTEN</title>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script th:src="@{/js/lessons/timetable.js}"></script>
+</head>
+<body class="sb-nav-fixed">
+
+	<div th:replace="common/header"></div>
+	<div th:replace="common/sidebar"></div>
+
+	<!-- 컨텐츠 영역 -->
+	<div id="layoutSidenav_content">
+		<main>
+			<div class="container-fluid px-4">
+				<h1 class="mt-4">시간표</h1>
+				<br>
+				<form th:action="@{ /lessons/timetable/modify } " method="POST">
+					<div class="btn-right-mv70">
+						<button class="btn-orange" type="submit">임시저장</button>
+						<button class="btn-orange" type="button" onclick="submit_btn();">제출하기</button>
+					</div>
+					<br>
+					<table class="tbTem">
+						<colgroup>
+							<col width="20%">
+							<col width="30%">
+							<col width="20%">
+							<col width="30%">
+						</colgroup>
+						<tr>
+							<td class="col-apricot">반이름</td>
+							<td th:text="${ plan.ClassKindDTO.className }"></td>
+							<td class="col-apricot">담당교사</td>
+							<td th:text="${ plan.LesEmployeeDTO.empName }"></td>
+						</tr>
+						<tr>
+							<td class="col-apricot">대상연령</td>
+							<td th:text="|${ plan.age }세|"></td>
+							<td class="col-apricot">일시</td>
+							<td th:text="${ plan.resDate }"></td>
+						</tr>
+						<tr>
+							<td class="col-apricot">총원</td>
+							<td colspan="4" th:text="|${ plan.ttlNum } 명|"></td>
+						</tr>
+					</table>
+
+					<input type="hidden" id="lpIdx" name="timeIdx" th:value="${ plan.lpIdx } ">
+					<input type="hidden" id="classIdx" name="timeIdx" th:value="${ plan.classIdx } ">
+					<input type="hidden" id="mainTeacher" name="timeIdx" th:value="${ plan.mainTeacher } ">
+					<input type="hidden" id="age" name="timeIdx" th:value="${ plan.age } ">
+					<input type="hidden" id="resDate" name="timeIdx" th:value="${ plan.resDate } ">
+					<input type="hidden" id="ttlNum" name="timeIdx" th:value="${ plan.ttlNum } ">
+					<h5 class="mt-4">시간표 등록</h5>
+					<br> <input type="hidden" id="empList">
+					<table class="tbTem" id="timetable">
+						<colgroup>
+							<col width="10%">
+							<col width="10%">
+							<col width="70%">
+							<col width="10%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th class="bg-apricot">교시</th>
+								<th class="bg-apricot">담당교사</th>
+								<th class="bg-apricot">특이사항</th>
+								<th class="bg-apricot"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- <tr>
+							<td></td>
+							<td>
+								<select class="dataTable-selector" name="mainTeacher" id="mainTeacher">
+									
+									
+									
+								</select>
+							</td>
+							<td><input type="text"></td>
+							<td>
+								<button class="btn-danger">+</button>
+								<button class="btn-success">-</button>
+							</td>
+						<td>1</td>
+						<td>김태희</td>
+						<td><input type="text"></td>
+						<td>
+							<button class="btn-danger">+</button>
+							<button class="btn-success">-</button>
+						</td> 
+						</tr>
+					 -->
+
+						</tbody>
+					</table>
+				</form>
+			</div>
+		</main>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,827 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kindergarten.hi.lessons.model.dao.LessonsDAO">
+
+	<!-- 반 -->
+	<resultMap type="ClassKindDTO" id="ClassKindResultMap">
+        <id property="classIdx" column="CLASS_IDX"/>
+        <result property="className" column="CLASS_NAME"/>
+        <result property="empNo" column="EMP_NO"/>
+        
+        <association property="lesEmployeeDTO" resultMap="LesEmployeeResultMap"/>
+    </resultMap>
+    
+    <!-- 반 인원 -->
+    <resultMap type="ClassPersonnelDTO" id="ClassPersonnelResultMap">
+        <id property="cpIdx" column="CP_IDX"/>
+        <result property="classIdx" column="CLASS_IDX"/>
+        <result property="wonClassNo" column="WON_CLASSNO"/>
+        
+        <association property="classKindDTO" resultMap="ClassKindResultMap"/>
+    </resultMap>
+
+	<!-- 직원 -->
+    <resultMap type="LesEmployeeDTO" id="LesEmployeeResultMap">
+        <id property="empNo" column="EMP_NO"/>
+        <result property="empId" column="EMP_ID"/>
+        <result property="empName" column="EMP_NAME"/>
+        <result property="empBirth" column="EMP_BIRTH"/>
+        <result property="empPwd" column="EMP_PWD"/>
+        <result property="empEndate" column="EMP_ENDATE"/>
+        <result property="empEmail" column="EMP_EMAIL"/>
+        <result property="empAddre" column="EMP_ADDRE"/>
+        <result property="empPhone" column="EMP_PHONE"/>
+        <result property="empSalary" column="EMP_SALARY"/>
+        <result property="empResign" column="EMP_RESIGN"/>
+        <result property="empResignDate" column="EMP_RESIGNDATE"/>
+    </resultMap>
+    
+    <!-- 수업계획 결재이력 -->
+    <resultMap type="LessonsManagementHisDTO" id="LessonsManagementHisResultMap">
+        <id property="lpIdx" column="LP_IDX"/>
+        <result property="process" column="PROCESS"/>
+        <result property="time" column="TIME"/>
+        <result property="inTime" column="IN_TIME"/>
+    </resultMap>
+ 
+ 	<!-- 수업계획 -->
+    <resultMap type="LessonsPlanDTO" id="LessonsPlanResultMap">
+        <id property="lpIdx" column="LP_IDX"/>
+        <result property="classIdx" column="CLASS_IDX"/>
+        <result property="mainTeacher" column="MAIN_TEACHER"/>
+        <result property="age" column="AGE"/>
+        <result property="resDate" column="RES_DATE"/>
+        <result property="ttlNum" column="TTL_NUM"/>
+        <result property="rsGoals" column="RS_GOALS"/>
+        <result property="rsContents" column="RS_CONTENTS"/>
+        <result property="effect" column="EFFECT"/>
+        <result property="regMem" column="REG_MEM"/>
+        <result property="regDate" column="REG_DATE"/>
+        <result property="modDate" column="MOD_DATE"/>
+        <result property="status" column="STATUS"/>
+        <result property="submit" column="SUBMIT"/>
+        <result property="submit" column="REPORT"/>
+        
+        <association property="classKindDTO" resultMap="ClassKindResultMap"/>
+        <association property="lesEmployeeDTO" resultMap="LesEmployeeResultMap"/>
+        <association property="lessonsManagementHisDTO" resultMap="LessonsManagementHisResultMap"/>
+    </resultMap>
+    
+    <!-- 수업보고서 -->
+    <resultMap type="LessonsReportDTO" id="LessonsReportResultMap">
+        <id property="rrIdx" column="RR_IDX"/>
+        <result property="classIdx" column="CLASS_IDX"/>
+        <result property="age" column="AGE"/>
+        <result property="resDate" column="RES_DATE"/>
+        <result property="ttlNum" column="TTL_NUM"/>
+        <result property="attendance" column="ATTENDANCE"/>
+        <result property="absent" column="ABSENT"/>
+        <result property="rsGoals" column="RS_GOALS"/>
+        <result property="rsContents" column="RS_CONTENTS"/>
+        <result property="rsRusult" column="RS_RUSULT"/>
+        <result property="regDate" column="REG_DATE"/>
+        <result property="modDate" column="MOD_DATE"/>
+        <result property="status" column="STATUS"/>
+        <result property="mainTeachar" column="MAIN_TEACHAR"/>
+        <result property="regMem" column="REG_MEM"/>
+        
+        <association property="classKindDTO" resultMap="ClassKindResultMap"/>
+        <association property="lesEmployeeDTO" resultMap="LesEmployeeResultMap"/>
+        <collection property="reportTableDTO" resultMap="ReportTableResultMap"/>
+    </resultMap>
+
+	<!-- 시간표 -->
+    <resultMap type="TimeTableDTO" id="TimeTableResultMap">
+        <id property="timetableIdx" column="TIMETABLE_IDX"/>
+        <result property="rpIdx" column="RP_IDX"/>
+        <result property="period" column="PERIOD"/>
+        <result property="title" column="TITLE"/>
+        <result property="specialNote" column="SPECIAL_NOTE"/>
+        
+        <association property="lessonsPlanDTO" resultMap="LessonsPlanResultMap"/>
+        <association property="classKindDTO" resultMap="ClassKindResultMap"/>
+        <association property="lesEmployeeDTO" resultMap="LesEmployeeResultMap"/>
+    </resultMap>
+
+    <!-- 보고서 시간표 -->
+    <resultMap type="ReportTableDTO" id="ReportTableResultMap">
+        <id property="rtIdx" column="RT_IDX"/>
+        <result property="rrIdx" column="RR_IDX"/>
+        <result property="period" column="PERIOD"/>
+        <result property="title" column="TITLE"/>
+        <result property="specalNote" column="SPECIAL_NOTE"/>
+        
+        <association property="lesEmployeeDTO" resultMap="LesEmployeeResultMap"/>
+    </resultMap>
+    
+    <select id="planSelectListPy" parameterType="hashmap" resultMap="LessonsPlanResultMap">
+			SELECT
+				F.RNUM,
+				F.LP_IDX,
+				B.CLASS_NAME,
+				F.MAIN_TEACHER,
+				F.AGE,
+				F.RES_DATE,
+				F.TTL_NUM,
+				F.RS_GOALS,
+				F.RS_CONTENTS,
+				F.EFFECT,
+				C.EMP_NAME,
+				F.REG_DATE,
+				F.MOD_DATE,
+				F.STATUS,
+				F.SUBMIT,
+				D.PROCESS
+			FROM (SELECT 
+					ROWNUM RNUM,
+					E.LP_IDX,
+					E.CLASS_IDX,
+					E.MAIN_TEACHER,
+					E.AGE,
+					E.RES_DATE,
+					E.TTL_NUM,
+					E.RS_GOALS,
+					E.RS_CONTENTS,
+					E.EFFECT,
+					E.REG_MEM,
+					E.REG_DATE,
+					E.MOD_DATE,
+					E.STATUS,
+					E.SUBMIT
+				FROM (SELECT 
+						A.LP_IDX,
+						A.CLASS_IDX,
+						A.MAIN_TEACHER,
+						A.AGE,
+						A.RES_DATE,
+						A.TTL_NUM,
+						A.RS_GOALS,
+						A.RS_CONTENTS,
+						A.EFFECT,
+						A.REG_MEM,
+						A.REG_DATE,
+						A.MOD_DATE,
+						A.STATUS,
+						A.SUBMIT
+			        FROM LESSONS_PLAN A
+			        LEFT JOIN CLASS_KIND B ON (A.CLASS_IDX = B.CLASS_IDX)
+					LEFT JOIN EMPLOYEE C ON (A.REG_MEM  = C.EMP_NO)
+					LEFT JOIN LESSONS_MANAGEMENT_HIS D ON (A.LP_IDX = D.LP_IDX)
+					WHERE 1=1
+						AND A.STATUS = 'N'
+						AND A.SUBMIT = 'Y'
+						<if test="selectVal == ''">
+				            AND B.CLASS_NAME LIKE '%' || #{ searchVal } || '%'
+				            OR C.EMP_NAME LIKE '%' || #{ searchVal } || '%'
+				            OR D.PROCESS LIKE '%' || #{ searchVal } || '%'
+				        </if>
+						<if test="selectVal == 'class'">
+				            AND B.CLASS_NAME LIKE '%' || #{ searchVal } || '%'
+				        </if>
+				        <if test="selectVal == 'writer'">
+				            AND C.EMP_NAME LIKE '%' || #{ searchVal } || '%'
+				        </if>
+				        <if test="selectVal == 'process'">
+				            AND D.PROCESS LIKE '%' || #{ searchVal } || '%'
+				        </if>
+				        <if test="startDate != '' and startDate != null">
+				         	<![CDATA[
+				        	AND A.RES_DATE > #{ startDate }
+				        	]]>
+				        </if>
+				        <if test="endDate != '' and endDate != null">
+				        	<![CDATA[
+				        	AND A.RES_DATE < #{ endDate }
+				        	]]>
+				        </if>
+		        	ORDER BY A.RES_DATE DESC, A.LP_IDX DESC
+		      		) E
+                  		<![CDATA[
+		                	WHERE ROWNUM <= #{ endRow }
+		                ]]>
+		       		) F
+		        LEFT JOIN CLASS_KIND B ON (F.CLASS_IDX = B.CLASS_IDX)
+      			LEFT JOIN EMPLOYEE C ON(F.REG_MEM = C.EMP_NO)
+      			LEFT JOIN LESSONS_MANAGEMENT_HIS D ON (F.LP_IDX = D.LP_IDX)
+ 			 		<![CDATA[
+       					WHERE F.RNUM >= #{ startRow }
+         			]]>
+      			ORDER BY 1 ASC
+    </select>
+
+    <select id="planSelectList" parameterType="hashmap" resultMap="LessonsPlanResultMap">
+			SELECT
+				F.RNUM,
+				F.LP_IDX,
+				B.CLASS_NAME,
+				F.MAIN_TEACHER,
+				F.AGE,
+				F.RES_DATE,
+				F.TTL_NUM,
+				F.RS_GOALS,
+				F.RS_CONTENTS,
+				F.EFFECT,
+				C.EMP_NAME,
+				F.REG_DATE,
+				F.MOD_DATE,
+				F.STATUS,
+				F.SUBMIT,
+				D.PROCESS
+			FROM (SELECT 
+					ROWNUM RNUM,
+					E.LP_IDX,
+					E.CLASS_IDX,
+					E.MAIN_TEACHER,
+					E.AGE,
+					E.RES_DATE,
+					E.TTL_NUM,
+					E.RS_GOALS,
+					E.RS_CONTENTS,
+					E.EFFECT,
+					E.REG_MEM,
+					E.REG_DATE,
+					E.MOD_DATE,
+					E.STATUS,
+					E.SUBMIT
+				FROM (SELECT 
+						A.LP_IDX,
+						A.CLASS_IDX,
+						A.MAIN_TEACHER,
+						A.AGE,
+						A.RES_DATE,
+						A.TTL_NUM,
+						A.RS_GOALS,
+						A.RS_CONTENTS,
+						A.EFFECT,
+						A.REG_MEM,
+						A.REG_DATE,
+						A.MOD_DATE,
+						A.STATUS,
+						A.SUBMIT
+			        FROM LESSONS_PLAN A
+			        LEFT JOIN CLASS_KIND B ON (A.CLASS_IDX = B.CLASS_IDX)
+					LEFT JOIN EMPLOYEE C ON (A.REG_MEM  = C.EMP_NO)
+					LEFT JOIN LESSONS_MANAGEMENT_HIS D ON (A.LP_IDX = D.LP_IDX)
+					WHERE 1=1
+						AND A.STATUS = 'N'
+						AND A.REG_MEM = #{ loginMemberIdx }
+						<if test="selectVal == ''">
+				            AND ( B.CLASS_NAME LIKE '%' || #{ searchVal } || '%'
+				            OR C.EMP_NAME LIKE '%' || #{ searchVal } || '%'
+				            OR D.PROCESS LIKE '%' || #{ searchVal } || '%' )
+				        </if>
+						<if test="selectVal == 'class'">
+				            AND B.CLASS_NAME LIKE '%' || #{ searchVal } || '%'
+				        </if>
+				        <if test="selectVal == 'writer'">
+				            AND C.EMP_NAME LIKE '%' || #{ searchVal } || '%'
+				        </if>
+				        <if test="selectVal == 'process'">
+				            AND D.PROCESS LIKE '%' || #{ searchVal } || '%'
+				        </if>
+				        <if test="startDate != '' and startDate != null">
+				         	<![CDATA[
+				        	AND A.RES_DATE > #{ startDate }
+				        	]]>
+				        </if>
+				        <if test="endDate != '' and endDate != null">
+				        	<![CDATA[
+				        	AND A.RES_DATE < #{ endDate }
+				        	]]>
+				        </if>
+		        	ORDER BY A.RES_DATE DESC, A.LP_IDX DESC
+		      		) E
+                  		<![CDATA[
+		                	WHERE ROWNUM <= #{ endRow }
+		                ]]>
+		       		) F
+		        LEFT JOIN CLASS_KIND B ON (F.CLASS_IDX = B.CLASS_IDX)
+      			LEFT JOIN EMPLOYEE C ON(F.REG_MEM = C.EMP_NO)
+      			LEFT JOIN LESSONS_MANAGEMENT_HIS D ON (F.LP_IDX = D.LP_IDX)
+ 			 		<![CDATA[
+       					WHERE F.RNUM >= #{ startRow }
+         			]]>
+      			ORDER BY 1 ASC
+    </select>
+    
+    <select id="planSelectTotalCountPy" parameterType="hashmap" resultType="int">
+    	SELECT
+				COUNT(*)
+			FROM
+				LESSONS_PLAN A 
+				LEFT JOIN CLASS_KIND B ON (A.CLASS_IDX = B.CLASS_IDX)
+				LEFT JOIN EMPLOYEE C ON (A.REG_MEM = C.EMP_NO)
+			WHERE 1=1
+				AND A.STATUS = 'N'
+				AND A.SUBMIT = 'Y'
+		        <if test="selectVal == 'class'">
+		            AND B.CLASS_NAME LIKE '%' || #{ searchVal } || '%'
+		        </if>
+		        <if test="selectVal == 'writer'">
+		            AND C.EMP_NAME LIKE '%' || #{ searchVal } || '%'
+		        </if>
+		        <if test="selectVal == 'submit'">
+		            AND A.SUBMIT LIKE '%' || #{ searchVal } || '%'
+		        </if>
+		        <if test="startDate != '' and startDate != null">
+		         	<![CDATA[
+		        	AND A.RES_DATE > #{ startDate }
+		        	]]>
+		        </if>
+		        <if test="endDate != '' and endDate != null">
+		        	<![CDATA[
+		        	AND A.RES_DATE < #{ endDate }
+		        	]]>
+		        </if>
+    </select>
+    
+    <select id="planSelectTotalCount" parameterType="hashmap" resultType="int">
+    	SELECT
+				COUNT(*)
+			FROM
+				LESSONS_PLAN A 
+				LEFT JOIN CLASS_KIND B ON (A.CLASS_IDX = B.CLASS_IDX)
+				LEFT JOIN EMPLOYEE C ON (A.REG_MEM = C.EMP_NO)
+			WHERE 1=1
+				AND A.STATUS = 'N'
+				AND A.REG_MEM = #{ loginMemberIdx }
+		        <if test="selectVal == 'class'">
+		            AND B.CLASS_NAME LIKE '%' || #{ searchVal } || '%'
+		        </if>
+		        <if test="selectVal == 'writer'">
+		            AND C.EMP_NAME LIKE '%' || #{ searchVal } || '%'
+		        </if>
+		        <if test="selectVal == 'submit'">
+		            AND A.SUBMIT LIKE '%' || #{ searchVal } || '%'
+		        </if>
+		        <if test="startDate != '' and startDate != null">
+		         	<![CDATA[
+		        	AND A.RES_DATE > #{ startDate }
+		        	]]>
+		        </if>
+		        <if test="endDate != '' and endDate != null">
+		        	<![CDATA[
+		        	AND A.RES_DATE < #{ endDate }
+		        	]]>
+		        </if>
+    </select>
+    
+    <select id="PlanRegCategoryEmp" resultMap="LesEmployeeResultMap">
+   		    SELECT
+				A.EMP_NO,
+				A.EMP_ID,
+				A.EMP_NAME,
+				A.EMP_BIRTH,
+				A.EMP_ENDATE,
+				A.EMP_EMAIL,
+				A.EMP_ADDRE,
+				A.EMP_PHONE,
+				A.EMP_SALARY,
+				A.EMP_RESIGN,
+				A.EMP_RESIGNDATE
+			FROM
+				EMPLOYEE A 
+    </select>
+    
+    <select id="PlanRegCategoryCk" resultMap="ClassKindResultMap">
+			SELECT
+				CLASS_IDX,
+				CLASS_NAME,
+				EMP_NO
+			FROM
+				CLASS_KIND
+    </select>
+     <!-- 등록자 수정 로그인 -->
+ 
+    <insert id="planReg">
+    	INSERT INTO LESSONS_PLAN
+			(
+				LP_IDX,
+				CLASS_IDX,
+				MAIN_TEACHER,
+				AGE,
+				RES_DATE,
+				TTL_NUM,
+				RS_GOALS,
+				RS_CONTENTS,
+				EFFECT,
+				REG_MEM,
+				REG_DATE,
+				MOD_DATE,
+				STATUS,
+				SUBMIT
+			)
+		VALUES
+			(
+				SEQ_LESSONS_PLAN.NEXTVAL,
+				#{ classIdx },
+				#{ mainTeacher },
+				#{ age },
+				#{ resDate },
+				#{ ttlNum },
+				#{ rsGoals },
+				#{ rsContents },
+				#{ effect },
+				1,
+				SYSDATE,
+				NULL,
+				'N',
+				'N'
+			)
+    </insert>
+    
+    <select id="planDetail" resultMap="LessonsPlanResultMap" parameterType="string">
+    	SELECT 
+			A.LP_IDX,
+			B.CLASS_NAME,
+			A.CLASS_IDX,
+			A.MAIN_TEACHER,
+			A.AGE,
+			A.RES_DATE,
+			A.TTL_NUM,
+			A.RS_GOALS,
+			A.RS_CONTENTS,
+			A.EFFECT,
+			C.EMP_NAME,
+			A.REG_DATE,
+			A.MOD_DATE,
+			A.STATUS,
+			A.SUBMIT
+        FROM LESSONS_PLAN A
+        LEFT JOIN CLASS_KIND B ON (A.CLASS_IDX = B.CLASS_IDX)
+		LEFT JOIN EMPLOYEE C ON (A.REG_MEM  = C.EMP_NO)
+		WHERE 1=1
+			AND A.LP_IDX = #{ param }
+    </select>
+   
+   	<update id="planDelete" parameterType="string">
+   		UPDATE LESSONS_PLAN SET STATUS = 'Y' WHERE LP_IDX= #{param}
+   	</update>
+   	
+   	<update id="planSubmit" parameterType="string">
+   		UPDATE LESSONS_PLAN SET SUBMIT = 'Y' WHERE LP_IDX= #{param}
+   	</update>
+   	
+   	<insert id="planSubmitManagement" parameterType="string">
+   		INSERT INTO LESSONS_MANAGEMENT_HIS
+			(
+				PROCESS,
+				TIME,
+				LP_IDX,
+				IN_TIME
+			)
+		VALUES
+		(
+			'대기',
+			NULL,
+			#{param},
+			SYSDATE
+		)
+   	</insert>
+   	
+   	<update id="updatePlanPy">
+   		UPDATE LESSONS_MANAGEMENT_HIS
+   		   SET PROCESS = #{ yN },
+   			   TIME = TRUNC(SYSDATE)
+   		 WHERE LP_IDX = #{ no }
+   	</update>
+   	
+   	<delete id="planDeleteManagement" parameterType="string">
+	   	DELETE FROM LESSONS_MANAGEMENT_HIS WHERE LP_IDX = #{ param }
+   	</delete>
+   	
+   	<update id="planMod">
+   		UPDATE
+			LESSONS_PLAN
+		SET
+			CLASS_IDX = #{ classIdx },
+			MAIN_TEACHER = #{ mainTeacher },
+			AGE = #{ age },
+			TTL_NUM = #{ ttlNum },
+			RS_GOALS = #{ rsGoals },
+			RS_CONTENTS = #{ rsContents },
+			EFFECT = #{ effect },
+			MOD_DATE = SYSDATE
+		WHERE
+			LP_IDX = #{ lpIdx }
+   	</update>
+   	
+   	<select id="timeTablecalendarSelect" resultMap="LessonsPlanResultMap">
+		   	SELECT 
+				A.LP_IDX,
+				B.CLASS_NAME,
+				A.AGE,
+				A.RES_DATE,
+				A.STATUS,
+				A.SUBMIT,
+				C.PROCESS 
+			FROM LESSONS_PLAN A
+			LEFT JOIN CLASS_KIND B ON (A.CLASS_IDX = B.CLASS_IDX)
+			LEFT JOIN LESSONS_MANAGEMENT_HIS C ON (A.LP_IDX = C.LP_IDX) 
+			WHERE 1=1
+				AND A.STATUS = 'N'
+				AND A.SUBMIT = 'Y'
+				AND C.PROCESS = '승인'
+   	</select>
+   	
+   	<select id="timeTableSelect" parameterType="string" resultMap="TimeTableResultMap">
+   			SELECT
+				C.CLASS_NAME,
+				D.EMP_NAME,
+				B.AGE,
+				B.RES_DATE,
+				B.TTL_NUM,
+				B.LP_IDX,
+				A.PERIOD,
+				A.TITLE,
+				A.SPECIAL_NOTE 
+			FROM
+				TIMETABLE A
+			LEFT JOIN LESSONS_PLAN B ON (A.RP_IDX = B.LP_IDX)
+			LEFT JOIN CLASS_KIND C ON (B.CLASS_IDX = C.CLASS_IDX)
+			LEFT JOIN EMPLOYEE D ON (B.MAIN_TEACHER = D.EMP_NO)
+			WHERE 1=1
+				AND B.STATUS = 'N'
+				AND B.SUBMIT = 'Y'
+				AND A.RP_IDX  = #{ param }
+			ORDER BY A.PERIOD ASC
+   	</select>
+   	
+   	<delete id="timeTableDelete" parameterType="string">
+   		DELETE FROM TIMETABLE WHERE RP_IDX = #{ timeIdx }
+   	</delete>
+   	
+   	<insert id="timeTableModify" parameterType="hashmap">
+   		INSERT INTO TIMETABLE
+			(
+				TIMETABLE_IDX,
+				RP_IDX,
+				PERIOD,
+				TITLE,
+				SPECIAL_NOTE
+			)
+		VALUES
+			(
+				SEQ_TIMETABLE.NEXTVAL,
+				#{ timeIdx },
+				#{ period },
+				#{ emp },
+				#{ contents }
+			)
+   	</insert>
+   	
+   	<update id="timeTableSubmit" parameterType="hashmap">
+   		UPDATE LESSONS_PLAN
+		SET REPORT = 'Y'
+		WHERE LP_IDX= #{ lpIdx }
+   	</update>
+   	
+   	<insert id="reportInsert" parameterType="hashmap">
+   		INSERT INTO RESSONS_REPORT
+			(
+				RR_IDX,
+				CLASS_IDX,
+				AGE,
+				RES_DATE,
+				TTL_NUM,
+				ATTENDANCE,
+				ABSENT,
+				RS_GOALS,
+				RS_CONTENTS,
+				RS_RUSULT,
+				REG_DATE,
+				MOD_DATE,
+				STATUS,
+				MAIN_TEACHAR,
+				REG_MEM
+			)
+		VALUES
+			(
+				SEQ_RESSONS_REPORT.NEXTVAL,
+				#{ classIdx },
+				#{ age },
+				#{ resDate },
+				#{ ttlNum },
+				0,
+				0,
+				'',
+				'',
+				'',
+				SYSDATE,
+				NULL,
+				'N',
+				#{ mainTeacher },
+				1
+			)
+   	</insert>
+   	
+   	<select id="timeTableSelectList" parameterType="hashmap" resultMap="TimeTableResultMap">
+   		SELECT
+			TIMETABLE_IDX,
+			RP_IDX,
+			PERIOD,
+			TITLE,
+			SPECIAL_NOTE
+		FROM
+			TIMETABLE
+		WHERE 1=1
+			AND RP_IDX = #{ lpIdx }
+   	</select>
+   	
+   	<insert id="reportTableInsert">
+   		INSERT INTO REPORT_TIMETABLE
+			(
+				RT_IDX,
+				RR_IDX,
+				PERIOD,
+				TITLE,
+				SPECAL_NOTE
+			)
+		VALUES
+			(
+				SEQ_REPORT_TIMETABLE.NEXTVAL,
+				SEQ_RESSONS_REPORT.CURRVAL,
+				#{ period },
+				#{ title },
+				#{ specialNote }
+			)
+   	</insert>
+   	
+   	<select id="reportSelectTotalCount" parameterType="hashmap" resultType="int">
+   			SELECT
+				COUNT(*)
+			FROM
+				RESSONS_REPORT A 
+				LEFT JOIN CLASS_KIND B ON (A.CLASS_IDX = B.CLASS_IDX)
+				LEFT JOIN EMPLOYEE C ON (A.REG_MEM = C.EMP_NO)
+			WHERE 1=1
+				AND A.STATUS = 'N'
+		        <if test="selectVal == 'class'">
+		            AND B.CLASS_NAME LIKE '%' || #{ searchVal } || '%'
+		        </if>
+		        <if test="selectVal == 'writer'">
+		            AND C.EMP_NAME LIKE '%' || #{ searchVal } || '%'
+		        </if>
+		        <if test="selectVal == 'submit'">
+		            AND A.SUBMIT LIKE '%' || #{ searchVal } || '%'
+		        </if>
+		        <if test="startDate != '' and startDate != null">
+		         	<![CDATA[
+		        	AND A.RES_DATE > #{ startDate }
+		        	]]>
+		        </if>
+		        <if test="endDate != '' and endDate != null">
+		        	<![CDATA[
+		        	AND A.RES_DATE < #{ endDate }
+		        	]]>
+		        </if>
+   	</select>
+   	
+   	<select id="reportSelectList"  parameterType="hashmap" resultMap="LessonsReportResultMap">
+   			SELECT
+				F.RNUM,
+				F.RR_IDX,
+				B.CLASS_NAME,
+				F.MAIN_TEACHAR,
+				F.AGE,
+				F.RES_DATE,
+				F.TTL_NUM,
+				F.ATTENDANCE,
+				F.ABSENT,
+				F.RS_GOALS,
+				F.RS_CONTENTS,
+				F.RS_GOALS,
+				F.RS_CONTENTS,
+				C.EMP_NAME,
+				F.REG_DATE,
+				F.MOD_DATE,
+				F.STATUS
+			FROM (SELECT 
+					ROWNUM RNUM,
+					E.RR_IDX,
+					E.CLASS_IDX,
+					E.MAIN_TEACHAR,
+					E.AGE,
+					E.RES_DATE,
+					E.TTL_NUM,
+					E.ATTENDANCE,
+					E.ABSENT,
+					E.RS_GOALS,
+					E.RS_CONTENTS,
+					E.REG_MEM,
+					E.REG_DATE,
+					E.MOD_DATE,
+					E.STATUS
+				FROM (SELECT 
+						A.RR_IDX,
+						A.CLASS_IDX,
+						A.MAIN_TEACHAR,
+						A.AGE,
+						A.RES_DATE,
+						A.TTL_NUM,
+						A.ATTENDANCE,
+						A.ABSENT,
+						A.RS_GOALS,
+						A.RS_CONTENTS,
+						A.REG_MEM,
+						A.REG_DATE,
+						A.MOD_DATE,
+						A.STATUS
+			        FROM RESSONS_REPORT A
+			        LEFT JOIN CLASS_KIND B ON (A.CLASS_IDX = B.CLASS_IDX)
+					LEFT JOIN EMPLOYEE C ON (A.REG_MEM  = C.EMP_NO)
+					WHERE 1=1
+						<if test="selectVal == ''">
+				            AND B.CLASS_NAME LIKE '%' || #{ searchVal } || '%'
+				            OR C.EMP_NAME LIKE '%' || #{ searchVal } || '%'
+				        </if>
+						<if test="selectVal == 'class'">
+				            AND B.CLASS_NAME LIKE '%' || #{ searchVal } || '%'
+				        </if>
+				        <if test="selectVal == 'writer'">
+				            AND C.EMP_NAME LIKE '%' || #{ searchVal } || '%'
+				        </if>
+				        <if test="startDate != '' and startDate != null">
+				         	<![CDATA[
+				        	AND A.RES_DATE > #{ startDate }
+				        	]]>
+				        </if>
+				        <if test="endDate != '' and endDate != null">
+				        	<![CDATA[
+				        	AND A.RES_DATE < #{ endDate }
+				        	]]>
+				        </if>
+		        	ORDER BY A.RES_DATE DESC, A.RR_IDX DESC
+		      		) E
+                  		<![CDATA[
+		                	WHERE ROWNUM <= #{ endRow }
+		                ]]>
+		       		) F
+		        LEFT JOIN CLASS_KIND B ON (F.CLASS_IDX = B.CLASS_IDX)
+      			LEFT JOIN EMPLOYEE C ON(F.REG_MEM = C.EMP_NO)
+ 			 		<![CDATA[
+       					WHERE F.RNUM >= #{ startRow }
+         			]]>
+      			ORDER BY 1 ASC
+   	</select>
+   	
+   	<select id="reportDetail" resultMap="LessonsReportResultMap" parameterType="string">
+   		SELECT 
+			A.RR_IDX,
+			B.CLASS_NAME,
+			A.CLASS_IDX,
+			A.MAIN_TEACHAR,
+			A.AGE,
+			A.RES_DATE,
+			A.TTL_NUM,
+			A.ATTENDANCE,
+			A.ABSENT,
+			A.RS_GOALS,
+			A.RS_CONTENTS,
+			A.RS_RUSULT,
+			C.EMP_NAME,
+			A.REG_DATE,
+			A.MOD_DATE,
+			A.STATUS,
+			D.PERIOD,
+			D.TITLE,
+			D.SPECAL_NOTE 
+        FROM RESSONS_REPORT A
+        LEFT JOIN CLASS_KIND B ON (A.CLASS_IDX = B.CLASS_IDX)
+		LEFT JOIN EMPLOYEE C ON (A.REG_MEM  = C.EMP_NO)
+		LEFT JOIN REPORT_TIMETABLE D ON (A.RR_IDX = D.RR_IDX)
+			AND A.RR_IDX = #{ param }
+		ORDER BY D.PERIOD ASC
+   	</select>
+   	
+   	<update id="reportMod">
+   		UPDATE
+			RESSONS_REPORT
+		SET
+			CLASS_IDX = #{ classIdx },
+			AGE = #{ age },
+			RES_DATE = #{ resDate },
+			TTL_NUM = #{ ttlNum },
+			ATTENDANCE = #{ attendance },
+			ABSENT = #{ absent },
+			RS_GOALS = #{ rsGoals },
+			RS_CONTENTS = #{ rsContents },
+			RS_RUSULT = #{ rsRusult },
+			MOD_DATE = SYSDATE,
+			MAIN_TEACHAR = #{ mainTeachar }
+		WHERE
+			RR_IDX = #{ rrIdx }
+   	</update>
+   	
+   	<update id="reportSubmit" parameterType="string">
+   		UPDATE
+			RESSONS_REPORT
+		SET
+			STATUS = 'Y'
+		WHERE
+		RR_IDX = #{ rrIdx }
+   	</update>
+   	
+</mapper>

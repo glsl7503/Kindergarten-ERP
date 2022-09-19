@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" >
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>HI KINDERGARTEN</title>
+        
+    </head>
+    <body class="sb-nav-fixed">
+    
+	<div th:replace="common/header"></div>
+	<div th:replace="common/sidebar"></div>
+
+            <!-- 컨텐츠 영역 -->
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">근태조회</h1>
+                        <br>
+                        
+                        <!-- 검색 -->
+				 <form id="searchForm"
+                    method="get">
+                <div class="dataTable-top">
+                  <div class="dataTable-search">
+                    <input type="hidden" name="currentPage" value="1">
+                      <select id="searchCondition" name="searchCondition" class="dataTable-selector">
+                        <option value="mananame">이름</option>
+                      </select>
+                        <input type="search" id="searchValue" name="searchValue" class="dataTable-input" placeholder="search">
+                  </div>
+                      <button id="search" class="btn-orange ms-3" type="submit">검색</button>
+                  
+                   <div>
+                        <button id="insert" class="btn-orange ms-3" type="submit">등록</button>
+                   </div>
+                  </div>
+                </div>
+			  </form>
+                   
+                             <table class="dataTable-table" id="listArea" >
+                            <thead>
+                                <tr>
+                                    <th>사유서번호</th>
+                                    <th>이름</th>
+                                    <th>근태분류</th>
+                                    <th>작성일</th>
+                                    <th>삭제하기</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="management : ${ managementList }">
+                                    <td class="detail" th:text="${management.no}"></td>
+                                    <td class="detail" th:text="${management.mananame }"></td>  
+                                    <td class="detail" th:text="${management.sort}"></td>
+                                    <td class="detail" th:text="${management.writedate}"></td>
+                                                     
+                                    <td>                       
+                                      <button class="btn-orange ms-3"><a th:onclick="'location.href=\'/employee/managementdelete?no='+ @{${ management.no }} + '\''">삭제하기</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                      <!-- 페이지 처리 -->
+			  <div class="pagingArea dataTable-bottom">
+                    <nav class="dataTable-pagination">
+                        <ul class="dataTable-pagination-list">
+                            <li class="pager">
+                              <a
+                            	th:onclick="'location.href=\'/employee/managementList?currentPage='+ @{${selectCriteria.startPage}} + '\''"
+                            	th:disabled="${selectCriteria.pageNo == 1}"> <<
+                    	 	  </a>
+                            
+                            </li>
+                            <li class="pager">
+                                <a 
+                                   th:onclick="'location.href=\'/employee/managementList?currentPage='+ @{${selectCriteria.pageNo - 1}} + '\''"
+                            	   th:disabled="${selectCriteria.pageNo == 1}"> <
+                            	</a>
+                            </li>
+                           
+                             <li class="active" th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
+                        		<a class="dataTable-pagination-list"
+                               	   th:text="${ page }"
+                               	   th:onclick="'location.href=\'/employee/managementList?currentPage='+ @{${page}} + '\''"
+                               	   th:disabled="${ selectCriteria.pageNo eq page }">
+                        		</a>
+                          	 </li>
+                            
+                            <li class="pager">
+                                <a 
+                                   th:onclick="'location.href=\'/employee/managementList?currentPage='+ @{${selectCriteria.pageNo + 1}} + '\''"
+                            	   th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}">>
+                            	</a>
+                            </li>
+                            <li class="pager">
+                               <a
+                            	   th:onclick="'location.href=\'/employee/managementList?currentPage='+ @{${selectCriteria.maxPage}} + '\''"
+                           	 	   th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"> >>
+                    		   </a>
+                            </li>
+                        </ul>
+                    </nav> 
+            	</div>
+        
+            </div>
+          </main>
+    	</div>
+    
+ <script th:inline="javascript">
+	
+	
+	   let message = '[[${message}]]';
+	
+	  if(message!= null &&message!== '' && message !== 'null') {
+	    alert(message);
+	  } 
+
+    /* 게시글 리스트에서 해당 게시글에 마우스를 올릴 떄에 대한 스타일 처리 */
+    if (document.querySelectorAll("#listArea td")) {
+        const $tds = document.querySelectorAll("#listArea td.detail");
+        for (let i = 0; i < $tds.length; i++) {
+
+            $tds[i].onclick = function() {
+                const no = this.parentNode.children[0].innerText;
+                location.href = "/employee/managementdetail?no=" + no;
+                
+                console.log(no)
+            }
+        }
+    }
+    
+    $("#search").click(function () {
+        $("form").attr("action", "/employee/managementList");
+ 	 });
+  
+ 	$("#insert").click(function () {
+        $("form").attr("action", "/employee/managementRegister");
+ 	});
+ 	
+ 	
+  
+</script> 
+
+</body>
+</html>
+

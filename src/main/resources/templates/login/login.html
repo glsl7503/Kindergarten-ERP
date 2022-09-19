@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>HI KINDERGARTEN</title>
+<link rel="stylesheet" th:href="@{/css/login/login.css}"/>
+</head>
+<body>
+    <div id="wrap">
+        <div id="header">
+            <div class="inbox">
+                <form th:action="@{/login/gologin}" method="post" id="loginForm">
+                    <div class="admin"><a>LOGIN</a></div>
+                    <div class="divid">
+                        <img th:src="@{/images/loginid.png}" alt="login1">
+                        <input class="id" type="text" placeholder="ID" name="empId">
+                    </div>
+                    <div class="divpwd">
+                        <img th:src="@{/images/loginpwd.png}" alt="login2">
+                        <input class="pwd" type="password" placeholder="PASSWORD" name="empPwd">
+                    </div>
+                    <div class="case">
+                        <a th:href="@{/login/idsearch.html}">계정을 잊으셨나요?</a>
+                        <span>l</span>
+                        <a th:href="@{/login/pwdsearch.html}">비밀번호를 잊으셨나요?</a>
+                    </div>
+                    <div style="width: 250px;margin: 0 auto;padding-top: 10px;">
+                        <button class="login" 
+                            style="width: 250px;height: 35px;background-color: #FF865E;border: 0px;color: white;"
+                            type="submit">LOGIN</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

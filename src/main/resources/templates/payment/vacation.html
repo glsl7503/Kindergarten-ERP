@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>휴가관리</title>
+</head>
+<body class="sb-nav-fixed">
+
+    <div th:replace="common/header"></div>
+	<div th:replace="common/sidebar"></div>
+
+            <!-- 컨텐츠 영역 -->
+    <div id="layoutSidenav_content">
+   		<main>
+    		<div class="container-fluid px-4">
+    		<h1 class="mt-4">휴가관리 </h1>
+            <br>
+          <form id="searchForm"
+                    method="get">
+                <div class="dataTable-top">
+                  <div class="dataTable-search">
+                    <input type="hidden" name="currentPage" value="1">
+                      <select id="searchCondition" name="searchCondition" class="dataTable-selector">
+                        <option value="title">휴가분류</option>
+                      </select>
+                        <input type="search" id="searchValue" name="searchValue" class="dataTable-input" placeholder="search">
+                  </div>
+                      <button id="search" class="btn-orange ms-3" type="submit">검색</button>
+                </div>
+			  </form>
+                        
+                        <table class="dataTable-table" id="listArea">
+                            <thead>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>휴가분류</th>
+                                    <th>휴가기간</th>
+                                    <th>작성일</th>
+                                    <th>제출 여부</th>                                    
+                                    <th>결제승인 여부</th>                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="empList : ${ empList }">
+                                    <td th:text="${ empList.holiNo }"></td>
+                                    <td th:text="${ empList.holiSort }"></td>
+                                    <td th:text="${ empList.holiPeriod }"></td>
+                                    <td th:text="${ empList.holiWriDate }"></td>
+                                    <td th:text="${ empList.holiSubmit }"></td>
+                                    <td th:text="${ empList.process }"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                   <div class="pagingArea dataTable-bottom">
+                    <nav class="dataTable-pagination">
+                        <ul class="dataTable-pagination-list">
+                            <li class="pager">
+                              <a
+                            	th:onclick="'location.href=\'/payment/vacation?currentPage='+ @{${selectCriteria.startPage}} + '\''"
+                            	th:disabled="${selectCriteria.pageNo == 1}"> <<
+                    	 	  </a>
+                            
+                            </li>
+                            <li class="pager">
+                                <a 
+                                   th:onclick="'location.href=\'/payment/vacation?currentPage='+ @{${selectCriteria.pageNo - 1}} + '\''"
+                            	   th:disabled="${selectCriteria.pageNo == 1}"> <
+                            	</a>
+                            </li>
+                           
+                             <li class="active" th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
+                        		<a class="dataTable-pagination-list"
+                               	   th:text="${ page }"
+                               	   th:onclick="'location.href=\'/payment/vacation?currentPage='+ @{${page}} + '\''"
+                               	   th:disabled="${ selectCriteria.pageNo eq page }">
+                        		</a>
+                          	 </li>
+                            
+                            <li class="pager">
+                                <a 
+                                   th:onclick="'location.href=\'/payment/vacation?currentPage='+ @{${selectCriteria.pageNo + 1}} + '\''"
+                            	   th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}">>
+                            	</a>
+                            </li>
+                            <li class="pager">
+                               <a
+                            	   th:onclick="'location.href=\'/payment/vacation?currentPage='+ @{${selectCriteria.maxPage}} + '\''"
+                           	 	   th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"> >>
+                    		   </a>
+                            </li>
+                        </ul>
+                    </nav> 
+            	</div>
+
+                    </div>
+                </main>
+            </div>
+    </body>
+       <script th:inline="javascript">
+	
+	
+	   let message = '[[${message}]]';
+	
+	  if(message!= null &&message!== '' && message !== 'null') {
+	    alert(message);
+	  } 
+
+    /* 게시글 리스트에서 해당 게시글에 마우스를 올릴 떄에 대한 스타일 처리 */
+    if (document.querySelectorAll("#listArea td")) {
+        const $tds = document.querySelectorAll("#listArea td");
+        for (let i = 0; i < $tds.length; i++) {
+
+            $tds[i].onclick = function() {
+                const no = this.parentNode.children[0].innerText;
+                location.href = "/employee/vacation/detailPy?no=" + no;
+                
+                console.log(no)
+            }
+        }
+    }
+    
+    $("#search").click(function () {
+        $("form").attr("action", "/employee/vacation");
+ 	 });
+  
+ 	$("#insert").click(function () {
+        $("form").attr("action", "/employee/vacation/insert");
+ 	});
+ 	
+ 	
+  
+</script>
+</html>

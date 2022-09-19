@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko"
+	  xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>HI KINDERGARTEN</title>
+	<link href="/css/login/pwdsearch.css" type="text/css" rel="stylesheet">
+	<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    	$(function(){
+    		$("#findId").click(function(){
+    			location.href='/id/search';
+    		});
+    		
+    		$("#findPassword").click(function(){
+    			location.href="/pwd/search";
+    		});
+    	});
+    </script>
+</head>
+<body>
+    <div id="wrap">
+        <div id="header">
+            <div id="box">
+                <div class="idsearch" id="findId">
+                    <a th:href="@{/login/idsearch.html}" style="color: #FF865E;">아이디찾기</a>
+                </div>
+                <div class="pwdsearch" id="findPassword">
+                    <a th:href="@{/login/pwdsearch.html}" style="color: #FF865E;">비밀번호찾기</a>
+                </div>
+                <table>
+                    <tr>
+                        <td style="height: 26px;width: 220px;">아이디</td>
+                        <td colspan="2"><input type="text" style="width: 250px;height: 20px;"></td>
+                    </tr>
+                    <tr>
+                        <td style="height: 26px;width: 220px;">이름</td>
+                        <td colspan="2"><input type="text" style="width: 250px;height: 20px;"></td>
+                    </tr>
+                    <tr>
+                        <td style="height: 26px;">이메일</td>
+                        <td><input type="text" style="height: 22px;"></td>
+                        <td><button style="background-color: #FF865E;height: 26px;width: 75px;border: 0;font-size: 11px;">인증번호 발송</button></td>
+                    </tr>
+                    <tr>
+                        <td style="height: 26px;">인증번호</td>
+                        <td><input type="text" style="height: 22px;"></td>
+                        <td><button style="background-color: #FF865E;height: 26px;width: 75px;border: 0;font-size: 11px;">인증번호 확인</button></td>
+                    </tr>
+                    <tr>
+                        <td style="height: 26px;width: 220px;">비밀번호</td>
+                        <td colspan="2"><input type="password" style="width: 250px;height: 20px;"></td>
+                    </tr>
+                    <tr>
+                        <td style="height: 26px;width: 220px;">비밀번호 확인</td>
+                        <td colspan="2"><input type="password" style="width: 250px;height: 20px;"></td>
+                    </tr>
+                </table><br><hr style="height: 1px;border: 0;" color="#FF865E"><br>
+                <button class="cancelbtn" style="width: 75px;height: 34px;background-color: #FEF9EF;border: 0;">취소</button>
+                <button class="checkbtn" style="width: 75px;height: 34px;background-color: #FF865E;border: 0;" type="submit">확인</button>
+            </div>
+        </div>
+    </div>
+    <!-- <script>
+        function pwdpage() {
+            location.href = "pwdsearch.html";
+        }
+    </script> -->
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>HI KINDERGARTEN</title>
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <link href="../css/commons.css" rel="stylesheet" />
+        <link rel="stylesheet" href="../css/styles.css">
+    </head>
+    <body class="sb-nav-fixed">
+
+        <!-- <div class="modal show">
+            <div class="modal_body">
+                <h1>asdasdasdsaddsadasdasd</h1>
+                <div>asdsadasdsadasd</div>
+            </div>
+        </div> -->
+
+<!-- ${#authentication.getPrincipal().getLoginEmployeeRoleList().getAuthorityCode()} 권한 분류 3은 관리자   
+	<th:block data-th-if="${#authentication.getPrincipal().getLoginEmployeeRoleList().getAuthorityCode() == 3}"></th:block>
+<th:block data-th-unless="${#authentication.getPrincipal().getLoginEmployeeRoleList().getAuthorityCode() == 3}"></th:block>
+-->
+
+        <div th:replace="common/header"></div>
+		<div th:replace="common/sidebar"></div>
+	
+            <!-- 컨텐츠 영역 -->
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">지출결의서</h1>
+                        <br>
+
+                  <!--      <div class="dataTable-top">
+                            <div class="dataTable-search">
+                                <select name="" id="" class="dataTable-selector">
+                                    <option value="">-선택-</option>
+                                    <option value="">담당자</option>
+                                    <option value="">업체명</option>
+                                </select>
+                                <input type="search" class="dataTable-input" placeholder="search">
+                            </div>
+                            <button class="btn-orange ms-3">검색</button>
+                            <div>
+                                
+                            </div>
+                        </div>  --> 
+                        
+				<!-- 검색 폼 -->
+				<div class="search-area" style="float:right;">
+
+					<form id="searchForm" th:action="@{/payment/spendlist}" method="get" style="width:30rem; float:left; height:2.5rem;" class="dataTable-search">
+						<input type="hidden" name="currentPage" value="1">
+						<select id="searchCondition" name="searchCondition" class="dataTable-selector">
+							<option value="client">업체명</option>
+							<option value="name">담당자</option>
+							
+						</select>
+						<input type="search" id="searchValue" name="searchValue" class="dataTable-input" placeholder="search" style="width:50%;">
+
+						<button class="btn-orange ms-3" type="submit">검색하기</button>
+					</form>
+					
+					</div>
+					
+					<button class="btn-orange ms-3" style="margin-bottom:2rem" th:onclick="|location.href='@{/payment/spendsubmit}'|">작성하기</button>
+
+                        <table class="dataTable-table">
+                            <thead>
+                                <tr>
+                                    <th>글번호</th>
+                                    <th>업체명</th>
+                                    <th>비용</th>
+                                    <th>담당자</th>
+                                    <th>승인여부</th>
+
+                                </tr>
+                            </thead>		
+                            <tbody> 
+                               <tr th:each="spend : ${ spendList }" th:onclick="|location.href='@{/payment/spenddetail(no=${spend.no})}'|">
+						            <td th:text="${spend.no}"></td>
+						            <td th:text="${spend.client}"></td>
+						            <td th:text="${spend.price}"></td>
+						            <td th:text="${spend.employee.name}"></td>
+						            <td th:text="${spend.history.process}"></td>
+								</tr>
+                              
+                            </tbody>
+                        </table>
+                        
+                       <script  th:inline="javascript">
+                   	function deletePaper(no){
+						//"|location.href='@{/payment/spendsubmitDelete(no=${data.no})}'|";
+						location.href='@{/payment/spenddelete(no=${'+ no +'})}';
+                 	} 
+                       
+                            function removeCheck(no) {
+  
+                                                  if (confirm("정말 삭제하시겠습니까??") == true){    //확인
+                                                 
+                                                     return deletePaper(no);
+                                                 
+                                                 }else{   //취소
+                                                 
+                                                     return false;
+                                                 
+                                                 }
+                                                 
+                                                 }
+                        </script>
+
+
+
+               <!--          <div class="dataTable-bottom">
+                            <nav class="dataTable-pagination">
+                                <ul class="dataTable-pagination-list">
+                                    <li class="pager">
+                                        <a href="#" data-page="2"><</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#" data-page="1">1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-page="2">2</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-page="3">3</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-page="4">4</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-page="5">5</a>
+                                    </li>
+                                    <li class="pager">
+                                        <a href="#" data-page="2">›</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>  -->
+                        
+			<!-- 페이지 처리 -->
+
+			<div class="pagingArea dataTable-pagination" align="center" style="margin-left:40%; margin-top:5%;">
+				<!-- 맨 앞으로 이동 버튼 -->
+				<th:block th:if="selectCriteria.pageNo == 1">
+				<a class="pager"
+					th:onclick="'location.href=\'/payment/spendlist?currentPage='+ @{${selectCriteria.startPage}} + '\''"
+					th:disabled="${selectCriteria.pageNo == 1}"> <<
+				</a>
+				<!-- 이전 페이지 버튼 -->
+				<a class="pager"
+					th:onclick="'location.href=\'/payment/spendlist?currentPage='+ @{${selectCriteria.pageNo - 1}} + '\''"
+					th:disabled="${selectCriteria.pageNo == 1}"> <
+				</a>
+				
+				</th:block>
+				<!-- 숫자 버튼 -->
+				<th:block th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
+					<a class="pager" th:text="${ page }"
+						th:onclick="'location.href=\'/payment/spendlist?currentPage='+ @{${page}} + '\''"
+						th:disabled="${ selectCriteria.pageNo eq page }">
+					</a>
+				</th:block>
+
+				<!-- 다음 페이지 버튼 -->
+				<a class="pager"
+					th:onclick="'location.href=\'/payment/spendlist?currentPage='+ @{${selectCriteria.pageNo + 1}} + '\''"
+					th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"
+					>
+					>
+				</a>
+				<!-- 마지막 페이지로 이동 버튼 -->
+				<a class="pager" th:onclick="'location.href=\'/payment/spendlist?currentPage='+ @{${selectCriteria.maxPage}} + '\''"
+					th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}">
+					>>
+				</a>
+
+
+			</div>
+
+
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="../js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+        <script src="../js/datatables-simple-demo.js"></script>
+    </body>
+</html>

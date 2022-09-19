@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kindergarten.hi.payment.model.dao.PaymentDAO">
+
+    <resultMap type="PaymentDTO" id="paymentResultMap">
+    <id column="EXPE_NO" property="no" />
+	<result column="EXPE_TITLE" property="title" />
+	<result column="EXPE_DATE" property="expeDate" />
+	<result column="EXPE_PRICE" property="price" />
+	<result column="EXPE_DEP" property="dep" />
+	<result column="EXPE_WDATE" property="wDate" />
+	<result column="EXPE_CLIENT" property="client" />
+	<result column="EXPE_CONT" property="content" />
+	<result column="EXPE_ACCOUNT" property="account" />
+	<result column="EXPE_STATUS" property="status" />
+	<result column="EMP_NO" property="empNo" />
+	<result column="EXPE_YN" property="yN" />
+	
+	<association property="history" resultMap="PaymentManagementHisResultMap"/>
+	<association property="employee" resultMap="employeeResultMap"/>
+	
+	</resultMap>
+	
+	<resultMap type="PaymentManagementHisDTO" id="PaymentManagementHisResultMap">
+	 <id column="EXPE_NO" property="expeNo" />
+	<result column="PROCESS" property="process" />
+	<result column="TIME" property="processTime" />
+	<result column="IN_TIME" property="submitTime" />
+	
+	</resultMap>
+	
+	<resultMap type="PaymentFileDTO" id="PaymentFileResultMap">
+	<id column="FILE_NO" property="no" />
+	<result column="FILE_ORIGINNAME" property="originName" />
+	<result column="FILE_MAINPATH" property="mainPath" />
+	<result column="FILE_NAME" property="savedName" />
+	<result column="EXPE_NO" property="expeNo" />
+	</resultMap>
+	
+		<resultMap type="com.kindergarten.hi.employee.model.dto.EmployeeDTO" id="employeeResultMap">
+		<id property="no" column="EMP_NO" />
+		<result property="id" column="EMP_ID" />
+		<result property="name" column="EMP_NAME" />
+		<result property="birth" column="EMP_BIRTH" />
+		<result property="pwd" column="EMP_PWD" />
+		<result property="endate" column="EMP_ENDATE" />
+		<result property="email" column="EMP_EMAIL" />
+		<result property="addre" column="EMP_ADDRE" />
+		<result property="phone" column="EMP_PHONE" />
+		<result property="salary" column="EMP_SALARY" />
+		<result property="resign" column="EMP_RESIGN" />
+		<result property="resigndate" column="EMP_RESIGNDATE" />			
+	</resultMap>
+
+	<select id="selectTotalCount" resultType="_int" parameterType="hashmap">
+        SELECT 
+        	COUNT(*)
+        FROM EXPENDITURE A
+        <where>
+            <if test="searchCondition == 'name'">
+               A.EMP_NAME LIKE '%' || #{ searchValue } || '%'
+            </if>
+             <if test="searchCondition == 'client'">
+	           A.EXPE_CLIENT LIKE '%' || #{ searchValue } || '%' 	
+			</if>
+				<if test="userNo!=null and !userNo.equals('')">
+        	 AND	A.EMP_NO = #{ userNo }
+        	</if>
+        	<if test="userNo ==null or userNo.equals('')">
+        						AND A.EXPE_STATUS = 'Y'
+        						</if>
+        	
+        </where>
+    </select>
+	
+	
+	<select id="selectSpendList" resultMap="paymentResultMap">
+
+   SELECT 
+       	 A.RNUM
+        ,A.EXPE_NO
+    	,A.EXPE_TITLE
+    	,A.EXPE_DATE
+    	,A.EXPE_PRICE
+    	,A.EXPE_DEP
+    	,A.EXPE_WDATE
+    	,A.EXPE_CLIENT 
+    	,A.EXPE_CONT
+    	,A.EXPE_ACCOUNT
+    	,A.EXPE_STATUS
+    	,A.EMP_NO
+    	,A.EXPE_YN
+    	,D.PROCESS
+    	,E.EMP_NAME
+          FROM (SELECT ROWNUM RNUM
+        ,B.EXPE_NO        
+    	,B.EXPE_TITLE
+    	,B.EXPE_DATE
+    	,B.EXPE_PRICE
+    	,B.EXPE_DEP
+    	,B.EXPE_WDATE
+    	,B.EXPE_CLIENT 	
+    	,B.EXPE_CONT 		
+    	,B.EXPE_ACCOUNT 	
+    	,B.EXPE_STATUS 	
+    	,B.EMP_NO 	
+    	,B.EXPE_YN 	
+           FROM (SELECT C.EXPE_NO
+    	,C.EXPE_TITLE
+    	,C.EXPE_DATE
+    	,C.EXPE_PRICE
+    	,C.EXPE_DEP
+    	,C.EXPE_WDATE
+    	,C.EXPE_CLIENT 	
+    	,C.EXPE_CONT 	
+    	,C.EXPE_ACCOUNT 	
+    	,C.EXPE_STATUS 	
+    	,C.EMP_NO 	
+    	,C.EXPE_YN 	
+           FROM EXPENDITURE C
+    						<where>						
+							<if test="selectCriteria.searchCondition == 'name'">
+	           				 E.EMP_NAME LIKE '%' || #{ selectCriteria.searchValue } || '%' 
+	           				 </if>	
+	           				 <if test="selectCriteria.searchCondition == 'client'">
+	           				 C.EXPE_CLIENT LIKE '%' || #{ selectCriteria.searchValue } || '%' 	
+							</if>
+								<if test="userNo!=null and !userNo.equals('')">
+        	 					AND	C.EMP_NO = #{ userNo }
+        						</if>
+        						<if test="userNo == null or userNo.equals('')">
+        						AND C.EXPE_STATUS = 'Y'
+        						</if>
+    					</where>
+                         )B
+                  <![CDATA[
+                  WHERE ROWNUM <= #{ selectCriteria.endRow }
+                  ]]>
+               ) A
+        JOIN EXPE_MANAGEMENT_HIS D ON (A.EXPE_NO = D.EXPE_NO)
+        JOIN EMPLOYEE E ON(A.EMP_NO = E.EMP_NO)
+        WHERE A.RNUM >= #{ selectCriteria.startRow }
+          AND A.EXPE_YN = 'N'
+        ORDER BY 1 ASC
+	</select>
+	
+	
+		<select id="paymentDetail" parameterType="_int" resultMap="paymentResultMap">
+	 SELECT 
+         A.EXPE_NO
+    	,A.EXPE_TITLE
+    	,A.EXPE_DATE
+    	,A.EXPE_PRICE
+    	,A.EXPE_DEP
+    	,A.EXPE_WDATE
+    	,A.EXPE_CLIENT 
+    	,A.EXPE_CONT
+    	,A.EXPE_ACCOUNT
+    	,A.EXPE_STATUS
+    	,A.EMP_NO
+    	,A.EXPE_YN
+    	,D.PROCESS
+    	,E.EMP_NAME
+    	FROM EXPENDITURE A
+    	JOIN EXPE_MANAGEMENT_HIS D ON (A.EXPE_NO = D.EXPE_NO)
+        JOIN EMPLOYEE E ON(A.EMP_NO = E.EMP_NO)
+        WHERE A.EXPE_NO = #{ no }
+	</select>
+	
+	<insert id="insertPaymentSubmit" parameterType="PaymentDTO">
+	INSERT 
+	  INTO EXPENDITURE A
+	  (
+	  	A.EXPE_NO,
+		A.EXPE_TITLE,
+		A.EXPE_DATE,
+		A.EXPE_PRICE,
+		A.EXPE_DEP,
+		A.EXPE_WDATE,
+		A.EXPE_CLIENT,
+		A.EXPE_CONT,
+		A.EXPE_ACCOUNT,
+		A.EXPE_STATUS,
+		A.EMP_NO,
+		A.EXPE_YN
+	  )
+	  VALUES
+	  (
+	  	EXPE_SEQ.NEXTVAL, #{ title }, #{ expeDate } , #{ price }, #{ dep }, 
+	  	TRUNC(SYSDATE), #{ client }, #{ content }, #{ account }, 
+	  	 'N' , #{ empNo }, 'N'
+	  )
+	  
+	
+	</insert>
+
+	
+	<insert id="insertPaymentFile" parameterType="PaymentFileDTO">
+	INSERT
+	  INTO EXPENDITURE_FILE
+	  (
+	  FILE_NO,
+	  FILE_ORIGINNAME,
+	  FILE_MAINPATH,
+	  FILE_NAME,
+	  EXPE_NO
+	  )
+	  VALUES
+	  (
+	  EXPE_FILE_SEQ.NEXTVAL,
+	  #{ originName },
+	  #{ mainPath },
+	  #{ savedName },
+	  EXPE_SEQ.CURRVAL
+	  )
+	  
+	
+	</insert>
+	
+	<insert id="insertPaymentManagementHis" parameterType="PaymentManagementHisDTO">
+	INSERT 
+	  INTO EXPE_MANAGEMENT_HIS
+	  	(
+	  	EXPE_NO,
+	    PROCESS,
+		TIME,
+		IN_TIME
+		)
+		VALUES
+		(
+		EXPE_SEQ.CURRVAL,
+		'대기',
+		TRUNC(SYSDATE),
+		TRUNC(SYSDATE)
+		)
+	</insert>
+	<select id="selectPaymentFile" parameterType="_int" resultMap="PaymentFileResultMap">
+	 SELECT
+	 		A.FILE_NO,
+			A.FILE_ORIGINNAME,
+			A.FILE_MAINPATH,
+			A.FILE_NAME,
+			A.EXPE_NO
+	   FROM EXPENDITURE_FILE A
+	  WHERE EXPE_NO = #{ no }
+	
+	</select>
+	
+	<insert id="insertPaymentHis" parameterType="_int">
+	
+	INSERT 
+	  INTO EXPE_MANAGEMENT_HIS
+	  	(
+	  	EXPE_NO,
+	    PROCESS,
+		TIME,
+		IN_TIME
+		)
+		VALUES
+		(
+		EXPE_SEQ.CURRVAL,
+		'저장',
+		TRUNC(SYSDATE),
+		TRUNC(SYSDATE)
+		)
+	
+	
+	</insert>
+
+	<update id="updatePayment" parameterType="PaymentDTO">
+		UPDATE EXPENDITURE
+		   SET
+		       EXPE_TITLE = #{ title },
+		       EXPE_DATE = #{ expeDate },
+               EXPE_PRICE = #{ price },
+               EXPE_DEP = #{ dep },
+               EXPE_CLIENT =  #{ client },
+               EXPE_CONT = #{ content },
+               EXPE_ACCOUNT =  #{ account }
+	     WHERE EXPE_NO = #{ no }
+	
+	
+	</update>
+	
+	
+<!--	<update id="">
+	UPDATE
+		   EXPENDITURE A
+	   SET A.EXPE_STATUS = 'Y'
+	 WHERE A.EXPE_NO = #{ no } 
+	
+	</update>  제출만하기 -->
+	
+
+	<!--	<update id="">
+	UPDATE
+		   EXPENDITURE A
+	   SET A.EXPE_YN = 'Y'
+	 WHERE A.EXPE_NO = #{ no } 
+	
+	</update>   삭제 -->
+	
+</mapper>

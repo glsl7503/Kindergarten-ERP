@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" mlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<title>비품재고상세조회 페이지</title>
+
+</head>
+
+<body class="sb-nav-fixed">
+
+	<div th:replace="common/header"></div>
+	<div th:replace="common/sidebar"></div>
+
+	<!-- 컨텐츠 영역 -->
+	<div id="layoutSidenav_content">
+		<main>
+			<div class="container-fluid px-4">
+				<h1 class="mt-4">비품 재고 상세조회</h1>
+
+				<br>
+				<br>
+
+					<form>
+
+					<h4>[ 기본 정보 ]</h4>
+
+					<table class="tbTem">
+						<colgroup>
+							<col width="25%">
+							<col width="25%">
+							<col width="25%">
+							<col width="25%">
+						</colgroup>
+						<tr>
+							<td class="bg-apricot">비품번호</td>
+							<td colspan="3" th:text="${ itemDetail.itemNo }"></td>
+							<input type="hidden" name="itemNo" th:value="${ itemDetail.itemNo }">
+						</tr>
+						<tr>
+							<td class="bg-apricot">비품명</td>
+							<td colspan="3" th:text="${ itemDetail.name }"></td>
+						</tr>
+						<tr>
+							<td class="bg-apricot">비품종류</td>
+							<td colspan="3" th:text="${ itemDetail.category }"></td>
+						</tr>
+						<tr>
+							<td class="bg-apricot">수량</td>
+							<td colspan="3" th:text="${ itemDetail.number }"></td>
+						</tr>
+						<tr>
+							<td class="bg-apricot">취득가액</td>
+							<td colspan="3" th:text="${ itemDetail.price }"></td>
+						</tr>
+						<tr>
+							<td class="bg-apricot">등록일</td>
+							<td colspan="3" th:text="${ itemDetail.regdate }"></td>
+						</tr>
+						</tr>
+						<tr>
+							<td class="bg-apricot">작성자</td>
+							<td colspan="3" th:text="${ itemDetail.empNo }"></td>
+						</tr>
+						<tr>
+							<td class="bg-apricot">거래업체</td>
+							<td colspan="3" th:text="${ itemDetail.traderIdx }"></td>
+						<tr>
+							<td class="bg-apricot">수정일</td>
+							<td colspan="3" th:text="${ itemDetail.update }"></td>
+						</tr>
+
+					</table>
+
+					<br>
+
+
+					<table class="tbTem">
+						<colgroup>
+							<col width="25%">
+							<col width="25%">
+							<col width="25%">
+							<col width="25%">
+						</colgroup>
+
+
+						<h4>[ 비품 사용이력 ]</h4>
+
+						<tr>
+							<td class="bg-apricot">비품번호</td>
+							<td colspan="3" ></td>
+
+						</tr>
+						<tr>
+							<td class="bg-apricot">사용수량</td>
+							<td colspan="3" ></td>
+						</tr>
+						<tr>
+							<td class="bg-apricot">등록수량</td>
+							<td colspan="3" ></td>
+						</tr>
+						<tr>
+							<td class="bg-apricot">처리시간</td>
+							<td colspan="3" ></td>
+						</tr>
+						<tr>
+							<td class="bg-apricot">사용한 직원</td>
+							<td colspan="3" ></td>
+						</tr>
+					</table>
+
+					<div class="btn-right-mv">
+						<button class="btn-orange update" type="submit">수정하기 </button>
+						<button class="btn-orange delete" type="submit">삭제하기 </button>
+					</div>
+					</form>
+
+			</div>
+		</main>
+	</div>
+
+	<script th:inline="javascript">
+		$(".update").click(function () {
+			$("form").attr("action", "/item/update").attr("method", "post");
+		});
+
+		$(".delete").click(function () {
+			$("form").attr("action", "/item/itemmanagementdetail/delete").attr("method", "post");
+		});
+	</script>
+</body>
+</html>

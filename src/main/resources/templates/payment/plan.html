@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>HI KINDERGARTEN</title>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script th:src="@{/js/lessons/planPayment.js}"></script>
+</head>
+<body class="sb-nav-fixed">
+
+	<div th:replace="common/header"></div>
+	<div th:replace="common/sidebar"></div>
+
+	<!-- 컨텐츠 영역 -->
+	<div id="layoutSidenav_content">
+		<main>
+			<div class="container-fluid px-4">
+				<h1 class="mt-4">수업 계획서</h1>
+				<br>
+				
+				<!-- <form th:action="@{/lessons/plan}" method="get" id="plan_form"> -->
+				
+				<div class="dataTable-top">
+					<div class="dataTable-search">
+						<input type="text" name="startDate" id="startDate" size="12" class="dataTable-input datepicker" autocomplete='off'/>
+						<p style="line-height: 36px; margin: 0">&nbsp;~&nbsp;</p>
+						<input type="text" name="endDate" id="endDate" size="12" class="dataTable-input datepicker" autocomplete='off'/> 
+						<select name="selectVal" id="selectVal" class="dataTable-selector">
+							<option value="">-선택-</option>
+							<option value="class">반</option>
+							<option value="writer">작성자</option>
+							<option value="process">결재여부</option>
+						</select>
+						<input type="search" id="searchVal" name="searchVal" class="dataTable-input" placeholder="search" maxlength="20">
+					</div>
+					<button class="btn-orange ms-3" id="btn_search">검색</button>
+					
+				</div>
+
+				<table class="dataTable-table" id="planTable">
+					<colgroup>
+						<col width="3%">
+						<col width="21%">
+						<col width="7%">
+						<col width="10%">
+						<col width="10%">
+						<col width="10%">
+						<col width="10%">
+						<col width="10%">
+						<col width="10%">
+						<col width="7%">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>NO.</th>
+							<th>수업목표</th>
+							<th>대상연령</th>
+							<th>반</th>
+							<th>총원</th>
+							<th>수업일시</th>
+							<th>작성자</th>
+							<th>작성일</th>
+							<th>제출여부</th>
+							<th>결재여부</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- <th:block th:if="${ !list.isEmpty() }">
+							<tr th:each="list : ${ list }">
+	                            <td th:text="${list.lpIdx}"></td>
+	                            <td th:text="${list.rsGoals}"></td>
+	                            <td th:text="${list.age}"></td>
+	                            <td th:text="${list.classKindDTO.className}"></td>
+	                            <td th:text="${list.ttlNum}"></td>
+	                            <td th:text="${list.resDate}"></td>
+	                            <td th:text="${list.lesEmployeeDTO.empName}"></td>
+	                            <td th:text="${list.regDate}"></td>
+	                            <td th:text="${list.status}"></td>
+	                            <td th:text="${list.submit}"></td>
+	                        </tr>
+						</th:block>
+						<th:block th:if="${ list.isEmpty() }">
+						</th:block> -->
+						<tr>
+							<td colspan="10" style="text-align: center">NOT FOUND DATA.</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<input type="hidden" value="1" class="currentPage" name="currentPage">
+
+				<div class="dataTable-bottom">
+					<nav class="dataTable-pagination">
+						<ul class="dataTable-pagination-list">
+							<!-- <li class="pager"><a href="#" onclick="fn_go_page(1);"><</a></li>
+							<li class="active"><a href="#" onclick="fn_go_page(1);">1</a></li>
+							<li><a href="#" onclick="fn_go_page(2);">2</a></li>
+							<li><a href="#" onclick="fn_go_page(3);">3</a></li>
+							<li><a href="#" onclick="fn_go_page(4);">4</a></li>
+							<li><a href="#" onclick="fn_go_page(5);">5</a></li>
+							<li class="pager"><a href="#" onclick="fn_go_page(6);">></a></li> -->
+						</ul>
+					</nav>
+				</div>
+				<!-- </form> -->
+			</div>
+		</main>
+	</div>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	let message = [[${message}]];
+	
+	if (message != null && message !== '' && message != 'null') {
+		alert(message);
+	} 
+    /*]]>*/
+</script>
+</body>
+</html>

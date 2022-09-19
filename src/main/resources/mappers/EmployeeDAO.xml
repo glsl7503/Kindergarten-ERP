@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kindergarten.hi.employee.model.dao.EmployeeDAO">
+
+	<resultMap type="EmployeeDTO" id="employeeResultMap">
+		<id property="no" column="EMP_NO" />
+		<result property="id" column="EMP_ID" />
+		<result property="name" column="EMP_NAME" />
+		<result property="birth" column="EMP_BIRTH" />
+		<result property="pwd" column="EMP_PWD" />
+		<result property="endate" column="EMP_ENDATE" />
+		<result property="email" column="EMP_EMAIL" />
+		<result property="addre" column="EMP_ADDRE" />
+		<result property="phone" column="EMP_PHONE" />
+		<result property="salary" column="EMP_SALARY" />
+		<result property="resign" column="EMP_RESIGN" />
+		<result property="resigndate" column="EMP_RESIGNDATE" />			
+	</resultMap>
+	
+	<resultMap type="ManagementDTO" id="managementResultMap">
+		<id property="no" column="ATTE_NO" />
+		<result property="mananame" column="ATTE_MANANAME" />
+		<result property="writedate" column="ATTE_WRITEDATE" />
+		<result property="sort" column="ATTE_SORT" />
+		<result property="pre" column="ATTE_PRE" />
+		<result property="mainreason" column="ATTE_MAINREASON" />
+		<result property="noreason" column="ATTE_NOREASON" />
+		<result property="pro_yn" column="ATTE_PRO_YN" />
+		<result property="del_yn" column="ATTE_DEL_YN" />		
+	</resultMap>
+
+	<resultMap type="EmplAuthDTO" id="emplAuthResultMap">
+		<association property="authNum" column="AUTH_NUM"/>
+		<association property="employeeDTO" resultMap="employeeResultMap"/>
+	</resultMap>
+	
+	<resultMap type="HolidayDTO" id="holidayResultMap">
+		<id property="holiNo" column="HOLI_NO"/>
+		<result property="holiReason" column="HOLI_REASON"/>
+		<result property="holiSort" column="HOLI_SORT"/>
+		<result property="holiPeriod" column="HOLI_PERIOD"/>
+		<result property="holiWriDate" column="HOLI_WRI_DATE"/>
+		<result property="holiDelYn" column="HOLI_DEL_YN"/>
+		<result property="holiOrder" column="HOLI_ORDER"/>
+		<result property="holiSubmit" column="HOLI_SUBMIT"/>
+		<result property="holiYn" column="HOLI_YN"/>
+		<result property="process" column="PROCESS"/>
+		<result property="rnum" column="RNUM"/>
+	</resultMap>
+	
+	<resultMap type="CalenderEmployeeDTO" id="calempMap">
+		<id property="id" column="EMP_CALID" />
+		<result property="title" column="EMP_TITLE" />
+		<result property="start" column="EMP_GOTIME" />
+		<result property="end" column="EMP_OUTTIME" />
+        <result property="no" column="EMP_NO" />
+		
+	</resultMap>
+	
+     <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
+        SELECT 
+        	COUNT(*)
+        FROM EMPLOYEE A
+        <where>
+            <if test="searchCondition == 'name'">
+              AND A.EMP_NAME LIKE '%' || #{ searchValue } || '%'
+            </if>
+        </where>
+    </select>
+    
+    <!-- 회원정보 삭제 ( 퇴사여부 'Y' + 퇴사일 추가 ) -->
+    <update id="deleteEmployee">
+    	UPDATE
+    		EMPLOYEE A
+    	SET A.EMP_RESIGN = 'Y'
+    		,A.EMP_RESIGNDATE = SYSDATE
+    	WHERE A.EMP_RESIGN = 'N'
+    	AND A.EMP_NO = #{ no }
+    </update>
+    
+    <!-- 근태정보삭제 
+	<delete id="deletemanagement">
+		DELETE
+			FROM ATTE_MANAGEMENT A
+		WHERE A.ATTE_NO = #{no}
+	</delete>
+	-->
+	
+  <update id="deletemanagement">
+    	UPDATE
+    		ATTE_MANAGEMENT A
+    	SET A.ATTE_DEL_YN = 'Y'
+    	WHERE A.ATTE_DEL_YN = 'N'
+    	AND A.ATTE_NO = #{ no }
+    </update>
+
+     <select id="selectEmployeeList" resultMap="employeeResultMap">
+
+         SELECT 
+       	 A.RNUM
+        ,A.EMP_NO
+    	,A.EMP_NAME
+    	,A.EMP_ID
+    	,A.EMP_PHONE
+    	,A.EMP_ENDATE
+    	,A.EMP_SALARY 	
+          FROM (SELECT ROWNUM RNUM
+        ,B.EMP_NO        
+    	,B.EMP_NAME
+    	,B.EMP_ID
+    	,B.EMP_PHONE
+    	,B.EMP_ENDATE
+    	,B.EMP_SALARY 	
+           FROM (SELECT C.EMP_NO
+    	,C.EMP_NAME
+    	,C.EMP_ID
+    	,C.EMP_PHONE
+    	,C.EMP_ENDATE
+    	,C.EMP_SALARY 	
+           FROM EMPLOYEE C
+           					
+    						<where>						
+							<if test="searchCondition == 'name'">
+	           				 C.EMP_NAME LIKE '%' || #{ searchValue } || '%' 	
+							</if>
+							AND C.EMP_RESIGN = 'N'
+    					</where>
+                         )B
+                  <![CDATA[
+                  WHERE ROWNUM <= #{ endRow }
+                  ]]>
+               ) A
+         WHERE A.RNUM >= #{ startRow }     
+        
+	</select>
+	
+	<select id="selectTotalCount2" resultType="_int" parameterType="hashmap">
+        SELECT 
+        	COUNT(*)
+        FROM ATTE_MANAGEMENT A
+        <where>
+            <if test="searchCondition == 'mananame'">
+              AND A.ATTE_MANANAME LIKE '%' || #{ searchValue } || '%'
+            </if>
+        </where>
+    </select>
+    
+	 <select id="selectManagementList" resultMap="managementResultMap">
+
+         SELECT 
+       	 A.RNUM
+        ,A.ATTE_NO
+    	,A.ATTE_MANANAME
+    	,A.ATTE_SORT
+    	,A.ATTE_WRITEDATE
+          FROM (SELECT ROWNUM RNUM
+        ,B.ATTE_NO
+    	,B.ATTE_MANANAME
+    	,B.ATTE_SORT
+    	,B.ATTE_WRITEDATE
+           FROM (SELECT C.ATTE_NO
+    	,C.ATTE_MANANAME
+    	,C.ATTE_SORT
+    	,C.ATTE_WRITEDATE
+           FROM ATTE_MANAGEMENT C
+    						<where>						
+							<if test="searchCondition == 'mananame'">
+	           				 C.ATTE_MANANAME LIKE '%' || #{ searchValue } || '%' 	
+							</if>
+							AND C.ATTE_PRO_YN = 'Y'
+    					</where>
+                         )B
+                  <![CDATA[
+                  WHERE ROWNUM <= #{ endRow }
+                  ]]>
+               ) A
+         WHERE A.RNUM >= #{ startRow }     
+        
+	</select>
+	
+	<!-- 회원정보 상세페이지 -->
+ 	<select id="selectEmployeeDetail" resultMap="employeeResultMap">
+		SELECT
+		 	 D.EMP_NO
+		 	,D.EMP_ID
+		 	,D.EMP_NAME
+		 	,D.EMP_BIRTH
+		 	,D.EMP_ENDATE
+		 	,D.EMP_EMAIL
+		 	,D.EMP_ADDRE
+		 	,D.EMP_PHONE
+		 	,D.EMP_SALARY
+		 	,D.EMP_RESIGN
+		 	,D.EMP_RESIGNDATE
+		 	FROM EMPLOYEE D
+		 	WHERE D.EMP_NO = #{ no }
+	</select>
+
+	<!-- 회원정보 수정 -->
+	<update id="employeeUpdate">
+		UPDATE EMPLOYEE F
+	 		SET F.EMP_NAME = #{ name }
+	 		,F.EMP_BIRTH = #{ birth }
+	 		,F.EMP_EMAIL = #{ email }
+	 		,F.EMP_ADDRE = #{ addre } 
+	 		,F.EMP_PHONE = #{ phone } 
+	 		,F.EMP_SALARY = #{ salary } 
+	 		,F.EMP_RESIGN = #{ resign } 	
+	 	 WHERE F.EMP_NO = #{ no }
+	</update>
+	
+	<!-- 근태정보 등록 -->
+	<insert id="managementRegister" parameterType="ManagementDTO">
+		INSERT
+			INTO ATTE_MANAGEMENT G
+			(
+				G.ATTE_NO
+				,G.ATTE_WRITEDATE			
+				,G.ATTE_SORT
+				,G.ATTE_PRE
+				,G.ATTE_PRO_YN
+				,G.ATTE_DEL_YN
+				,G.ATTE_MAINREASON
+				,G.ATTE_MANANAME
+				,G.ATTE_NOREASON
+			)
+			VALUES
+			(
+			  ATTE_NO.NEXTVAL 
+			 ,SYSDATE
+			 ,#{ sort }
+	 		 ,#{ pre }
+	 		 ,'N'
+	 		 ,'N'
+	 		 ,#{ mainreason }
+	 		 ,#{ mananame }
+	 		 ,#{ noreason } 
+			)
+	</insert>
+	
+	<select id="selectManagementDetail" resultMap="managementResultMap">
+		SELECT
+			E.ATTE_NO
+			,E.ATTE_WRITEDATE
+			,E.ATTE_SORT
+			,E.ATTE_PRE
+			,E.ATTE_MAINREASON
+			,E.ATTE_MANANAME
+			,E.ATTE_NOREASON
+			FROM ATTE_MANAGEMENT E
+			WHERE E.ATTE_NO = #{no}
+	</select>
+	
+	<update id="managementUpdate" >
+	 	UPDATE ATTE_MANAGEMENT F
+	 		SET F.ATTE_WRITEDATE = #{ writedate }
+	 		,F.ATTE_SORT = #{ sort }
+	 		,F.ATTE_PRE = #{ pre }
+	 		,F.ATTE_MAINREASON = #{ mainreason }
+	 		,F.ATTE_MANANAME = #{ mananame }
+	 		,F.ATTE_NOREASON = #{ noreason } 
+	 		WHERE ATTE_NO = #{ no }
+	</update>
+	
+	<update id="managementsubmit">
+		UPDATE ATTE_MANAGEMENT H
+		 SET H.ATTE_PRO_YN = 'Y'
+		WHERE H.ATTE_PRO_YN = 'N'
+    	AND H.ATTE_NO = #{ no }
+	</update>
+ 	
+ 	<insert id="insertemployeeCalender" parameterType="CalenderEmployeeDTO">
+ 		INSERT 
+ 		 INTO EMP_CAL A
+ 		 (
+ 		 	A.EMP_CALID
+ 		 	,A.EMP_TITLE
+ 		 	,A.EMP_GOTIME
+ 		 	,A.EMP_OUTTIME
+ 		 	,A.EMP_NO
+ 		 )
+		VALUES
+		(
+			SEQ_EMP_CALID.NEXTVAL
+			,'출근'
+			,SYSDATE
+			,SYSDATE
+			,#{ no }
+		) 
+ 	</insert>
+ 	
+ 	 <insert id="insertemployee2Calender" parameterType="CalenderEmployeeDTO">
+ 		INSERT  
+ 		 INTO EMP_CAL A
+ 		 (
+		 	A.EMP_CALID
+ 		 	,A.EMP_TITLE
+ 		 	,A.EMP_GOTIME
+ 		 	,A.EMP_OUTTIME
+ 		 	,A.EMP_NO
+ 		 )
+		VALUES
+		(
+			SEQ_EMP_CALID.NEXTVAL
+			,'퇴근'
+			,SYSDATE
+			,SYSDATE
+			,#{ no }
+		)
+ 	</insert>
+ 	<select id="selectempCalenderList" resultMap="calempMap">
+ 		SELECT 
+ 			 EMP_CALID
+ 			,EMP_TITLE
+ 			,EMP_GOTIME
+ 			,EMP_OUTTIME
+ 			FROM EMP_CAL
+ 		
+  	</select>
+ 	
+ 	<insert id="insertEmployee" parameterType="EmployeeDTO">
+	INSERT INTO EMPLOYEE
+   (
+      EMP_NO,
+      EMP_ID,
+      EMP_NAME,
+      EMP_BIRTH,
+      EMP_PWD,
+      EMP_ENDATE,
+      EMP_EMAIL,
+      EMP_ADDRE,
+      EMP_PHONE,
+      EMP_SALARY
+   )
+VALUES
+   (
+      SEQ_EMP_NO.NEXTVAL,
+      #{ id },
+      #{ name },
+      #{ birth },
+      #{ pwd },
+      SYSDATE,
+      #{ email },
+      #{ addre },
+      #{ phone },
+      #{ salary }
+   )
+   </insert>
+
+    <insert id="insertInSelectEmployee" parameterType="EmplAuthDTO">
+	
+    		INSERT INTO EMPL_AUTH
+		       (
+		         EMP_NO
+		       , AUTH_NUM
+		       )
+	       VALUES
+		       (
+		         SEQ_EMP_NO.CURRVAL
+		        , #{ authNum }
+	       		)
+    </insert>
+
+       <!-- <selectkey keyproperty="empNo" resultType="_int" order="before">
+		   	SELECT
+		   	       SEQ_EMP_NO.CURRVAL
+		   	  FROM DUAL
+    	</selectkey> -->
+       
+       <!-- INSERT ALL
+         INTO EMPLOYEE A
+	        (
+	          A.EMP_NO
+	        , A.EMP_NAME
+	        , A.EMP_EMAIL
+	        , A.EMP_ID
+	        , A.EMP_BIRTH
+	        , A.EMP_PWD
+	        , A.EMP_ADDRE
+	        )
+	        VALUES
+	        (
+	          SEQ_EMP_NO.NEXTVAL
+	        , '홍길동'
+	        , 'hkd112@naver.com'
+	        , #{ id }
+	        , SYSDATE
+	        , #{ pwd1 }
+	        , '경기도 부천시'
+	        ) -->
+	
+	<!-- <insert id="" parameterType="">
+    <selectkey keyproperty="empNo" resultType="_int" order="before">
+	   	SELECT
+	   	       SEQ_EMP_NO.CURRVAL
+	   	  FROM DUAL
+    </selectkey>
+	    INTO EMP_AUTH B
+	       (
+	         A.EMP_NO
+	       , B.AUTH_NUM
+	       )
+	       VALUES
+	       (
+	         #{ empNo }
+	       , 3
+	       )
+	</insert> -->
+	
+    <select id="selectEmployeeById" resultType="string">
+        SELECT 
+               A.EMP_ID
+          FROM EMPLOYEE A
+         WHERE A.EMP_RESIGN = 'N'
+           AND A.EMP_ID = #{ id }
+    </select>
+
+    
+     <!-- 결재휴가관리 토탈카운트 쿼리문 -->
+    <select id="selectVacationTotalCountPy" resultType="_int" parameterType="hashmap">
+    	SELECT
+    	       COUNT(*)
+    	  FROM HOLIDAY H
+  	       JOIN EMP_HOLI EH ON (H.HOLI_NO = EH.HOLI_NO)
+  	       JOIN EMPLOYEE E ON (EH.EMP_NO = E.EMP_NO)
+  	       LEFT JOIN HOLI_HIS HH ON (H.HOLI_NO = HH.HOLI_NO)
+		   <where>
+  	       H.HOLI_DEL_YN = 'N'
+  	       AND H.HOLI_SUBMIT = 'Y'
+    	   <if test="searchCondition =='title'">
+           AND H.HOLI_SORT LIKE '%' || #{ searchValue } || '%'
+           </if>    
+    	  </where>
+    	  
+    </select>
+    
+    <!-- 휴가관리 토탈카운트 쿼리문 -->
+    <select id="selectVacationTotalCount" resultType="_int" parameterType="hashmap">
+    	SELECT
+    	       COUNT(*)
+    	  FROM HOLIDAY H
+  	       JOIN EMP_HOLI EH ON (H.HOLI_NO = EH.HOLI_NO)
+  	       JOIN EMPLOYEE E ON (EH.EMP_NO = E.EMP_NO)
+  	       LEFT JOIN HOLI_HIS HH ON (H.HOLI_NO = HH.HOLI_NO)
+		   <where>
+  	       H.HOLI_DEL_YN = 'N'
+  	       AND E.EMP_NO = #{ id }
+    	   <if test="searchCondition =='title'">
+           AND H.HOLI_SORT LIKE '%' || #{ searchValue } || '%'
+           </if>    
+    	  </where>
+    </select>
+    
+    
+    <!-- 결재페이징 및 리스트 조회 쿼리문 -->
+    <select id="selectVacationListPy" resultMap="holidayResultMap">
+    SELECT
+		       C.RNUM
+    		 , C.HOLI_NO
+             , C.HOLI_SORT
+             , C.HOLI_PERIOD  
+             , C.HOLI_WRI_DATE
+             , C.HOLI_SUBMIT
+             , C.HOLI_YN
+             , HH.PROCESS
+		  FROM (SELECT        
+		               ROWNUM RNUM
+                     , B.HOLI_NO
+                     , B.HOLI_SORT
+                     , B.HOLI_PERIOD  
+                     , B.HOLI_WRI_DATE
+                     , B.HOLI_SUBMIT
+                     , B.HOLI_YN
+		          FROM (SELECT
+		                       A.HOLI_NO
+		                     , A.HOLI_SORT
+		                     , A.HOLI_PERIOD  
+		                     , A.HOLI_WRI_DATE
+		                     , A.HOLI_SUBMIT
+		                     , A.HOLI_YN
+		                  FROM HOLIDAY A
+		                  <where>
+		                  A.HOLI_DEL_YN = 'N'
+		                  AND A.HOLI_SUBMIT = 'Y'
+		                  <if test="selectCriteria.searchCondition == 'title'">
+		                  AND A.HOLI_SORT LIKE '%' || #{ selectCriteria.searchValue } || '%'
+		                  </if>
+		                  </where> 
+		                  ORDER BY A.HOLI_NO ASC
+		                ) B
+		                      <![CDATA[
+		                  WHERE ROWNUM <= #{ selectCriteria.endRow }
+		                		                ]]>                  
+		                ) C
+		                JOIN EMP_HOLI EH ON (C.HOLI_NO = EH.HOLI_NO)
+  	       				JOIN EMPLOYEE E ON (EH.EMP_NO = E.EMP_NO)
+  	       				LEFT JOIN HOLI_HIS HH ON (EH.HOLI_NO = HH.HOLI_NO)
+		                WHERE 
+		                C.RNUM >= #{ selectCriteria.startRow }
+		                ORDER BY 1 ASC
+    </select>
+    
+    <!-- 페이징 및 리스트 조회 쿼리문 -->
+
+    <!-- 휴가관리 페이징 및 리스트 조회 쿼리문 -->
+
+    <select id="selectVacationList" resultMap="holidayResultMap">
+    SELECT
+		       C.RNUM
+    		 , C.HOLI_NO
+             , C.HOLI_SORT
+             , C.HOLI_PERIOD  
+             , C.HOLI_WRI_DATE
+             , C.HOLI_SUBMIT
+             , C.HOLI_YN
+             , HH.PROCESS
+		  FROM (SELECT        
+		               ROWNUM RNUM
+                     , B.HOLI_NO
+                     , B.HOLI_SORT
+                     , B.HOLI_PERIOD  
+                     , B.HOLI_WRI_DATE
+                     , B.HOLI_SUBMIT
+                     , B.HOLI_YN
+		          FROM (SELECT
+		                       A.HOLI_NO
+		                     , A.HOLI_SORT
+		                     , A.HOLI_PERIOD  
+		                     , A.HOLI_WRI_DATE
+		                     , A.HOLI_SUBMIT
+		                     , A.HOLI_YN
+		                  FROM HOLIDAY A
+		                  <where>
+		                  A.HOLI_DEL_YN = 'N'
+		                  <if test="selectCriteria.searchCondition == 'title'">
+		                  AND A.HOLI_SORT LIKE '%' || #{ selectCriteria.searchValue } || '%'
+		                  </if>
+		                  </where> 
+		                  ORDER BY A.HOLI_NO DESC
+		                ) B
+		                      <![CDATA[
+		                  WHERE ROWNUM <= #{ selectCriteria.endRow }
+		                		                ]]>                  
+		                ) C
+		                JOIN EMP_HOLI EH ON (C.HOLI_NO = EH.HOLI_NO)
+  	       		 		JOIN EMPLOYEE E ON (EH.EMP_NO = E.EMP_NO)
+  	       				LEFT JOIN HOLI_HIS HH ON (EH.HOLI_NO = HH.HOLI_NO)
+		                WHERE EH.EMP_NO = #{ userId }
+		                AND C.RNUM >= #{ selectCriteria.startRow }
+		                ORDER BY 1 ASC
+    </select>
+    
+    <!-- 휴가관리 등록하기 쿼리문 -->
+    <insert id="insertVacation">
+    INSERT
+      INTO HOLIDAY
+      (
+        HOLI_NO
+	  , HOLI_REASON
+	  , HOLI_SORT
+	  , HOLI_PERIOD
+	  , HOLI_WRI_DATE
+	  , HOLI_DEL_YN
+	  , HOLI_ORDER
+	  , HOLI_SUBMIT
+      )
+      VALUES
+      (
+      SEQ_HOLIDAY.NEXTVAL
+      , #{ holiReason }
+      , #{ holiSort }
+      , #{ holiPeriod }
+      , SYSDATE
+      , 'N'
+      , #{ holiOrder }
+      , 'N'
+      )
+    </insert>
+    
+    <!-- EMP_HOLI 시퀀스 커발 해주는 쿼리문 -->
+    <insert id="insertVacationEmp">
+    INSERT
+      INTO EMP_HOLI
+      (
+        EMP_NO
+      , HOLI_NO
+      )
+      VALUES
+      (#{ userId }, SEQ_HOLIDAY.CURRVAL)
+    
+    </insert>
+    
+    <!-- 디테일 상세조회  -->
+	<select id="selectVacationDetail" resultMap="holidayResultMap">
+		SELECT
+		       *
+		  FROM HOLIDAY
+		 WHERE HOLI_NO = #{ no }     
+	</select>
+	
+	<!-- 휴가관리 수정하기 쿼리문 -->
+	<update id="updateVacation">
+		UPDATE HOLIDAY
+		   SET HOLI_SORT = #{ holiSort } 
+		     , HOLI_PERIOD = #{ holiPeriod }
+		     , HOLI_REASON = #{ holiReason }
+		     , HOLI_ORDER = #{ holiOrder }
+		WHERE HOLI_NO = #{ holiNo }
+	</update>
+	
+	<!-- 휴가관리 삭제하기 쿼리문 -->
+	<update id="deteleVacation">
+	UPDATE HOLIDAY
+	   SET HOLI_DEL_YN = 'Y' 
+	WHERE HOLI_NO = #{ holiNo }
+	</update>
+	
+	<!-- 휴가관리 제출하기 쿼리문 -->
+	<insert id="detailInsertVacation">
+	INSERT 
+	  INTO HOLI_HIS
+	(
+	  PROCESS  
+	, TIME
+	, HOLI_NO  
+	, IN_TIME  
+	)
+	VALUES
+	(
+	  '대기'
+	, SYSDATE
+	, #{ holiNo }
+	, SYSDATE  
+	)
+	</insert>
+	<!-- 휴가관리 제출하기시 제출하기 컬럼 Y로 변경 해주는 쿼리문 -->
+	<update id="detailUpdateVacation">
+		UPDATE HOLIDAY
+		   SET HOLI_SUBMIT = 'Y'
+		  WHERE HOLI_NO = #{ holiNo } 
+	</update>
+	
+    <update id="updateVacationPy">
+    UPDATE HOLI_HIS
+       SET PROCESS = #{ yN },
+    	   TIME = TRUNC(SYSDATE)
+     WHERE HOLI_NO = #{ no }	   
+    </update>
+
+    
+</mapper>

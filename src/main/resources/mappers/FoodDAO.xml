@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.kindergarten.hi.food.model.dao.FoodDAO">
+    
+    <resultMap type="com.kindergarten.hi.food.model.dto.FoodDTO" id="foodStockResultMap">
+    	<id property="stockIdx" column="STOCK_IDX"/>
+    	<result property="stockTitle" column="STOCK_TITLE"/>
+    	<result property="stockCount" column="STOCK_COUNT"/>
+    	<result property="stockRegistration" column="STOCK_REGISTRATION"/>
+    	<result property="stockModify" column="STOCK_MODIFY"/>
+    	<result property="traderIdx" column="TRADER_IDX"/>
+    	<result property="empNo" column="EMP_NO"/>
+    	<result property="rnum" column="RNUM"/>
+    </resultMap>
+    
+    <resultMap type="com.kindergarten.hi.food.model.dto.TraderDTO" id="traderResultMap">
+    	<id property="traderIdx" column="TRADER_IDX"/>
+    	<result property="traderName" column="TRADER_NAME"/>
+    	<result property="traderPhone" column="TRADER_PHONE"/>
+    	<result property="traderPic" column="TRADER_PIC"/>
+    	<result property="traderYn" column="TRADER_YN"/>
+    	<result property="traderRegistration" column="TRADER_REGISTRATION"/>
+    	<result property="traderModify" column="TRADER_MODIFY"/>
+    	<result property="rnum" column="RNUM"/>
+    </resultMap>
+    
+    <resultMap type="com.kindergarten.hi.food.model.dto.CalenderDTO" id="calenderResultMap">
+    	<id property="id" column="FOOD_MENU_IDX"/>
+    	<result property="title" column="FOOD_TITLE"/>
+    	<result property="start" column="FOOD_DATE"/>
+    	<result property="foodCategoryIdx" column="FOOD_CATEGORY_IDX"/>
+    	<result property="empNo" column="EMP_NO"/>
+    </resultMap>
+    
+      <resultMap type="FoodEmployeeDTO" id="FoodEmployeeResultMap">
+        <id property="empNo" column="EMP_NO"/>
+        <result property="empId" column="EMP_ID"/>
+        <result property="empName" column="EMP_NAME"/>
+        <result property="empBirth" column="EMP_BIRTH"/>
+        <result property="empPwd" column="EMP_PWD"/>
+        <result property="empEndate" column="EMP_ENDATE"/>
+        <result property="empEmail" column="EMP_EMAIL"/>
+        <result property="empAddre" column="EMP_ADDRE"/>
+        <result property="empPhone" column="EMP_PHONE"/>
+        <result property="empSalary" column="EMP_SALARY"/>
+        <result property="empResign" column="EMP_RESIGN"/>
+        <result property="empResignDate" column="EMP_RESIGNDATE"/>
+    </resultMap>
+    
+    
+    <!-- 음식품목 전체 개수 조회하는 쿼리문 -->
+    <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
+    	SELECT
+    	       COUNT(*)
+    	  FROM FOOD_STOCK F
+    	  JOIN TRADER T ON(F.TRADER_IDX = T.TRADER_IDX)
+    	  <where>
+  	       T.TRADER_YN = 'Y'
+    	   <if test="searchCondition =='title'">
+           AND STOCK_TITLE LIKE '%' || #{ searchValue } || '%'
+           </if>    
+    	  </where>
+    </select>
+	
+	<!-- 음식품목 리스트 조회하는 쿼리문  -->    
+    <select id="selectFoodStockList" resultMap="foodStockResultMap">
+		SELECT
+		       A.RNUM
+		     , A.STOCK_IDX
+		     , A.STOCK_TITLE
+		     , A.STOCK_COUNT
+		     , A.STOCK_REGISTRATION
+		     , A.STOCK_MODIFY
+		  FROM (SELECT        
+		               ROWNUM RNUM
+		             , B.STOCK_IDX
+		             , B.STOCK_TITLE
+		             , B.STOCK_COUNT
+		             , B.STOCK_REGISTRATION
+		             , B.STOCK_MODIFY
+		          FROM (SELECT
+		                       F.STOCK_IDX
+		                     , F.STOCK_TITLE
+		                     , F.STOCK_COUNT
+		                     , F.STOCK_REGISTRATION  
+		                     , F.STOCK_MODIFY
+		                  FROM FOOD_STOCK F
+		                  JOIN TRADER T ON(F.TRADER_IDX = T.TRADER_IDX)
+		                  <where>
+		                  T.TRADER_YN = 'Y'
+		                  <if test="searchCondition == 'title'">
+		                  AND F.STOCK_TITLE LIKE '%' || #{ searchValue } || '%'
+		                  </if>
+		                  </where> 
+		                  ORDER BY F.STOCK_IDX ASC
+		                ) B
+		                      <![CDATA[
+		                  WHERE ROWNUM <= #{ endRow }
+		                ]]>                  
+		                ) A
+		                WHERE A.RNUM >= #{ startRow }
+		                ORDER BY 1 ASC
+    </select>
+    
+    <!-- 음식품목 등록하기 쿼리문 -->
+    <insert id="insertFoodStock" parameterType="FoodDTO">
+    	INSERT
+    	  INTO FOOD_STOCK F 
+    	  (
+            F.STOCK_IDX
+   	      , F.STOCK_TITLE
+   	      , F.STOCK_COUNT
+   	      , F.STOCK_REGISTRATION  
+   	      , F.STOCK_MODIFY
+   	      , F.TRADER_IDX
+   	      , F.EMP_NO
+          )
+          VALUES
+          (
+            STOCK_IDX.NEXTVAL
+          , #{ stockTitle }
+          , #{ stockCount }
+          , SYSDATE
+          , SYSDATE
+          , 1
+          , 1
+          )      
+    </insert>
+    
+    <!-- 음식품목 상세조회 쿼리문 -->
+    <select id="selectStockDetail" resultMap="foodStockResultMap">
+    	SELECT
+    		   F.STOCK_IDX
+	   	     , F.STOCK_TITLE
+	   	     , F.STOCK_COUNT
+	   	     , F.STOCK_REGISTRATION  
+	   	     , F.STOCK_MODIFY
+	      FROM FOOD_STOCK F
+	     WHERE F.STOCK_IDX = #{ no } 
+    </select>
+    
+    <!-- 음식품목 수정하기 쿼리문 -->
+    <update id="updateStock">
+    	UPDATE FOOD_STOCK 
+    	   SET STOCK_TITLE = #{ stockTitle }
+    	     , STOCK_COUNT = #{ stockCount }
+    	     , STOCK_MODIFY = SYSDATE
+    	 WHERE STOCK_IDX = #{ stockIdx } 
+    </update>
+    
+    <!-- 음식품목 삭제하기 쿼리문 -->
+    <delete id="deleteStock">
+    	DELETE
+    	  FROM FOOD_STOCK
+    	 WHERE STOCK_IDX = #{ stockIdx } 		
+    </delete>
+    
+    <!-- 거래업체 전체개수 조회 쿼리문 -->
+    <select id="selectTraderTotalCount" resultType="_int" parameterType="hashmap">
+    	SELECT
+    	       COUNT(*)
+    	  FROM TRADER T
+    	  <where>
+    	   T.TRADER_YN = 'Y'
+    	   <if test="searchCondition == 'title'">
+           AND TRADER_NAME LIKE '%' || #{ searchValue } || '%'
+           </if>     
+    	  <if test="searchCondition == 'manager'">
+    	   AND TRADER_PIC LIKE '%' || ${ searchValue } || '%'	
+    	  </if>
+    	  </where>
+    	
+    </select>
+
+	<!-- 거래업체 리스트 조회 쿼리문 -->
+	<select id="selectTraderList" resultMap="traderResultMap">
+		SELECT
+		       A.RNUM
+		     , A.TRADER_IDX
+		     , A.TRADER_NAME
+		     , A.TRADER_PHONE
+		     , A.TRADER_PIC
+		     , A.TRADER_REGISTRATION
+		     , A.TRADER_MODIFY
+		  FROM (SELECT        
+		               ROWNUM RNUM
+		             , B.TRADER_IDX
+		             , B.TRADER_NAME
+		             , B.TRADER_PHONE
+		             , B.TRADER_PIC
+		             , B.TRADER_REGISTRATION
+		             , B.TRADER_MODIFY
+		          FROM (SELECT
+		                       T.TRADER_IDX
+		                     , T.TRADER_NAME
+		                     , T.TRADER_PHONE
+		                     , T.TRADER_PIC
+		                     , T.TRADER_REGISTRATION  
+		                     , T.TRADER_MODIFY
+		                  FROM TRADER T
+		                  <where>
+		                  TRADER_YN = 'Y'
+		                  <if test="searchCondition == 'title'">
+		                 AND T.TRADER_NAME LIKE '%' || #{ searchValue } || '%'
+		                  </if>
+		                  <if test="searchCondition == 'manager'">
+						 AND T.TRADER_PIC LIKE '%' || #{ searchValue } || '%' 		                  
+		                  </if>
+		                  </where> 
+		                  ORDER BY T.TRADER_IDX ASC
+		                ) B
+		                      <![CDATA[
+		                  WHERE ROWNUM <= #{ endRow }
+		                ]]>                  
+		                ) A
+		                WHERE A.RNUM >= #{ startRow }
+		                ORDER BY 1 ASC
+	</select>
+
+	<!-- 거래업체 등록하기 쿼리문 -->
+	<insert id="insertTrader" parameterType="TraderDTO">
+		INSERT
+		  INTO TRADER 
+		(
+		  TRADER_IDX
+		, TRADER_NAME
+		, TRADER_PHONE
+		, TRADER_PIC
+		, TRADER_YN
+		, TRADER_REGISTRATION
+		, TRADER_MODIFY
+		)
+		VALUES
+		(
+		  TRADER_IDX.NEXTVAL
+		, #{ traderName }
+		, #{ traderPhone }
+		, #{ traderPic } 
+		, 'Y'
+		, SYSDATE
+		, SYSDATE
+		)
+	</insert>
+	
+	<!-- 거래업체 상세조회 쿼리문 -->
+	<select id="selectTraderDetail" resultMap="traderResultMap">
+		SELECT
+		       T.TRADER_IDX
+		     , T.TRADER_NAME
+		     , T.TRADER_PIC
+		     , T.TRADER_PHONE
+		     , T.TRADER_MODIFY
+		  FROM TRADER T    
+		 WHERE T.TRADER_IDX = #{ no }   
+	</select>
+	
+	<!-- 거래업체 수정하기 쿼리문 -->
+	<update id="updateTrader">
+		UPDATE TRADER T
+		   SET T.TRADER_NAME = #{ traderName }
+		     , T.TRADER_PIC = #{ traderPic }
+		     , T.TRADER_PHONE = #{ traderPhone }
+		     , T.TRADER_MODIFY = SYSDATE
+		 WHERE T.TRADER_IDX = #{ traderIdx }    
+	</update>
+	
+	<!-- 거래업체 삭제하기 쿼리문 -->
+	<update id="deleteTrader">
+		UPDATE TRADER T
+		   SET T.TRADER_YN = 'N'
+		 WHERE T.TRADER_IDX = #{ traderIdx } 	
+	</update>
+	
+	<!-- 식단표 리스트 조회 쿼리문 -->
+	<select id="selectCalenderList" resultMap="calenderResultMap">
+	   SELECT
+	          FOOD_TITLE
+	        , FOOD_MENU_IDX
+	        , FOOD_DATE
+	        , FOOD_CATEGORY_IDX
+	        , EMP_NO
+	     FROM FOOD_MENU 
+	    WHERE FOOD_YN = 'N' 
+	</select>
+	
+	<insert id="insertCalender">
+	    INSERT 
+		  INTO FOOD_MENU 
+		(
+		  FOOD_MENU_IDX
+		, FOOD_DATE
+		, FOOD_YN
+		, FOOD_REGISTRATION
+		, FOOD_MODIFY
+		, FOOD_STATUS
+		, EMP_NO
+		, FOOD_TITLE
+		, FOOD_CATEGORY_IDX
+		)
+		VALUES
+		(
+		  MENU_IDX.NEXTVAL
+		, #{ start }
+		, 'N'
+		, SYSDATE
+		, SYSDATE
+		, 'N'
+		, #{ empNo }
+		, #{ title }
+		, #{ foodCategoryIdx }
+		)
+	</insert>
+
+
+</mapper>

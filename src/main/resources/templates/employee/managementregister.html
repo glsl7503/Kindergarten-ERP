@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+     >
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>HI KINDERGARTEN</title>
+    </head>
+    <body class="sb-nav-fixed">
+    
+	<div th:replace="common/header"></div>
+	<div th:replace="common/sidebar"></div>
+
+			<!--컨텐츠 영역-->
+			
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">근태등록</h1>
+                        <br>
+                        <br>
+                        
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">지각 | 조퇴 | 결근 사유서</li>
+                        </ol>
+                         
+                         <form th:action = "@{/employee/managementRegister}" method="post">                
+                       <table class="tbTem">
+                    <colgroup>
+                        <col width="25%">
+                        <col width="25%">
+                        <col width="25%">
+                        <col width="25%">
+                    </colgroup>
+                    <tr>
+                        <td class="bg-apricot">근태사유서번호</td>
+                        <td colspan="3"><input type="text" name="no"></td>
+                    </tr>
+                    <tr>
+                        <td class="bg-apricot">이름</td>
+                        <td colspan="3"><input type="text" name="mananame"></td>
+                    </tr>
+                    <tr>
+                        <td class="bg-apricot">작성일</td>
+                        <td colspan="3"><input type="date" name="writedate"></td>
+                    </tr>
+                     <tr>
+                        <td class="bg-apricot">근태분류<br>(지각/조퇴/결근)</td>
+                        <td colspan="3"><input type="text" name="sort"></td>
+                    </tr>
+                     <tr>
+                        <td class="bg-apricot">사전보고여부</td>
+                        <td colspan="3"><input type="text" name="pre"></td>
+                    </tr>
+                     <tr>
+                        <td class="bg-apricot">미보고사유</td>
+                        <td colspan="3"><input type="text" name="noreason"></td>
+                    </tr>
+                     <tr>
+                        <td class="bg-apricot">사유</td>
+                        <td colspan="3"><input type="text" name="mainreason"></td>
+                    </tr>
+                </table>
+
+				 <div class="btn-right-mv">
+                    <button class="btn-orange">저장하기</button>
+                </div>
+			  </form>
+
+				</div>
+              </main>
+            </div>
+</body>
+</html>

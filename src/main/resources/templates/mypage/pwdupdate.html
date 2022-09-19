@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko"
+	  xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>HI KINDERGARTEN</title>
+    </head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script type="text/javascript">
+    	$(document).ready(function(){
+    		
+    		$("#pwdcheck").on("click", function(){
+
+				let pwd = $("#pwd").val();
+				
+				$.ajax({
+					url: "/mypage/pwd/check",
+					method: "POST",
+					data: {
+						pwd:pwd
+					},
+					success: function(data){
+						console.log(data);
+						
+						if(data){
+							$("#pwdcheck").val(data);
+						}
+						
+					},
+					error: function(error){
+						console.log(error);	
+					}
+				});
+    			
+    		});
+    		
+    	});
+    </script>
+    <body class="sb-nav-fixed">
+
+        <div th:replace="common/header"></div>
+		<div th:replace="common/sidebar"></div>
+
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    	<script type="text/javascript">
+    	$(document).ready(function(){
+    		
+    		$("#pwdcheck").on("click", function(){
+
+				let pwd = $("#pwd").val();
+				
+				$.ajax({
+					url: "/mypage/pwd/check",
+					method: "POST",
+					data: {
+						pwd:pwd
+					},
+					success: function(data){
+						console.log(data);
+						
+						if(data){
+							$("#pwdcheck").val(data);
+						}
+						
+					},
+					error: function(error){
+						console.log(error);	
+					}
+				});
+    			
+    		});
+    		
+    	});
+    </script>
+			
+			
+            <!-- 컨텐츠 영역 -->
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">비밀번호 변경</h1>
+                        <br>
+                        <br>
+                        <h5>* 8자리 이상으로 만들어 주세요</h5>
+                        <br>
+                        <h5>* 영문 대소문자, 숫자 및 특수문자를 포함시켜 주세요</h5>
+                        <br>
+                        <input type="hidden" id="pwdcheck" value="false">
+                        <br>
+                        <form th:action="@{ /mypage/pwdupdate }" method="post">
+                        <table>
+                            <tr>
+                                <td><input type="password" id="pwd" placeholder="현재 비밀번호" style="width: 600px;height: 40px;"></td>
+                                <td><button id="pwdcheck" class="btn-orange" type="button">비밀번호 확인</button></td>
+                            </tr>
+                        </table>
+                        <br>
+                        <br>
+                        <table>
+                            <tr>
+                                <td><input id="pwd1" type="password" placeholder="새 비밀번호" style="width: 600px;height: 40px;"></td>
+                            </tr>
+                            <tr>
+                                <td><input id="pwd2" type="password" placeholder="새 비밀번호 확인" style="width: 600px;height: 40px;">
+                                </td>
+                            </tr>
+                        </table>
+                        <div>
+                            <button id="check" class="btn-orange" onclick="test();">확인</button>
+                            <button id="cancel" class="btn-orange" th:onclick="'location.href=\'/mypage/gomypage\''">취소</button>
+                        </div>
+                        </form>
+                    </div>
+                </main>
+            </div>
+        <script type="text/javascript">
+            function test() {
+                var p1 = document.getElementById('pwd1').value;
+                var p2 = document.getElementById('pwd2').value;
+                if(p1.length < 8) {
+                    alert('입력한 글자가 8글자 이상이어야 합니다.');
+                    return false;
+                }
+          
+                if( p1 != p2 ) {
+                    alert("비밀번호불일치");
+                    return false;
+                } else{
+                    alert("비밀번호가 일치합니다");
+                    return true;
+                }
+            }
+            
+            $("#check").click(function () {
+                $("form").attr("", "test()");
+         	 });
+            
+            $("#check").click(function () {
+            	$("#check").function(test());
+         	 });
+          
+         	$("#cancel").click(function () {
+                $("form").attr("action", "/mypage/gomypage");
+         	});
+        </script>
+
+
+    </body>
+</html>

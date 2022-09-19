@@ -1,0 +1,87 @@
+#contents{
+    width: 1758px;
+}
+
+.pwdupdate{
+    width: 200px;
+    height: 200px;
+    position: relative;
+    left: 400px;
+    top: 200px;
+    color: white;
+    padding: 5px 15px;
+    display: inline-block;
+    border-radius: 10px;
+    background: var(--bs-sky);
+    border: 1px solid rgba(0, 0, 0, 0.21);
+    border-bottom-color: rgba(0, 0, 0, 0.34);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.34) inset,
+        0 2px 0 -1px rgba(0, 0, 0, 0.13),
+        0 3px 0 -1px rgba(0, 0, 0, 0.08),
+        0 3px 13px -1px rgba(0, 0, 0, 0.21);
+    font-size: 36px;
+}
+
+.personaldataupdate{
+    width: 200px;
+    height: 200px;
+    position: relative;
+    left: 550px;
+    top: 200px;
+    color: white;
+    padding: 5px 15px;
+    display: inline-block;
+    border-radius: 10px;
+    background: var(--bs-sky);
+    border: 1px solid rgba(0, 0, 0, 0.21);
+    border-bottom-color: rgba(0, 0, 0, 0.34);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.34) inset,
+        0 2px 0 -1px rgba(0, 0, 0, 0.13),
+        0 3px 0 -1px rgba(0, 0, 0, 0.08),
+        0 3px 13px -1px rgba(0, 0, 0, 0.21);
+    font-size: 36px;
+}
+
+.unregister{
+    width: 200px;
+    height: 200px;
+    position: relative;
+    left: 170px;
+    top: 550px;
+    color: white;
+    padding: 5px 15px;
+    display: inline-block;
+    border-radius: 10px;
+    background: var(--bs-sky);
+    border: 1px solid rgba(0, 0, 0, 0.21);
+    border-bottom-color: rgba(0, 0, 0, 0.34);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.34) inset,
+        0 2px 0 -1px rgba(0, 0, 0, 0.13),
+        0 3px 0 -1px rgba(0, 0, 0, 0.08),
+        0 3px 13px -1px rgba(0, 0, 0, 0.21);
+    font-size: 36px;
+}
+
+.pwdupdate:active {
+    top: 201px;
+    border-color: rgba(0, 0, 0, 0.34) rgba(0, 0, 0, 0.21) rgba(0, 0, 0, 0.21);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.89), 0 1px rgba(0, 0, 0, 0.05) inset;
+    position: relative;
+}
+
+.personaldataupdate:active {
+    top: 201px;
+    border-color: rgba(0, 0, 0, 0.34) rgba(0, 0, 0, 0.21) rgba(0, 0, 0, 0.21);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.89), 0 1px rgba(0, 0, 0, 0.05) inset;
+    position: relative;
+}
+
+.unregister:active {
+    top: 551px;
+    border-color: rgba(0, 0, 0, 0.34) rgba(0, 0, 0, 0.21) rgba(0, 0, 0, 0.21);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.89), 0 1px rgba(0, 0, 0, 0.05) inset;
+    position: relative;
+}

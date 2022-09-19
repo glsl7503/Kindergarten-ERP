@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>거래업체</title>
+</head>
+<body class="sb-nav-fixed">
+  
+  <div th:replace="common/header"></div>
+  <div th:replace="common/sidebar"></div>
+
+  <!-- 컨텐츠 영역 -->
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">거래업체</h1>
+                <br>
+
+				<form id="searchForm"
+                      th:action="@{/food/trader}"
+                      method="get">
+                  <div class="dataTable-top">
+                    <div class="dataTable-search">
+                      <input type="hidden" name="currentPage" value="1">
+                        <select id="searchCondition" name="searchCondition" class="dataTable-selector">
+                          <option value="title">회사명</option>
+                          <option value="manager">담당자</option>
+                        </select>
+                          <input type="search" id="searchValue" name="searchValue" class="dataTable-input" placeholder="search">
+                    </div>
+                          <button id="search" class="btn-orange ms-3" type="submit">검색</button>
+                    <div>
+                        <button id="insert" class="btn-orange ms-3" type="submit">등록</button>
+                    </div>
+                  </div>
+              </form>
+                <table class="dataTable-table" id="listArea">
+                    <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>Company Name</th>
+                            <th>Manager</th>
+                            <th>Phone Number</th>
+                            <th>Registration Date</th>
+                            <th>Modify Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="traderList : ${ traderList }">
+                            <td th:text="${ traderList.rnum }"></td>
+                            <td th:text="${ traderList.traderName }"></td>
+                            <td th:text="${ traderList.traderPic }"></td>
+                            <td th:text="${ traderList.traderPhone }"></td>
+                            <td th:text="${ traderList.traderIdx }" style="display: none;"></td>
+                            <td th:text="${ traderList.traderRegistration }"></td>
+                            <td th:text="${ traderList.traderModify }"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                               <!-- 페이지 처리 -->
+                 <div class="pagingArea dataTable-bottom">
+                    <nav class="dataTable-pagination">
+                        <ul class="dataTable-pagination-list">
+                            <li class="pager">
+                              <a
+                            	th:onclick="'location.href=\'/food/trader?currentPage='+ @{${selectCriteria.startPage}} + '\''"
+                            	th:disabled="${selectCriteria.pageNo == 1}"> <<
+                    	 	  </a>
+                            
+                            </li>
+                            <li class="pager">
+                           
+                                <a
+                                   th:onclick="'location.href=\'/food/trader?currentPage='+ @{${selectCriteria.pageNo - 1}} + '\''"
+                            	   th:disabled="${selectCriteria.pageNo == 1}"> <
+                            	</a>
+                            </li>
+                           
+                             <li class="active" th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
+                        		<a class="dataTable-pagination-list"
+                               	   th:text="${ page }"
+                               	   th:onclick="'location.href=\'/food/trader?currentPage='+ @{${page}} + '\''"
+                               	   th:disabled="${ selectCriteria.pageNo eq page }">
+                        		</a>
+                          	 </li>
+                            
+                            <li class="pager">
+                                <a data-page="2" 
+                                   th:onclick="'location.href=\'/food/trader?currentPage='+ @{${selectCriteria.pageNo + 1}} + '\''"
+                            	   th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}">>
+                            	</a>
+                            </li>
+                            <li class="pager">
+                               <a
+                            	   th:onclick="'location.href=\'/food/trader?currentPage='+ @{${selectCriteria.maxPage}} + '\''"
+                           	 	   th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"> >>
+                    		   </a>
+                            </li>
+                        </ul>
+                    </nav> 
+            	</div>
+
+            </div>
+        </main>
+    </div>
+	<script th:inline="javascript">
+		
+	   let message = '[[${message}]]';
+	
+	  if(message!= null &&message!== '' && message !== 'null') {
+	    alert(message);
+	  } 
+	  
+	  /* 게시글 리스트에서 해당 게시글에 마우스를 올릴 떄에 대한 스타일 처리 */
+	    if (document.querySelectorAll("#listArea td")) {
+	        const $tds = document.querySelectorAll("#listArea td");
+	        for (let i = 0; i < $tds.length; i++) {
+
+	            $tds[i].onclick = function() {
+	                const no = this.parentNode.children[4].innerText;
+	                location.href = "/food/trader/detail?no=" + no;
+	                
+	                console.log(no)
+	            }
+	        }
+	    }
+
+	    $("#search").click(function () {
+	        $("form").attr("action", "/food/trader");
+	 	 });
+	  
+	 	$("#insert").click(function () {
+	        $("form").attr("action", "/food/trader/insert");
+	 	});
+	</script>
+</body>
+</html>

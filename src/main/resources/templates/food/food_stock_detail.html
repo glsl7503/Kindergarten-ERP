@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>음식품목 상세페이지</title>
+</head>
+<body class="sb-nav-fixed">
+
+     <div th:replace="common/header"></div>
+	 <div th:replace="common/sidebar"></div>
+     
+  <!-- 컨텐츠 영역 -->
+  <div id="layoutSidenav_content">
+      <main>
+          <div class="container-fluid px-4">
+              <h1 class="mt-4">음식재고</h1>
+              
+
+              <br>
+
+              <form th:action="@{/food/stock/update}" method="post">
+              
+              <div class="btn-right-mv70">
+                  <button class="btn-orange update" type="submit">수정하기 </button>
+                  <button class="btn-orange delete" type="submit">삭제하기 </button>
+              </div>
+
+              <br>
+
+
+              <table class="tbTem">
+                  <colgroup>
+                      <col width="25%">
+                      <col width="25%">
+                      <col width="25%">
+                      <col width="25%">
+                  </colgroup>
+                  		<tr>
+	                      <td class="bg-apricot">음식번호</td>
+	                      <td colspan="3"><p th:text="${ stock.stockIdx }"></p></td>
+	                      <input type="hidden" name="stockIdx" th:value="${ stock.stockIdx }">
+	                  </tr>
+	                  <tr>
+	                      <td class="bg-apricot">음식명</td>
+	                      <td colspan="3"><input type="text" name="stockTitle" th:value="${ stock.stockTitle }"></td>
+	                  </tr>
+	                  <tr>
+	                      <td class="bg-apricot">개수</td>
+	                      <td colspan="3"><input type="text" name="stockCount" th:value="${ stock.stockCount }"></td>
+	                  </tr>
+              </table>
+			</form>
+			
+          </div>
+         </main>
+     </div>
+<script th:inline="javascript">
+$(".update").click(function () {
+    $("form").attr("action", "/food/stock/update");
+	 });
+
+	$(".delete").click(function () {
+    $("form").attr("action", "/food/stock/delete");
+	});
+
+
+</script>
+</body>
+</html>

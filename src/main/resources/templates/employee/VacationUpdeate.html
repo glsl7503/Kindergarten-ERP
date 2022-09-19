@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>HI KINDERGARTEN</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+    <link href="../css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/commons.css">
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <style>
+        .btn-upload {
+            width: 150px;
+            height: 30px;
+            background: #fff;
+            border: 1px solid rgb(77, 77, 77);
+            border-radius: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #file {
+            display: none;
+        } 
+
+        .slash,
+        .backslash {
+            text-align: left;
+        }
+
+        .slash div,
+        .backslash div {
+            text-align: right;
+        }          
+    </style>
+</head>
+
+<body class="sb-nav-fixed">
+
+    <!-- <div class="modal show">
+            <div class="modal_body">
+                <h1>asdasdasdsaddsadasdasd</h1>
+                <div>asdsadasdsadasd</div>
+            </div>
+        </div> -->
+
+    <!-- 헤더 영역 -->
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-orange">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="index.html">HI KINDERGARTEN</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button>
+        <!-- Navbar Search-->
+        <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"></div>
+        <!-- Navbar-->
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#!">MyPage</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li><a class="dropdown-item" href="#!">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- 사이드바 영역 -->
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">카테고리</div>
+
+                        <!-- 인사 카테고리 -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages1" aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            인사
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages1" aria-labelledby="headingTwo">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link collapsed" onclick="location.href='../인사/employeeview.html'"  data-bs-toggle="collapse">
+                                    직원관리
+                                </a>
+                                <a class="nav-link collapsed" onclick="location.href='../인사/employeecal.html'"  data-bs-toggle="collapse">
+                                    출결관리
+                                </a>
+                                <a class="nav-link collapsed" onclick="location.href='../인사/VacationSelect.html'"  data-bs-toggle="collapse">
+                                    휴가관리
+                                </a>
+                                <a class="nav-link collapsed" onclick="location.href='../인사/managementview.html'"  data-bs-toggle="collapse">
+                                    근태관리
+                                </a>
+                            </nav>
+                        </div>
+
+                        <!-- 원생 카테고리 -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            원생
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages2" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link collapsed" onclick="location.href='../원생관리/StudentSelect.html'"  data-bs-toggle="collapse">
+                                    원생 개인정보
+                                </a>
+                               
+                            </nav>
+                        </div>
+
+                        <!-- 결재 카테고리 -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages3" aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            결재
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages3" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link collapsed" onclick="location.href='../sign/spendTable.html'"  data-bs-toggle="collapse">
+                                    지출결의서
+                                </a>
+                                <a class="nav-link collapsed" onclick="location.href='../sign/studyPlanTable.html'"  data-bs-toggle="collapse">
+                                    수업계획서
+                                </a>
+                                <a class="nav-link collapsed" onclick="location.href='../sign/holidayTable.html'" data-bs-toggle="collapse">
+                                    휴가신청서
+                                </a>
+                                <a class="nav-link collapsed" onclick="location.href='../sign/AATTable.html'"  data-bs-toggle="collapse">
+                                    근태사유서 관리
+                                </a>
+                                 <a class="nav-link collapsed" onclick="location.href='../sign/foodPlanTable.html'"  data-bs-toggle="collapse">
+                                    월별 식단표 결재관리
+                                </a>
+                            </nav>
+                        </div>
+
+                        <!-- 수업 카테고리 -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages4" aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            수업
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages4" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link collapsed" onclick="location.href='../수업일정/timetablecal.html'"  data-bs-toggle="collapse">
+                                    시간표
+                                </a>
+                                <a class="nav-link collapsed" onclick="location.href='../수업일정/ressonsreport1.html'"  data-bs-toggle="collapse">
+                                    수업계획서
+                                </a>
+                                <a class="nav-link collapsed" onclick="location.href='../수업일정/ressonsreport2.html'"  data-bs-toggle="collapse">
+                                    수업보고서
+                                </a>
+                            </nav>
+                        </div>
+
+                        <!-- 식단 카테고리 -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages5" aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-burger"></i></div>
+                            식단
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages5" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link collapsed" onclick="location.href='../HaniHtml/Food_Stock.html'"  data-bs-toggle="collapse">
+                                    음식품목 별 재고
+                                </a>
+                                <a class="nav-link collapsed" onclick="location.href='../HaniHtml/Trader.html'" data-bs-toggle="collapse">
+                                    거래업체
+                                </a>
+                                <a class="nav-link collapsed" onclick="location.href='../HaniHtml/FoodCalender.html'"  data-bs-toggle="collapse">
+                                    식단표
+                                </a>
+                            </nav>
+                        </div>
+
+                        <!-- 물품 카테고리 -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages6" aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-box-archive"></i></div>
+                            물품
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages6" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link collapsed" onclick="location.href='../재고/itemManagement.html'" data-bs-toggle="collapse">
+                                    비품 별 재고
+                                </a>
+                                <a class="nav-link collapsed" onclick="location.href='../재고/CompanyManagement.html'" data-bs-toggle="collapse">
+                                    거래업체
+                                </a>
+                            </nav>
+                        </div>
+
+                        <!-- 공지사항 카테고리 -->
+                        <a class="nav-link" onclick="location.href='../공지사항/notice.html'">
+                            <div class="sb-nav-link-icon"><i class="fas fa-circle-exclamation"></i></div>
+                            공지사항
+                        </a>
+
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">관리자</div>
+                    ADMIN
+                </div>
+            </nav>
+        </div>
+
+        <!-- 컨텐츠 영역 -->
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">휴가결재 수정</h1>
+                    <button class="btn-orange">수정</button>                   
+                    <button class="btn-orange">취소하기</button>                   
+                    <br>
+                    <br>
+                   
+                    <table class="tbTem tdTmq">
+                        <h3>휴가원</h3>
+                        <colgroup>
+                            <col width="20%">
+                            <col width="80%">                           
+                                                      
+                        </colgroup>
+                        <tr>
+                            <td class="col-apricot" >아이디</td>
+                            <td class="txtBox">ssd1103</td>                            
+                        </tr>
+                        <tr>
+                            <td class="col-apricot">이름</td>
+                            <td class="txtBox">서상돈</td>                            
+                        </tr>
+                        <tr>
+                            <td class="col-apricot">연락처</td>
+                            <td class="txtBox" style="margin: 100px;">
+                                <input type="tel" style="width: 50px;"  maxlength="3"> 
+                                - <input type="tel" style="width: 70px;" maxlength="4">
+                                - <input type="tel" style="width: 70px;" maxlength="4">
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td class="col-apricot">입사일</td>
+                            <td class="txtBox">2022-10-13</td>                           
+                        </tr>
+                        <tr>
+                            <td class="col-apricot" style="height: 200px;">사유</td>
+                            <td class="txtBox"><textarea name="" id="" cols="100" rows="7"></textarea></td>                           
+                        </tr>
+                        <tr>
+                            <td class="col-apricot">휴가종류</td>
+                            <td class="txtBox"><select name="itemls1">
+                                <option value="연차휴가">연차휴가</option>
+                                <option value="생리휴가">생리휴가</option>
+                                <option value="가족돌봄휴가">가족돌봄휴가</option>
+                                <option value="출산휴가">출산휴가</option>
+                                <option value="배우자출산휴가">배우자출산휴가</option>
+                                <option value="유산.사산휴가">유산.사산휴가</option>
+                                <option value="난임치료휴가">난임치료휴가</option>
+                            </select></td>                           
+                        </tr>
+                        <tr >
+                            <td class="col-apricot">기간</td>
+                            <td class="txtBox"><input type="date"> ~ <input type="date"></td>                           
+                        </tr>                        
+                    </table>                   
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="../js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <script src="../js/datatables-simple-demo.js"></script>
+</body>
+
+</html>

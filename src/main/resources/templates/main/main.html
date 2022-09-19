@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>HI KINDERGARTEN</title>
+</head>
+<body class="sb-nav-fixed">
+
+	<div th:replace="common/header"></div>
+	<div th:replace="common/sidebar"></div>
+
+	<!-- 컨텐츠 영역 -->
+	<div id="layoutSidenav_content">
+		<main>
+			<table class="tg" id="maintable" style="margin: 100px auto;">
+				<tr>
+					<td class="tg-c3ow">
+						<button class="btn-orange ms-3"
+							th:onclick="'location.href=\'/employee/employeecal\''">
+							<img src="../images/food.png" alt="인사관리"
+								style="width: 100px; height: 100px">
+						</button>
+					</td>
+					<td class="tg-c3ow"><button class="btn-orange ms-3"
+							th:onclick="'location.href=\'/student/studentselectlist\''">
+							<img src="../images/hi.png" alt="원생관리"
+								style="width: 100px; height: 100px">
+						</button>
+					</td>
+					<td class="tg-0pky">
+						<button class="btn-orange ms-3"
+							th:onclick="'location.href=\'/payment/spendlist\''">
+							<img src="../images/paper.png" alt="결재관리"
+								style="width: 100px; height: 100px">
+						</button>
+					</td>
+				</tr>
+				<tr>
+					<td class="tg-0pky" style="padding-left: 25px;">인사관리</td>
+					<td class="tg-0pky" style="padding-left: 25px;">원생관리</td>
+					<td class="tg-0pky" style="padding-left: 25px;">결재관리</td>
+				</tr>
+				<tr>
+					<td class="tg-0pky"><button class="btn-orange ms-3"
+							th:onclick="'location.href=\'/lessons/plan\''">
+							<img src="../images/plan.png" alt="수업관리"
+								style="width: 100px; height: 100px">
+						</button></td>
+					<td class="tg-0pky"><button class="btn-orange ms-3"
+							th:onclick="'location.href=\'/food/stock\''">
+							<img src="../images/baby.png" alt="식단관리"
+								style="width: 100px; height: 100px">
+						</button></td>
+					<td class="tg-0pky"><button class="btn-orange ms-3"
+							th:onclick="'location.href=\'/item/itemmanagement\''">
+							<img src="../images/stuff.png" alt="물품관리"
+								style="width: 100px; height: 100px">
+						</button>
+					</td>
+				</tr>
+				<tr>
+					<td class="tg-0pky" style="padding-left: 25px;"
+						th:onclick="'location.href=\'/lessons/plan\''">수업관리</td>
+					<td class="tg-0pky" style="padding-left: 25px;"
+						th:onclick="'location.href=\'/food/stock\''">식단관리</td>
+					<td class="tg-0pky" style="padding-left: 25px;"
+						th:onclick="'location.href=\'/item/itemmanagement\''">물품관리</td>
+				</tr>
+			</table>
+		</main>
+	</div>
+
+</body>
+</html>
+

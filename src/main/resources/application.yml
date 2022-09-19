@@ -1,0 +1,47 @@
+server:
+  port: 8280
+  
+spring:
+  datasource:
+    #driver-class-name: oracle.jdbc.driver.OracleDriver
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    #url: jdbc:oracle:thin:@oracle.coffit.site:1521:xe
+    url: jdbc:log4jdbc:oracle:thin:@oracle.coffit.site:1521:xe
+    username: C##HIKINDER
+    password: HIKINDER
+    
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+  devtools:
+    restart:
+      enabled: false
+    livereload:
+      enabled: true
+  freemarker:
+    cache: false
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+    check-template-location: true
+  web:
+    resources:
+      static-locations: classpath:/fileupload/
+      
+image:
+  image-dir: src/main/resources
+
+mybatis:
+  # mapper.xml location Setting
+  mapper-locations: mappers/*.xml
+  # alias Setting
+  type-aliases-package: com.kindergarten.hi
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    root: info

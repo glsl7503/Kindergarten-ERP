@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kindergarten.hi.student.model.dao.StudentDAO">
+
+<resultMap type="StudentDTO" id="StudentResultMap">
+    <id property="no" column="WON_CLASSNO"/>
+    <result property="name" column="WON_NAME"/>
+    <result property="wClass" column="CLASS_IDX"/>
+    <result property="birth" column="WON_BIRTH"/>
+    <result property="resident" column="WON_RESIDENT"/>
+    <result property="phone" column="WON_PHONE"/>
+    <result property="admission" column="WON_ADMISSION"/>
+    <result property="exit" column="WON_EXIT"/>
+    <result property="total" column="WON_TOTAL"/>
+    <result property="att" column="WON_ATT"/>
+    <result property="non" column="WON_NON"/>
+    <result property="late" column="WON_LATE"/>
+    <result property="sick" column="WON_SICK"/>
+    <result property="spac" column="WON_SPAC"/>   
+    <result property="adderss" column="ADDRESS"/> 
+    <result property="empNo" column="EMP_NO"/>  
+    
+    <association property="employee" resultMap="EmployeeResultMap"/>
+    <association property="classDTO" resultMap="ClassResultMap"/>
+    <association property="parents" resultMap="ParentsMap"/>
+    <collection property="attendence" resultMap="AttendanceMap"/>
+</resultMap>
+
+<resultMap type="AttendanceDTO" id="AttendanceMap">
+    <id property="no" column="ATTENDANCE_NO"/>
+    <result property="age" column="ATTENDANCE_AGE"/>
+    <result property="semester" column="ATTENDANCE_SEMESTER"/>
+    <result property="total" column="ATTENDANCE_TOTAL"/>
+    <result property="att" column="ATTENDANCE_ATT"/>
+    <result property="non" column="ATTENDANCE_NON"/>
+    <result property="late" column="ATTENDANCE_LATE"/>
+    <result property="sick" column="ATTENDANCE_SICK"/>
+    <result property="classno" column="WON_CLASSNO"/>  
+</resultMap>
+<resultMap type="Employee1DTO" id="EmployeeResultMap">
+    <id property="no" column="EMP_NO"/>
+    <result property="id" column="EMP_ID"/>
+    <result property="name" column="EMP_NAME"/>
+    <result property="birth" column="EMP_BIRTH"/>
+    <result property="pwd" column="EMP_PWD"/>
+    <result property="endate" column="EMP_ENDATE"/>
+    <result property="emall" column="EMP_EMAIL"/>
+    <result property="addre" column="EMP_ADDRE"/>
+    <result property="phone" column="EMP_PHONE"/>
+    <result property="salary" column="EMP_SALARY"/>
+    <result property="resign" column="EMP_RESIGN"/>
+    <result property="restgndate" column="EMP_RESIGNDATE"/>
+</resultMap>
+
+<resultMap type="ClassDTO" id="ClassResultMap">
+     <id property="no" column="CLASS_IDX"/>
+     <result property="name" column="CLASS_NAME"/>
+     <result property="empno" column="EMP_NO"/>
+</resultMap>
+
+<resultMap type="ParentsDTO" id="ParentsMap">
+    <id property="no" column="PARENTS_NO"/>
+    <result property="name" column="PARENTS_NAME"/>
+    <result property="phone" column="PARENTS_PHONE"/>
+    <result property="choice" column="PARENTS_CHOICE"/>    
+</resultMap>
+
+<select id="selectTotalCount" resultType="_int" parameterType="hashmap">
+	SELECT 
+        COUNT(*)
+       FROM WONSENG C
+LEFT JOIN CLASS_KIND D ON (C.CLASS_IDX = D.CLASS_IDX)
+LEFT JOIN EMPLOYEE E ON (D.EMP_NO = E.EMP_NO)
+  <where>
+   <if test="searchCondition  == 'category'">
+	  C.WON_CLASSNO LIKE '%' || #{ searchValue } || '%'  
+	  OR C.WON_NAME LIKE '%' || #{ searchValue } || '%'
+	  OR D.CLASS_NAME LIKE '%' || #{ searchValue } || '%'
+   </if>
+   <if test="searchCondition == 'no'">
+       C.WON_CLASSNO LIKE '%' || #{ searchValue } || '%'
+   </if>
+   <if test="searchCondition == 'name'">
+       C.WON_NAME LIKE '%' || #{ searchValue } || '%'
+   </if>
+   <if test="searchCondition == 'ban'">
+       D.CLASS_NAME LIKE '%' || #{ searchValue } || '%'
+   </if>
+</where> 
+</select>
+
+
+<select id="selectAllStudentListt" resultMap="StudentResultMap">
+SELECT
+  A.RNUM
+, A.WON_CLASSNO
+, A.WON_NAME
+, A.CLASS_NAME
+, A.EMP_NAME
+, A.WON_PHONE
+, A.ADDRESS
+, A.WON_ADMISSION
+, A.WON_EXIT
+FROM(SELECT
+  ROWNUM RNUM
+, B.WON_CLASSNO
+, B.WON_NAME
+, B.CLASS_NAME
+, B.EMP_NAME
+, B.WON_PHONE
+, B.ADDRESS
+, B.WON_ADMISSION
+, B.WON_EXIT
+FROM (SELECT  
+  C.WON_CLASSNO
+, C.WON_NAME
+, D.CLASS_NAME
+, E.EMP_NAME
+, C.WON_PHONE
+, C.ADDRESS
+, C.WON_ADMISSION
+, C.WON_EXIT
+  FROM WONSENG C
+LEFT JOIN CLASS_KIND D  ON (C.CLASS_IDX = D.CLASS_IDX)
+LEFT JOIN EMPLOYEE E ON (C.EMP_NO = E.EMP_NO)
+<where>
+   <if test="searchCondition  == 'category'">
+  C.WON_CLASSNO LIKE '%' || #{ searchValue } || '%'   
+  OR C.WON_NAME LIKE '%' || #{ searchValue } || '%'
+  OR D.CLASS_NAME LIKE '%' || #{ searchValue } || '%'
+   </if>
+   <if test="searchCondition == 'no'">
+        C.WON_CLASSNO LIKE '%' || #{ searchValue } || '%'
+   </if>
+   <if test="searchCondition == 'name'">
+       C.WON_NAME LIKE '%' || #{ searchValue } || '%'
+   </if>
+   <if test="searchCondition == 'ban'">
+       D.CLASS_NAME LIKE '%' || #{ searchValue } || '%'
+   </if>
+</where>
+	ORDER BY C.WON_CLASSNO 
+ )B
+  <![CDATA[
+                  WHERE ROWNUM <= #{ endRow }
+  )A 
+   WHERE A.RNUM >= #{ startRow }
+        ORDER BY 1 ASC
+                  ]]>
+</select>
+
+<!-- 원생 상세 조회  -->
+    <select id="incrementStudentCount" parameterType="long" resultMap="StudentResultMap">
+        SELECT 
+              A.WON_NAME
+            , B.CLASS_NAME
+			, B.CLASS_IDX
+			, A.WON_BIRTH
+			, A.WON_RESIDENT
+			, A.WON_PHONE
+			, A.WON_CLASSNO
+			, A.WON_ADMISSION
+			, A.WON_EXIT
+			, C.ATTENDANCE_TOTAL
+			, C.ATTENDANCE_ATT
+			, C.ATTENDANCE_NON
+			, C.ATTENDANCE_LATE
+			, C.ATTENDANCE_SICK
+			, A.WON_SPAC
+			, A.ADDRESS
+			, E.PARENTS_NO
+			, E.PARENTS_NAME
+        FROM WONSENG A
+        JOIN CLASS_KIND B ON (A.CLASS_IDX = B.CLASS_IDX)      
+        JOIN ATTENDANCE C ON (A.WON_CLASSNO = C.WON_CLASSNO) 
+        JOIN WON_PAR D ON (A.WON_CLASSNO = D.WON_CLASSNO) 
+        JOIN PARENTS E ON (D.PARENTS_NO = E.PARENTS_NO) 
+             
+          AND A.WON_CLASSNO = #{ no }
+    </select>
+    
+    <!-- 부모님정보 조회  -->
+    <select id="selectChStudentDetail" resultMap="StudentResultMap">
+    SELECT
+                C.PARENTS_NAME
+              , C.PARENTS_PHONE
+          FROM WONSENG A
+      LEFT JOIN WON_PAR B ON (A.WON_CLASSNO = B.WON_CLASSNO)
+      LEFT JOIN PARENTS C ON (B.PARENTS_NO = C.PARENTS_NO)
+      WHERE A.WON_CLASSNO = #{ no }
+    </select>
+    
+     <!-- 출석 조회  -->
+    <select id="selectAdStudentDetail" resultMap="StudentResultMap">
+       SELECT
+		    B.ATTENDANCE_NO
+		  , B.ATTENDANCE_AGE
+		  , B.ATTENDANCE_SEMESTER
+		  , B.ATTENDANCE_TOTAL
+		  , B.ATTENDANCE_ATT
+		  , B.ATTENDANCE_NON
+		  , B.ATTENDANCE_LATE
+		  , B.ATTENDANCE_SICK
+		  , A.WON_CLASSNO
+		FROM WONSENG A
+		LEFT JOIN ATTENDANCE B ON( A.WON_CLASSNO = B.WON_CLASSNO )
+		WHERE A.WON_CLASSNO = #{ no }
+    </select>
+    <!-- 반조회  -->
+    <select id="selectClassname" resultMap="ClassResultMap">
+       	SELECT
+    		  B.EMP_NO
+    	    , B.CLASS_IDX
+		FROM WONSENG A
+		LEFT JOIN CLASS_KIND B ON( A.CLASS_IDX = B.CLASS_IDX )
+		WHERE B.CLASS_NAME = #{ name }
+    </select>
+    
+    <insert id="insertstudent" parameterType="StudentDTO">
+        INSERT
+        INTO WONSENG
+        (
+            WON_NAME
+		  , CLASS_IDX
+		  , WON_BIRTH
+		  , WON_RESIDENT
+		  , WON_PHONE
+		  , WON_CLASSNO
+		  , WON_ADMISSION
+		  , WON_EXIT
+		  , WON_SPAC
+		  , ADDRESS
+		  , EMP_NO
+		  )
+		  VALUES
+		  (
+		    #{ name }
+		  , #{ classDTO.no }
+		  , #{ birth }
+		  , #{ resident }
+		  , #{ phone }
+		  , SEQ_WON_CLASSNO.NEXTVAL
+		  , #{ admission }
+		  , #{ exit }
+		  , #{ spac }
+		  , #{ adderss }
+		  , #{ classDTO.empno }
+		  )    
+    </insert>
+    
+    <insert id="insertstudentinfor">
+        INSERT
+        INTO ATTENDANCE
+        (
+       	  ATTENDANCE_NO
+       	, ATTENDANCE_AGE
+       	, ATTENDANCE_SEMESTER
+       	, ATTENDANCE_TOTAL
+       	, ATTENDANCE_ATT
+       	, ATTENDANCE_NON
+       	, ATTENDANCE_LATE
+       	, ATTENDANCE_SICK
+       	, WON_CLASSNO
+        )
+        VALUES
+        (
+           SEQ_ATTENDANCE.NEXTVAL
+         , #{ age }
+         , #{ semester }
+         , #{ total }
+         , #{ att }
+         , #{ non }
+         , #{ late }
+         , #{ sick }
+         , SEQ_WON_CLASSNO.CURRVAL
+        )    
+    </insert>
+    
+    <insert id="insertSelectstudentto" parameterType="ParentsDTO">
+        INSERT
+        INTO PARENTS
+        (
+          PARENTS_NO
+		, PARENTS_NAME
+		, PARENTS_PHONE
+		, PARENTS_CHOICE
+        )
+        
+        VALUES
+        (
+          SEQ_PARENTS.NEXTVAL
+        , #{ name }
+        , #{ phone }
+        , #{ choice }  
+        )
+    </insert>
+    
+    <delete id="removeStudent" parameterType="long">
+        DELETE 
+        FROM WONSENG A
+        WHERE A.WON_CLASSNO = #{ no }
+    </delete>
+    <update id="modifyStudent" parameterType="StudentDTO">
+    UPDATE WONSENG
+   	SET WON_NAME = ${ name }
+       , CLASS_IDX = ${ wClass } 
+       , WON_BIRTH = ${ birth } 
+       , WON_RESIDENT = ${ resident }
+       , WON_PHONE = ${ phone }    
+       , WON_ADMISSION = ${ admission }
+       , WON_EXIT = ${ exit }
+       , WON_SPAC = ${ spac }
+       , ADDRESS = ${ adderss }
+       , EMP_NO = ${ empNo }
+ 	 WHERE WON_CLASSNO = ${ no }    
+    </update>
+      
+
+</mapper>

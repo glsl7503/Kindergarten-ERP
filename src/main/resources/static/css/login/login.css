@@ -1,0 +1,96 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+#wrap {
+	width: 1920px;
+	height: 1280px;
+	margin: 0 auto;
+	background-color: aqua;
+	background: url(../images/로그인배경.jpg) no-repeat;
+	opacity: 90%;
+}
+
+#header {
+	width: 800px;
+	height: 500px;
+	margin: 0 auto;
+	background-color: white;
+	position: relative;
+}
+
+.inbox {
+	margin: 0 auto;
+	width: 300px;
+	height: 300px;
+	position: relative;
+	top: 25%;
+}
+
+.admin {
+	width: 300px;
+	text-align: center;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+.admin a {
+	font-size: 26px;
+}
+
+.divid {
+	width: 250px;
+	height: 40px;
+	margin: 0 auto;
+}
+
+.divid img {
+	width: 20px;
+	height: 20px;
+	vertical-align: middle;
+}
+
+.divid .id {
+	width: 200px;
+	height: 30px;
+}
+
+.divpwd {
+	width: 250px;
+	height: 40px;
+	margin: 0 auto;
+}
+
+.divpwd img {
+	width: 20px;
+	height: 20px;
+	vertical-align: middle;
+}
+
+.divpwd .pwd {
+	width: 200px;
+	height: 30px;
+}
+
+.case {
+	width: 250px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.case a {
+	font-size: 10px;
+}
+
+.case span {
+	font-size: 10px;
+}

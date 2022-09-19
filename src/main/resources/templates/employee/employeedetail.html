@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" 
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<title>회원정보수정삭제</title>
+</head>
+
+<body class="sb-nav-fixed">
+
+	<div th:replace="common/header"></div>
+	<div th:replace="common/sidebar"></div>
+
+	<!-- 컨텐츠 영역 -->
+	<div id="layoutSidenav_content">
+		<main>
+			<div class="container-fluid px-4">
+				<h1 class="mt-4">직원수정</h1>
+				<ol class="breadcrumb mb-4">
+					<li class="breadcrumb-item active"></li>
+				</ol>
+
+				<br>
+				<br>
+
+				<form th:action="@{/employee/update}">
+
+					<table class="tbTem">
+						<colgroup>
+							<col width="20%">
+							<col width="30%">
+							<col width="20%">
+							<col width="30%">
+						</colgroup>
+					 <tr>
+	                      <td class="bg-apricot">회원번호</td>
+	                      <td colspan="3"><p th:text="${ employee.no }"></p></td>
+	                      <input type="hidden" name="no" th:value="${ employee.no }">
+	                  </tr>
+	                   <tr>
+	                      <td class="bg-apricot">아이디</td>
+	                      <td colspan="3"><p th:text="${ employee.id }"></p></td>
+	                  </tr>
+					 <tr>
+	                      <td class="bg-apricot">이름</td>
+	                      <td colspan="3"><input type="text" name="name" th:value="${ employee.name }"></td>
+	                  </tr>
+	       
+	      			 <tr>
+							<td class="col-apricot">생년월일</td>
+							<td colspan="3"><input type="date" name="birth" th:value="${ employee.birth }"></td>
+						</tr>
+	                   <tr>
+	                      <td class="bg-apricot">입사일</td>
+	                      <td colspan="3"><p th:text="${ employee.endate }"></p></td>
+	                  </tr>
+					<tr>
+	                      <td class="bg-apricot">이메일</td>
+	                      <td colspan="3"><input type="text" name="email" th:value="${ employee.email }"></td>
+	                  </tr>
+	                  
+			
+						
+	                 <tr>
+							<td class="col-apricot">주소</td>
+							<td colspan="3" class="txtBox">
+								<input type="text" name="addre" id="sample5_address" placeholder="주소" th:value="${ employee.addre }">
+								<input type="button" th:onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+								<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
+							</td>
+						</tr>
+				
+						 <tr>
+	                      <td class="bg-apricot">전화번호</td>
+	                      <td colspan="3"><input type="text" name="phone" th:value="${ employee.phone }"></td>
+	                  </tr>
+						
+						 <tr>
+	                      <td class="bg-apricot">급여</td>
+	                      <td colspan="3"><input type="text" name="salary" th:value="${ employee.salary }"></td>
+	                  </tr>
+						
+						<tr>
+	                      <td class="bg-apricot">퇴사여부</td>
+	                      <td colspan="3"><input type="text" name="resign" th:value="${ employee.resign }"></td>
+	                  </tr>
+	                  <tr>
+	                      <td class="bg-apricot">퇴사일</td>
+	                      <td colspan="3"><p th:text="${ employee.resigndate }"></p></td>
+	                  </tr>
+
+					</table>
+					<div class="btn-right-mv">
+						<button class="btn-orange update" type="submit">수정하기 </button>					
+					<!--    <button class="btn-orange delete" type="submit">삭제하기</button> -->
+					</div>
+				</form>
+					<button class="btn-orange" onclick="history.back()">돌아가기</button>
+			</div>
+		</main>
+	</div>
+
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	
+	<script>
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+			mapOption = {
+				center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+				level: 5 // 지도의 확대 레벨
+			};
+
+		//지도를 미리 생성
+		var map = new daum.maps.Map(mapContainer, mapOption);
+		//주소-좌표 변환 객체를 생성
+		var geocoder = new daum.maps.services.Geocoder();
+		//마커를 미리 생성
+		var marker = new daum.maps.Marker({
+			position: new daum.maps.LatLng(37.537187, 127.005476),
+			map: map
+		});
+
+
+		function sample5_execDaumPostcode() {
+			new daum.Postcode({
+				oncomplete: function (data) {
+					var addr = data.address; // 최종 주소 변수
+
+					// 주소 정보를 해당 필드에 넣는다.
+					document.getElementById("sample5_address").value = addr;
+					// 주소로 상세 정보를 검색
+					geocoder.addressSearch(data.address, function (results, status) {
+						// 정상적으로 검색이 완료됐으면
+						if (status === daum.maps.services.Status.OK) {
+
+							var result = results[0]; //첫번째 결과의 값을 활용
+
+							// 해당 주소에 대한 좌표를 받아서
+							var coords = new daum.maps.LatLng(result.y, result.x);
+							// 지도를 보여준다.
+							mapContainer.style.display = "block";
+							map.relayout();
+							// 지도 중심을 변경한다.
+							map.setCenter(coords);
+							// 마커를 결과값으로 받은 위치로 옮긴다.
+							marker.setPosition(coords)
+						}
+					});
+				}
+			}).open();
+		}
+	</script>
+
+	<script th:inline="javascript">
+		$(".update").click(function () {
+			$("form").attr("action", "/employee/update");
+		});
+
+		/* $(".delete").click(function () {
+		   $("form").attr("action", "/food/trader/delete");
+		}); */
+	</script>
+</body>
+
+</html>

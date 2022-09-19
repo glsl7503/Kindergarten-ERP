@@ -1,0 +1,153 @@
+#h3 {
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 50px;
+  position: relative;
+
+}
+
+.empNo:focus{
+    border: 1px solid #ff875e;
+    box-sizing: border-box;
+    border-radius: 10px;
+    outline: 3px solid #ff875e;
+    border-radius: 10px;
+}
+
+.foodcategory:focus{
+    border: 1px solid #ff875e;
+    box-sizing: border-box;
+    border-radius: 10px;
+    outline: 3px solid #ff875e;
+    border-radius: 10px;
+}
+
+.foodcategory {
+	
+	width: 100%;
+	margin: 50px 0;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 12px 13px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.empNo {
+	width: 100%;
+	margin: 20px 0;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 12px 13px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+	
+}
+
+.area {
+
+  width: 100%;
+  position: relative;
+  margin-top: 20px;
+
+}
+
+.area:first-child {
+  margin-top: 0;
+}
+
+.area input {
+  width: 100%;
+  padding: 20px 10px 10px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid black;
+  font-size: 18px;
+  outline: none;
+}
+
+.area label {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+  font-size: 18px;
+  transition: top 0.5s ease;
+  opacity: 0.6;
+}
+
+.area label.warning {
+  color: red !important;
+  animation: warning 0.3s ease;
+  animation-iteration-count: 3;
+  font-size: 10px;
+}
+
+@keyframes warning {
+  0% {
+    transform: translateX(-8px);
+  }
+  25% {
+    transform: translateX(8px);
+  }
+  50% {
+    transform: translateX(-8px);
+  }
+  75% {
+    transform: translateX(8px);
+  }
+}
+
+.area input:focus + label,
+.area input:valid + label {
+  top: -5px;
+  font-style: 13px;
+  transition: all 0.5s;
+  font-size: 14px;
+
+  color: #ff875e;
+}
+
+.btn-area {
+  margin-top: 30px;
+}
+
+.btn-area button {
+  width: 100%;
+  height: 50px;
+  margin: 0px;
+  color: #fff;
+   background: #ff875e;
+  border: none;
+  border-radius: 20px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.btn-area button:hover {
+  font-weight: 600;
+}
+
+.caption {
+  margin-top: 20px;
+  text-align: center;
+
+}
+
+.caption a {
+  margin: 0px 20px;
+  font-size: 15px;
+  color: #ff875e;
+  text-decoration: none;
+
+}
+
+.caption a:hover {
+  font-weight: 600;
+}
+
+

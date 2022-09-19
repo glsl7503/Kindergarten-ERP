@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>HI KINDERGARTEN</title>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script th:src="@{/js/lessons/plan.js}"></script>
+</head>
+<body class="sb-nav-fixed">
+
+	<div th:replace="common/header"></div>
+	<div th:replace="common/sidebar"></div>
+
+	<!-- 컨텐츠 영역 -->
+	<div id="layoutSidenav_content">
+		<main>
+			<div class="container-fluid px-4">
+				<h1 class="mt-4">수업 보고서</h1>
+				<br>
+				<div class="btn-right-mv70">
+					<button class="btn-orange">제출하기</button>
+				</div>
+				<br>
+				<table class="tbTem">
+					<colgroup>
+						<col width="15%">
+						<col width="15%">
+						<col width="15%">
+						<col width="15%">
+						<col width="15%">
+						<col width="15%">
+					</colgroup>
+					<tr>
+						<td class="col-apricot">반이름</td>
+						<td colspan="2">오리반</td>
+						<td class="col-apricot">담당교사</td>
+						<td colspan="2">김태희</td>
+					</tr>
+					<tr>
+						<td class="col-apricot">대상연령</td>
+						<td colspan="2">5세</td>
+						<td class="col-apricot">일시</td>
+						<td colspan="2">2022년 08월 14일</td>
+					</tr>
+					<tr>
+						<td class="col-apricot">총원</td>
+						<td>20명</td>
+						<td class="col-apricot">출석</td>
+						<td>18명</td>
+						<td class="col-apricot">결석</td>
+						<td>2명</td>
+					</tr>
+					<tr>
+						<td class="col-apricot">수업목표</td>
+						<td colspan="5" class="txtBox">Lorem ipsum dolor sit amet,
+							consectetur adipisicing elit. Inventore voluptatum, dolor
+							voluptas, nisi tempore molestiae error soluta nam temporibus
+							animi distinctio debitis possimus iste earum minus? Veniam esse
+							harum alias?</td>
+					</tr>
+					<tr>
+						<td class="col-apricot">수업내용</td>
+						<td colspan="5" class="txtBox">Lorem, ipsum dolor sit amet
+							consectetur adipisicing elit. Ut impedit dolorem natus similique
+							sunt deserunt soluta sint laboriosam consequuntur excepturi sit
+							iste ea id nulla dolorum nihil, quaerat consectetur modi.</td>
+					</tr>
+					<tr>
+						<td class="col-apricot">수업결과</td>
+						<td colspan="5" class="txtBox">Lorem ipsum dolor sit amet
+							consectetur adipisicing elit. Amet delectus ratione asperiores
+							assumenda at fuga ad nesciunt alias dolorum consequuntur, cumque
+							tempora, debitis accusamus veritatis reiciendis enim odit est
+							dignissimos!</td>
+					</tr>
+					<tr>
+						<td class="col-apricot">수업일정</td>
+						<td colspan="5">
+							<ul>
+								<li><span>[2022-10-14]</span> <span>[김태희 교사]</span> <span>Lorem
+										ipsum dolor sit amet consectetur adipisicing elit. Asperiores
+										facilis eligendi ipsum aliquam labore earum fugiat nam
+										voluptate repellat vero ut explicabo molestiae vitae magnam
+										praesentium, perspiciatis sunt magni illum.</span></li>
+								<li><span>[2022-10-14]</span> <span>[김태희 교사]</span> <span>Lorem
+										ipsum dolor sit amet consectetur adipisicing elit. Asperiores
+										facilis eligendi ipsum aliquam labore earum fugiat nam
+										voluptate repellat vero ut explicabo molestiae vitae magnam
+										praesentium, perspiciatis sunt magni illum.</span></li>
+								<li><span>[2022-10-14]</span> <span>[김태희 교사]</span> <span>Lorem
+										ipsum dolor sit amet consectetur adipisicing elit. Asperiores
+										facilis eligendi ipsum aliquam labore earum fugiat nam
+										voluptate repellat vero ut explicabo molestiae vitae magnam
+										praesentium, perspiciatis sunt magni illum.</span></li>
+								<li><span>[2022-10-14]</span> <span>[김태희 교사]</span> <span>Lorem
+										ipsum dolor sit amet consectetur adipisicing elit. Asperiores
+										facilis eligendi ipsum aliquam labore earum fugiat nam
+										voluptate repellat vero ut explicabo molestiae vitae magnam
+										praesentium, perspiciatis sunt magni illum.</span></li>
+								<li><span>[2022-10-14]</span> <span>[김태희 교사]</span> <span>Lorem
+										ipsum dolor sit amet consectetur adipisicing elit. Asperiores
+										facilis eligendi ipsum aliquam labore earum fugiat nam
+										voluptate repellat vero ut explicabo molestiae vitae magnam
+										praesentium, perspiciatis sunt magni illum.</span></li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="6" style="height: 600px;">
+							<div class="submission">
+								<table>
+									<tr>
+										<td>위와 같이 수업 보고서를 제출합니다.</td>
+									</tr>
+									<tr>
+										<td>2022sus 08월 15일</td>
+									</tr>
+									<tr>
+										<td style="text-align: right; padding-right: 15%;">보고자 :
+											전보경 (인)</td>
+									</tr>
+								</table>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</main>
+	</div>
+
+</body>
+</html>

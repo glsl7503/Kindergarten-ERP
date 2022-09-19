@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>HI KINDERGARTEN</title>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script th:src="@{/js/lessons/planmod.js}"></script>
+</head>
+<body class="sb-nav-fixed">
+
+	<div th:replace="common/header"></div>
+	<div th:replace="common/sidebar"></div>
+
+	<!-- 컨텐츠 영역 -->
+	<div id="layoutSidenav_content">
+		<main>
+			<div class="container-fluid px-4">
+				<h1 class="mt-4">수업 계획서</h1>
+				<br>
+				<form th:action="@{/lessons/plan/modify}" method="post">
+					<div class="btn-right-mv70">
+						<button class="btn-orange" type="submit">수정하기</button>
+					</div>
+					<br>
+					<input type="hidden" id="dtParam" name="lpIdx" th:value="${ data.lpIdx }">
+					<table class="tbTem">
+						<colgroup>
+							<col width="20%">
+							<col width="30%">
+							<col width="20%">
+							<col width="30%">
+						</colgroup>
+						<tr>
+							<td class="col-apricot">반이름</td>
+							<td>
+								<select class="dataTable-selector" name="classIdx" id="class">
+									<th:block th:each=" ck : ${ ckList }">
+										<th:block th:if="${ck.classIdx == data.ClassKindDTO.classIdx }">
+											<option th:value="${ck.classIdx}" th:text="${ck.className}" selected></option>
+										</th:block>
+										<th:block th:unless="${ck.classIdx == data.ClassKindDTO.classIdx }">
+											<option th:value="${ck.classIdx}" th:text="${ck.className}" selected></option>
+										</th:block>
+									</th:block>
+								</select>
+							</td>
+							<td class="col-apricot">담당교사</td>
+							<td>
+								<select class="dataTable-selector" name="mainTeacher" id="mainTeacher">
+									<th:block th:each=" emp : ${ empList }">
+										<th:block th:if="${emp.empNo == data.mainTeacher }">
+											<option th:value="${emp.empNo}" th:text="|${emp.empName}(${emp.empId})|" selected></option>
+										</th:block>
+										<th:block th:unless="${emp.empNo == data.mainTeacher }">
+											<option th:value="${emp.empNo}" th:text="|${emp.empName}(${emp.empId})|"></option>
+										</th:block>
+									</th:block>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-apricot">대상연령</td>
+							<td>
+								<select class="dataTable-selector" name="age">
+									<th:block th:each=" i : ${#numbers.sequence(5, 7)}">
+										<th:block th:if="${i == data.age }">
+											<option th:value="${i}" th:text="${i}" selected></option>
+										</th:block>
+										<th:block th:unless="${i == data.age }">
+											<option th:value="${i}" th:text="${i}"></option>
+										</th:block>
+									</th:block>
+								</select>
+							</td>
+							<td class="col-apricot">일시</td>
+							<td>
+								<input class="dataTable-input datepickerNo" th:value="${ data.resDate }" name="resDate" required="required" autocomplete="off">
+							</td>
+						</tr>
+						<tr>
+							<td class="col-apricot">총원</td>
+							<td colspan="4">
+								<input type="number" th:value="${ data.ttlNum }" name="ttlNum" class="dataTable-input" min="0" max="100" required="required">
+							</td>
+						</tr>
+						<tr>
+							<td class="col-apricot">수업목표</td>
+							<td colspan="3" class="txtBox">
+								<input type="text" th:value="${ data.rsGoals }" class="dataTable-input" name="rsGoals" maxlength="500">
+							</td>
+						</tr>
+						<tr>
+							<td class="col-apricot">수업내용</td>
+							<td colspan="3" class="txtBox">
+								<input type="text" th:value="${ data.rsContents }" class="dataTable-input" name="rsContents" maxlength="500" required="required">
+							</td>
+						</tr>
+						<tr>
+							<td class="col-apricot">기대효과</td>
+							<td colspan="3" class="txtBox">
+								<input type="text" th:value="${ data.effect }" class="dataTable-input" name="effect" maxlength="500">
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="height: 600px;">
+								<div class="submission">
+									<table>
+										<tr>
+											<td>위와 같이 수업 계획서를 제출합니다.</td>
+										</tr>
+										<tr class="dateText">
+											<td>0000년 00월 00일</td>
+										</tr>
+										<tr>
+											<td style="text-align: right; padding-right: 15%;">보고자 :
+												전보경 (인)</td>
+										</tr>
+									</table>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</form>
+				<th:block >
+					<span th:text="${result}"></span>
+				</th:block>
+			</div>
+		</main>
+	</div>
+</body>
+</html>

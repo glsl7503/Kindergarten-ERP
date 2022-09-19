@@ -1,0 +1,39 @@
+* {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        #wrap {
+            width: 1920px;
+            height: 1280px;
+            margin: 0 auto;
+            background-color: white;
+        }
+
+        #header {
+            width: 800px;
+            height: 500px;
+            margin: 0 auto;
+            background-color: white;
+            position: relative;
+            top: 350px; 
+        }
+
+        #box{width: 370px;height: 400px;margin: 0 auto;position: relative;top: 17%;background-color: fff;}
+
+        .idsearch{width: 180px;height: 50px;border-left: 1px solid #FF865E;border-top: 1px solid #FF865E;border-right: 1px solid #FF865E;text-align: center; line-height: 50px;}
+        .pwdsearch{width: 180px;height: 50px;position: relative;left: 181px;top: -50px;border-bottom: 1px solid #FF865E;text-align: center;vertical-align: middle; line-height: 50px;}
+        .pwdsearch a{vertical-align: middle;}
+
+        #box table{position: relative;top: -10px;}
+
+        .cancelbtn{position: relative;left: 85px;top: 5px;}
+        .checkbtn{position: relative;left: 125px;top: 5px;}

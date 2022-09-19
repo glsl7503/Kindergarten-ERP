@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.kindergarten.hi.item.model.dao.ItemDAO">
+
+
+	<resultMap type="ItemDTO" id="ItemResultMap">
+		<id property="itemNo" column="ITEM_NO" />
+		<result property="name" column="ITEM_NAME" />
+		<result property="category" column="ITEM_CATEGORY" />
+		<result property="number" column="ITEM_NUMBER" />
+		<result property="price" column="ITEM_PRICE" />
+		<result property="regdate" column="ITEM_REGDATE" />
+		<result property="update" column="ITEM_UPDATE" />
+		<result property="empNo" column="EMP_NO" />
+		<result property="traderIdx" column="TRADER_IDX" />
+
+		<association property="employee"
+			resultMap="EmployeeResultMap" />
+		<association property="traderitem"
+			resultMap="TraderItemResultMap" />
+	</resultMap>
+
+	<resultMap type="ItemHisDTO" id="ItemHisResultMap">
+		<result property="itemNo" column="ITEM_NO" />
+		<result property="processNo" column="PROCESS_NO" />
+	</resultMap>
+
+	<resultMap type="ItemManagementHisDTO"
+		id="ItemMenagementHisResultMap">
+		<id property="processNo" column="PROCESS_NO" />
+		<result property="processIn" column="PROCESS_IN" />
+		<result property="time" column="TIME" />
+		<result property="processOut" column="PROCESS_OUT" />
+		<result property="empNo" column="EMP_NO" />
+	</resultMap>
+
+	<resultMap type="TraderItemDTO" id="TraderItemResultMap">
+		<id property="traderIdx" column="TRADER_IDX" />
+		<result property="traderRegistration"
+			column="TRADER_REGISTRATION" />
+		<result property="traderName" column="TRADER_NAME" />
+		<result property="traderPhone" column="TRADER_PHONE" />
+		<result property="traderPic" column="TRADER_PIC" />
+		<result property="traderYn" column="TRADER_YN" />
+		<result property="traderModify" column="TRADER_MODIFY" />
+	</resultMap>
+
+	<resultMap type="EmployeeItemDTO" id="EmployeeResultMap">
+		<id property="no" column="EMP_NO" />
+		<result property="id" column="EMP_ID" />
+		<result property="name" column="EMP_NAME" />
+		<result property="birth" column="EMP_BIRTH" />
+		<result property="pwd" column="EMP_PWD" />
+		<result property="endate" column="EMP_ENDATE" />
+		<result property="emall" column="EMP_EMAIL" />
+		<result property="addre" column="EMP_ADDRE" />
+		<result property="phone" column="EMP_PHONE" />
+		<result property="salary" column="EMP_SALARY" />
+		<result property="resign" column="EMP_RESIGN" />
+		<result property="resigndate" column="EMP_RESIGNDATE" />
+	</resultMap>
+
+	<!-- 음식품목 전체 개수 조회하는 쿼리문 -->
+	<select id="selectTotalCount" resultType="_int" parameterType="hashmap">
+		SELECT
+				COUNT(*)
+		FROM ITEM F
+		JOIN TRADER T ON(F.TRADER_IDX = T.TRADER_IDX)
+		<where>
+			T.TRADER_YN = 'Y'
+			<if test="searchCondition =='title'">
+				AND STOCK_TITLE LIKE '%' || #{ searchValue } || '%'
+			</if>
+		</where>
+	</select>
+
+	<select id="selectItemList" resultMap="ItemResultMap">
+		SELECT
+		A.RNUM
+		, A.ITEM_NAME
+		, A.ITEM_CATEGORY
+		, A.ITEM_NUMBER
+		, A.ITEM_PRICE
+		, A.ITEM_REGDATE
+		, A.ITEM_UPDATE
+		, A.EMP_NO
+		, A.ITEM_NO
+		, A.TRADER_IDX
+		FROM (SELECT
+		ROWNUM RNUM
+		, B.ITEM_NAME
+		, B.ITEM_CATEGORY
+		, B.ITEM_NUMBER
+		, B.ITEM_PRICE
+		, B.ITEM_REGDATE
+		, B.ITEM_UPDATE
+		, B.EMP_NO
+		, B.ITEM_NO
+		, B.TRADER_IDX
+		FROM (SELECT
+		C.ITEM_NAME
+		, C.ITEM_CATEGORY
+		, C.ITEM_NUMBER
+		, C.ITEM_PRICE
+		, C.ITEM_REGDATE
+		, C.ITEM_UPDATE
+		, E.EMP_NO
+		, C.ITEM_NO
+		, D.TRADER_IDX
+		FROM ITEM C
+		LEFT JOIN TRADER_ITEM D ON (C.TRADER_IDX = D.TRADER_IDX)
+		LEFT JOIN EMPLOYEE E ON (C.EMP_NO = E.EMP_NO)
+		)B
+		)A
+	</select>
+	
+	 <select id="goItemmanageMentDetail" resultMap="ItemResultMap">
+    	SELECT
+    	F.ITEM_NAME
+		, F.ITEM_CATEGORY
+		, F.ITEM_NUMBER
+		, F.ITEM_PRICE
+		, F.ITEM_REGDATE
+		, F.ITEM_UPDATE
+		, F.EMP_NO
+		, F.ITEM_NO
+		, F.TRADER_IDX
+	      FROM ITEM F
+	     WHERE F.ITEM_NO = #{ itemNo } 
+    </select>
+    
+    
+    <delete id="goItemDelete" parameterType="_int">
+    	DELETE
+    	  FROM ITEM
+    	 WHERE ITEM_NO = #{ itemNo }
+    </delete>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+</mapper>

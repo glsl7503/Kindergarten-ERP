@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>HI KINDERGARTEN</title>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script th:src="@{/js/lessons/timetablecalendar.js}"></script>
+</head>
+<body class="sb-nav-fixed">
+
+	<div th:replace="common/header"></div>
+	<div th:replace="common/sidebar"></div>
+
+	<!-- 컨텐츠 영역 -->
+	<div id="layoutSidenav_content">
+		<main>
+
+			<div class="container-fluid px-4">
+				<h1 class="mt-4">시간표 달력</h1>
+				<br>
+
+				<div id="timetablecalendar"></div>
+
+			</div>
+
+		</main>
+	</div>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		let message = [[${message}]];
+		
+		if (message != null && message !== '' && message != 'null') {
+			alert(message);
+		} 
+	    /*]]>*/
+	</script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>HI KINDERGARTEN</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script th:src="@{/js/lessons/plandetail.js}"></script>
+</head>
+<body class="sb-nav-fixed">
+
+	<div th:replace="common/header"></div>
+	<div th:replace="common/sidebar"></div>
+
+	<!-- 컨텐츠 영역 -->
+	<div id="layoutSidenav_content">
+		<main>
+			<div class="container-fluid px-4">
+				<h1 class="mt-4">수업 계획서</h1>
+				<br>
+			
+				<br>
+				<input type="hidden" id="dtParam" th:value="${ data.lpIdx }">
+				<table class="tbTem">
+					<colgroup>
+						<col width="20%">
+						<col width="30%">
+						<col width="20%">
+						<col width="30%">
+					</colgroup>
+					<tr>
+						<td class="col-apricot">반이름</td>
+						<td th:text="${ data.ClassKindDTO.className }"></td>
+						<td class="col-apricot">담당교사</td>
+						<td th:text="${ data.LesEmployeeDTO.empName }"></td>
+					</tr>
+					<tr>
+						<td class="col-apricot">대상연령</td>
+						<td th:text="${ data.age }"></td>
+						<td class="col-apricot">일시</td>
+						<td th:text="${ data.resDate }"></td>
+					</tr>
+					<tr>
+						<td class="col-apricot">총원</td>
+						<td colspan="4" th:text="|${ data.ttlNum } 명|"></td>
+					</tr>
+					<tr>
+						<td class="col-apricot">수업목표</td>
+						<td colspan="3" class="txtBox" th:text="${ data.rsGoals }"></td>
+					</tr>
+					<tr>
+						<td class="col-apricot">수업내용</td>
+						<td colspan="3" class="txtBox" th:text="${ data.rsContents }"></td>
+					</tr>
+					<tr>
+						<td class="col-apricot">기대효과</td>
+						<td colspan="3" class="txtBox" th:text="${ data.effect }"></td>
+					</tr>
+					<tr>
+						<td colspan="4" style="height: 300px;">
+							<div class="submission">
+								<table>
+									<tr>
+										<td>위와 같이 수업 계획서를 제출합니다.</td>
+									</tr>
+									<tr>
+										<td class="dateBox"></td>
+									</tr>
+									<tr>
+										<td style="text-align: right; padding-right: 15%;">보고자 :
+											전보경 (인)</td>
+									</tr>
+								</table>
+								<br>
+								<br>
+								<br>
+								<br>
+								 <div class="buttonArray" style="float: right;">
+                       <!-- <th:block th:if="${status != null and !spend.history.process.toString().equals('저장')}"></th:block> -->
+                        	<button class="btn-orange ms-3" th:onclick="plan_modifyPy('Y')">승인하기</button>
+                            <button class="btn-orange ms-3" th:onclick="plan_modifyPy('N')">반려하기</button>
+                            <button class="btn-orange ms-3" th:onclick="plan_deletePy();">삭제하기</button>
+                        
+                            <button class="btn-orange ms-3" onclick="history.back()">돌아가기</button>
+                         </div>
+							</div>
+						</td>
+					</tr>
+				</table>
+
+			</div>
+		</main>
+	</div>
+<script th:inline="javascript">
+
+	function plan_deletePy(){
+	
+	let index = $("#dtParam").val();
+	let url = "/lessons/plan/deletePy?param=" + index;
+	
+	location.href = url;
+	
+}
+
+	function plan_modifyPy(yN){
+	
+	let index = $("#dtParam").val();
+	let url = "/lessons/plan/modifyPy?param=" + index+"&yN="+yN;
+	
+	location.href = url;
+	
+}
+
+    /*<![CDATA[*/
+    	
+    $(document).ready(function(){
+    	
+    	let date = /*[[${data.resDate}]]*/;
+    	
+    	let conversion =  date.split("-");
+    	
+    	let dateToConv = conversion[0] + "년 " + conversion[1] + "월 " + conversion[2] + "일"; 
+    	
+    	$(".dateBox").text(dateToConv);
+    });
+    
+    /*]]>*/
+</script>
+</body>
+</html>

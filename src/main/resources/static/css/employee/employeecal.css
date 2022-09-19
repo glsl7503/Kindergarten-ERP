@@ -1,0 +1,15 @@
+.img2{
+    width: 300px;
+}
+.grade{
+  width: 300px;
+  margin: 0 auto;
+}
+
+.grade input {
+    width: 80%;
+}
+
+.grade label {
+    width: 20%;
+}

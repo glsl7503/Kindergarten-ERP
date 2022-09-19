@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+   <meta charset="utf-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+   <meta name="description" content="" />
+   <meta name="author" content="" />
+   <title>음식품목 재고 등록 페이지</title>
+
+</head>
+
+<body class="sb-nav-fixed">
+
+    <div th:replace="common/header"></div>
+	<div th:replace="common/sidebar"></div>
+	
+        <!-- 컨텐츠 영역 -->
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">휴가결재</h1>
+                    <br>
+
+                    <form method="post">   
+
+                    <div class="btn-right-mv70">
+                    <button class="btn-orange" id="insert">제출하기</button>  
+                    <button class="btn-orange" id="update">수정하기</button>  
+                    <button class="btn-orange" id="delete">삭제하기</button>  
+                    </div>
+                    
+                    <br>
+                   
+                    <table class="tbTem tdTmq">
+                        <colgroup>
+                            <col width="20%">
+                            <col width="80%">                           
+                        </colgroup>
+                        
+                        
+                        <tr>
+                         <input type="hidden" name="holiNo" th:value="${ holiDetail.holiNo }">
+                            <td class="col-apricot">휴가분류</td>
+                            <td colspan="3"><input type="text" name="holiSort" th:value="${ holiDetail.holiSort }"></td>
+                        </tr>
+                        <tr>
+                           <td class="col-apricot">휴가기간</td>
+                           <td colspan="3"><input type="text" name="holiPeriod" th:value="${ holiDetail.holiPeriod }"></td>             
+                        </tr>
+                        <tr>
+                            <td class="col-apricot" style="height: 200px;">사유</td>
+                             <td colspan="3"><input type="text" style="height: 200px;" name="holiReason" th:value="${ holiDetail.holiReason }"></td>
+                        </tr>
+                        <tr>
+                            <td class="col-apricot">특이사항</td>
+                             <td colspan="3"><input type="text" name="holiOrder" th:value="${ holiDetail.holiOrder }"></td>
+                        </tr>                        
+                    </table> 
+                    </form>                  
+                </div>
+            </main>
+        </div>
+
+</body>
+ <script th:inline="javascript">
+    
+    $("#insert").click(function () {
+        $("form").attr("action", "/employee/vacation/detail/insert");
+ 	 });
+    
+    $("#update").click(function () {
+        $("form").attr("action", "/employee/vacation/update");
+ 	 });
+  
+ 	$("#delete").click(function () {
+        $("form").attr("action", "/employee/vacation/delete");
+ 	});
+ 	
+ 	
+  
+</script>
+
+</html>

@@ -1,0 +1,80 @@
+ <!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>거래업체 상세페이지</title>
+</head>
+<body class="sb-nav-fixed">
+
+     <div th:replace="common/header"></div>
+	 <div th:replace="common/sidebar"></div>
+     
+  <!-- 컨텐츠 영역 -->
+  <div id="layoutSidenav_content">
+      <main>
+          <div class="container-fluid px-4">
+              <h1 class="mt-4">거래업체</h1>
+              
+              <br>
+              
+              <form method="post">
+              
+              <div class="btn-right-mv70">
+                  <button class="btn-orange update" type="submit">수정하기 </button>
+                  <button class="btn-orange delete" type="submit">삭제하기</button>
+              </div>
+                           
+              <br>
+
+              <table class="tbTem">
+                  <colgroup>
+                      <col width="25%">
+                      <col width="25%">
+                      <col width="25%">
+                      <col width="25%">
+                  </colgroup>
+                  		<tr>
+	                      <td class="bg-apricot">업체인덱스</td>
+	                      <td colspan="3"><p th:text="${ trader.traderIdx }"></p></td>
+	                      <input type="hidden" name="traderIdx" th:value="${ trader.traderIdx }">
+	                  </tr>
+	                  <tr>
+	                      <td class="bg-apricot">업체명 </td>
+	                      <td colspan="3"><input type="text" name="traderName" th:value="${ trader.traderName }"></td>
+	                  </tr>
+	                  <tr>
+	                      <td class="bg-apricot">담당자</td>
+	                      <td colspan="3"><input type="text" name="traderPic" th:value="${ trader.traderPic }"></td>
+	                  </tr>
+	                   <tr>
+	                      <td class="bg-apricot">전화번호</td>
+	                      <td colspan="3"><input type="text" name="traderPhone" th:value="${ trader.traderPhone }"></td>
+	                  </tr>
+              </table>
+			</form>
+			
+			
+			
+          </div>
+         </main>
+     </div>
+<script th:inline="javascript">
+   $(".update").click(function () {
+       $("form").attr("action", "/food/trader/update");
+	 });
+ 
+	$(".delete").click(function () {
+       $("form").attr("action", "/food/trader/delete");
+	});
+	
+	
+ 
+     </script>
+  </body>
+</html>

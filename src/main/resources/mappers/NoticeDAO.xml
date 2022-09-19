@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kindergarten.hi.notice.model.dao.NoticeDAO">
+    
+    <resultMap type="NoticeDTO" id="generalNoticeResultMap">
+    	<id property="noticeNo" column="NOTICE_NO"/>
+    	<result property="noticeTitle" column="NOTICE_TITLE"/>
+    	<result property="noticeContent" column="NOTICE_CONTENT"/>
+    	<result property="noticeEnrolldate" column="NOTICE_ENROLLDATE"/>
+    	<result property="noticeUpdatedate" column="NOTICE_UPDATEDATE"/>
+    	<result property="no" column="EMP_NO"/>
+    	<result property="viewCount" column="VIEW_COUNT"/>
+    	
+    	<association property="employeeDTO" resultMap="generalNoticeEmployeeResultMap"/>
+    </resultMap>
+    
+    <resultMap type="NoticeEmployeeDTO" id="generalNoticeEmployeeResultMap">
+    	<result property="empName" column="EMP_NAME"/>
+    </resultMap>
+    
+    <delete id="deleteNotice">
+    	DELETE
+    	  FROM NOTICE A
+    	 WHERE A.NOTICE_NO = #{ no }
+    </delete>
+    
+    <update id="updateNotice">
+    	UPDATE
+    	       NOTICE A
+    	   SET A.NOTICE_TITLE = #{ noticeTitle }
+    	     , A.NOTICE_CONTENT = #{ noticeContent }
+    	     , A.NOTICE_UPDATEDATE = SYSDATE
+    	 WHERE A.NOTICE_NO = #{ noticeNo }
+    </update>
+    
+    <select id="selectNoticeDetail" resultMap="generalNoticeResultMap">
+    	SELECT
+    	       A.NOTICE_TITLE
+    	     , A.NOTICE_CONTENT
+    	  FROM NOTICE A
+    	 WHERE A.NOTICE_NO = #{ no }
+    </select>
+    
+    <insert id="registNotice">
+    	INSERT
+    	  INTO NOTICE
+    	  (
+    	    NOTICE_NO
+		  , NOTICE_TITLE
+		  , NOTICE_CONTENT
+		  , NOTICE_ENROLLDATE
+		  , NOTICE_UPDATEDATE
+		  , EMP_NO
+    	  )
+    	  VALUES
+    	  (
+    	    SEQ_NOTICE_NO.NEXTVAL  
+    	  , #{ noticeTitle }
+    	  , #{ noticeContent }
+    	  , SYSDATE
+    	  , SYSDATE
+    	  , #{ no }
+    	  )
+    </insert>
+    
+    <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
+        SELECT
+        COUNT(*)
+        FROM NOTICE A
+        <if test="searchCondition == 'empName'">
+            JOIN EMPLOYEE B ON(A.EMP_NO = B.EMP_NO)
+        </if>
+        <where>
+            <if test="searchCondition == 'noticeTitle'">
+                A.NOTICE_TITLE LIKE '%' || #{ searchValue } || '%'
+            </if>
+            <if test="searchCondition == 'empName'">
+                B.EMP_NAME LIKE '%' || #{ searchValue } || '%'
+            </if>
+        </where>
+    </select>
+
+    <select id="selectNoticeList" resultMap="generalNoticeResultMap">
+        SELECT
+          A.RNUM
+        , A.NOTICE_NO
+        , A.NOTICE_TITLE
+        , A.NOTICE_CONTENT
+        , A.NOTICE_ENROLLDATE
+        , A.NOTICE_UPDATEDATE
+        , A.VIEW_COUNT
+        , A.EMP_NAME
+        FROM (SELECT ROWNUM RNUM
+        , B.NOTICE_NO
+        , B.NOTICE_TITLE
+        , B.NOTICE_CONTENT
+        , B.NOTICE_ENROLLDATE
+        , B.NOTICE_UPDATEDATE
+        , B.VIEW_COUNT
+        , B.EMP_NAME
+        FROM (SELECT C.NOTICE_NO
+        , C.NOTICE_TITLE
+        , C.NOTICE_CONTENT
+        , C.NOTICE_ENROLLDATE
+        , C.NOTICE_UPDATEDATE
+        , C.VIEW_COUNT
+        , D.EMP_NAME
+        FROM NOTICE C
+        JOIN EMPLOYEE D ON(C.EMP_NO = D.EMP_NO)
+        <where>
+            <if test="searchCondition == 'noticeTitle'">
+                C.NOTICE_TITLE LIKE '%' || #{ searchValue } || '%'
+            </if>
+            <if test="searchCondition == 'empName'">
+                D.EMP_NAME LIKE '%' || #{ searchValue } || '%'
+            </if>
+        </where>
+        ORDER BY C.NOTICE_NO ASC
+        ) B
+        <![CDATA[
+                  WHERE ROWNUM <= #{ endRow }
+                  ]]>
+        ) A
+        WHERE A.RNUM >= #{ startRow }
+        ORDER BY 1 ASC
+    </select>
+    
+    <update id="incresementBoardCount" parameterType="string">
+        update NOTICE
+        set VIEW_COUNT = nvl(VIEW_COUNT, 0) + 1
+        where NOTICE_NO = #{ no }
+
+    </update>
+</mapper>

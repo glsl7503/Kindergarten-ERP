@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>음식 품목 재고 등록 페이지</title>
+</head>
+<body class="sb-nav-fixed">
+    
+    <div th:replace="common/header"></div>
+	<div th:replace="common/sidebar"></div>
+    
+    <!-- 컨텐츠 영역 -->
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">음식품목 등록</h1>
+                
+                <br>
+                
+			  <form>
+				<div class="btn-right-mv70">
+                  <button class="btn-orange" id="insert">등록하기</button>
+                  <button class="btn-orange" id="back">취소하기</button>
+              	</div>
+              	
+                <br>
+           
+ 
+                <table class="tbTem">
+                    <colgroup>
+                        <col width="25%">
+                        <col width="25%">
+                        <col width="25%">
+                        <col width="25%">
+                    </colgroup>
+                    
+                    <tr>
+                        <td class="bg-apricot">음식명</td>
+                        <td colspan="3"><input type="text" name="stockTitle"></td>
+                    </tr>
+                    <tr>
+                        <td class="bg-apricot">갯수</td>
+                        <td colspan="3"><input type="text" id="stockCount" name="stockCount"></td>
+                    </tr>
+                </table>
+			  </form>
+
+            </div>
+          </main>
+        </div>
+
+</body>
+<script th:inline="javascript">
+    
+    $("#insert").click(function () {
+        $("form").attr("action", "/food/stock/insert").attr("method", "post");
+ 	 });
+  
+ 	$("#back").click(function () {
+        $("form").attr("action", "/food/stock").attr("method", "get");
+ 	});
+ 	
+ 	$("#stockCount").focusout(function() {
+ 		
+ 		console.log("asdmnakjlwdnklaewnfkasdma jwldnjlawnlawndklawndklanklwdlane")
+ 		
+        let stockCount = document.getElementById("stockCount");
+
+
+        // 아이디검사
+        // 첫글자는 반드시 영문 소문자, 총 4~12자로 이뤄지고
+        // 숫자가 반드시 하나 이상 포함되어야한다.
+        // 영문 소문자와 숫자로 이루어져야한다.
+        if (!chk(/^[0-9]$/g,stockCount)) {
+        	
+          alert("김하니 성공");
+        }
+ 	});
+</script>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>HI KINDERGARTEN</title>
+    </head>
+    <body class="sb-nav-fixed">
+     
+	<div th:replace="common/header"></div>
+	<div th:replace="common/sidebar"></div>
+            
+            <!--컨텐츠영역-->
+            
+            <div id="layoutSidenav_content">
+                <main>
+          <div class="container-fluid px-4">
+              <h1 class="mt-4">근태정보</h1>
+              
+              <br>
+              <br>
+              
+              <form th:action="@{/employee/managementupdate}" >
+                           
+              <table class="tbTem">
+                  <colgroup>
+                      <col width="25%">
+                      <col width="25%">
+                      <col width="25%">
+                      <col width="25%">
+                  </colgroup>
+                  		<tr>
+	                      <td class="bg-apricot">근태사유서번호</td>
+	                      <td colspan="3"><p th:text="${ management.no }"></p></td>
+	                      <input type="hidden" name="no" th:value="${ management.no }">
+	                  </tr>
+	                  <tr>
+	                      <td class="bg-apricot">이름</td>
+	                      <td colspan="3"><input type="text" name="mananame" th:value="${ management.mananame }"></td>
+	                  </tr>
+	                  <tr>
+	                      <td class="bg-apricot">작성일</td>
+	                      <td colspan="3"><input type="date" name="writedate" th:value="${ management.writedate }"></td>
+	                  </tr>
+	                   <tr>
+	                      <td class="bg-apricot">근태분류</td>
+	                      <td colspan="3"><input type="text" name="sort" th:value="${ management.sort }"></td>
+	                  </tr>
+	                   <tr>
+	                      <td class="bg-apricot">사전보고여부</td>
+	                      <td colspan="3"><input type="text" name="pre" th:value="${ management.pre }"></td>
+	                  </tr>
+	                   <tr>
+	                      <td class="bg-apricot">미보고사유</td>
+	                      <td colspan="3"><input type="text" name="noreason" th:value="${ management.noreason }"></td>
+	                  </tr>
+	                   <tr>
+	                      <td class="bg-apricot">사유</td>
+	                      <td colspan="3"><input type="text" name="mainreason" th:value="${ management.mainreason }"></td>
+	                  </tr>
+              </table>
+             
+              <div class="btn-right-mv">
+                  <button class="btn-orange update" type="submit">수정하기 </button>
+ 				  <button class="btn-orange update2" type="submit">제출하기 </button>
+ 				<!--  <button class="btn-orange" onclick="history.back()">돌아가기</button>-->
+              </div>
+			
+              </form>
+          </div>
+         </main>
+     </div>
+<script th:inline="javascript">
+$(".update").click(function () {
+    $("form").attr("action", "/employee/managementupdate");
+	 });
+$(".update2").click(function () {
+    $("form").attr("action", "/employee/managementsubmit");
+	 });
+
+
+</script>
+</body>
+</html>
