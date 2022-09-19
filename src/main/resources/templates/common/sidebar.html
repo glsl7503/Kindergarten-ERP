@@ -15,85 +15,102 @@
                         <div class="sb-sidenav-menu-heading">카테고리</div>
 
                         <!-- 인사 카테고리 -->
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages1" aria-expanded="false" aria-controls="collapsePages">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            인사
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapsePages1" aria-labelledby="headingTwo">
-                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link collapsed" th:onclick="'location.href=\'/employee/list\''"  data-bs-toggle="collapse">
-                                    직원관리
-                                </a>
-                                <a class="nav-link collapsed" th:onclick="'location.href=\'/employee/employeecal\''" data-bs-toggle="collapse">
-                                    출결관리
-                                </a>
-                                <a class="nav-link collapsed" th:onclick="'location.href=\'/employee/vacation\''" data-bs-toggle="collapse">
-                                    휴가관리
-                                </a>
-                                <a class="nav-link collapsed" th:onclick="'location.href=\'/employee/managementList\''"  data-bs-toggle="collapse">
-                                    근태관리
-                                </a>
-                            </nav>
-                        </div>
+                        <th:block th:unless="${ #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_EATMANAGE' }">
+	                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages1" aria-expanded="false" aria-controls="collapsePages">
+	                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+	                            인사
+	                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+	                        </a>
+	                        <div class="collapse" id="collapsePages1" aria-labelledby="headingTwo">
+	                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+	                          	    <th:block th:if="${ #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_ADMIN' }">
+		                                <a class="nav-link collapsed" th:onclick="'location.href=\'/employee/list\''"  data-bs-toggle="collapse">
+		                                    직원관리
+		                                </a>
+	                                </th:block>
+	                                <a class="nav-link collapsed" th:onclick="'location.href=\'/employee/employeecal\''" data-bs-toggle="collapse">
+	                                    출결관리
+	                                </a>
+	                                <a class="nav-link collapsed" th:onclick="'location.href=\'/employee/vacation\''" data-bs-toggle="collapse">
+	                                    휴가관리
+	                                </a>
+	                                <a class="nav-link collapsed" th:onclick="'location.href=\'/employee/managementList\''"  data-bs-toggle="collapse">
+	                                    근태관리
+	                                </a>
+	                            </nav>
+	                        </div>
+                        </th:block>
 
                         <!-- 원생 카테고리 -->
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            원생
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapsePages2" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link collapsed" onclick="location.href='../원생관리/StudentSelect.html'"  data-bs-toggle="collapse">
-                                    원생 개인정보
-                                </a>
-                               
-                            </nav>
-                        </div>
+                        <th:block th:unless="${ #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_EATMANAGE' }">
+	                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages">
+	                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+	                            원생
+	                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+	                        </a>
+	                        <div class="collapse" id="collapsePages2" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+	                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+	                                <a class="nav-link collapsed" th:onclick="'location.href=\'/student/studentselectlist\''" data-bs-toggle="collapse">
+	                                    원생 개인정보
+	                                </a>
+	                            </nav>
+	                        </div>
+                        </th:block>
 
                         <!-- 결재 카테고리 -->
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages3" aria-expanded="false" aria-controls="collapsePages">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            결재
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapsePages3" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link collapsed" th:onclick="|location.href='@{/payment/spendlist}'|"  data-bs-toggle="collapse">
-                                    지출결의서    
-                                </a>
-                                <a class="nav-link collapsed" th:onclick="'location.href=\'/lessons/paymentPlan\''"  data-bs-toggle="collapse">
-                                    수업계획서
-                                </a>
-                                <a class="nav-link collapsed" th:onclick="'location.href=\'/employee/vacationPy\''" data-bs-toggle="collapse">
-                                    휴가신청서
-                                </a>
-                              
-                            </nav>
-                        </div>
-
+                        <th:block th:unless="${ #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_EATMANAGE' }">
+	                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages3" aria-expanded="false" aria-controls="collapsePages">
+	                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+	                            결재
+	                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+	                        </a>
+	                        <div class="collapse" id="collapsePages3" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+	                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+		                            <th:block th:if="${ #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_USER' or #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_ADMIN' }">
+		                                <a class="nav-link collapsed" th:onclick="|location.href='@{/payment/spendlist}'|"  data-bs-toggle="collapse">
+		                                    지출결의서    
+		                                </a>
+		                            </th:block>
+		                            <th:block th:if="${ #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_ADMIN' }">
+		                                <a class="nav-link collapsed" th:onclick="'location.href=\'/lessons/paymentPlan\''"  data-bs-toggle="collapse">
+		                                    수업계획서
+		                                </a>
+	                                </th:block>
+	                                <th:block th:if="${ #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_ADMIN' }">
+		                                <a class="nav-link collapsed" th:onclick="'location.href=\'/employee/vacationPy\''" data-bs-toggle="collapse">
+		                                    휴가신청서
+		                                </a>
+	                                </th:block>
+	                            </nav>
+	                        </div>
+						</th:block>
                         <!-- 수업 카테고리 -->
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages4" aria-expanded="false" aria-controls="collapsePages">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            수업
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapsePages4" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link collapsed" th:onclick="'location.href=\'/lessons/timetablecalendar\''"  data-bs-toggle="collapse">
-                                    시간표
-                                </a>
-                                <a class="nav-link collapsed" th:onclick="'location.href=\'/lessons/plan\''"  data-bs-toggle="collapse">
-                                    수업계획서
-                                </a>
-                                <a class="nav-link collapsed" th:onclick="'location.href=\'/lessons/report\''"  data-bs-toggle="collapse">
-                                    수업보고서
-                                </a>
-                                
-                            </nav>
-                        </div>
-
+                        <th:block th:unless="${ #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_EATMANAGE' }">
+	                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages4" aria-expanded="false" aria-controls="collapsePages">
+	                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+	                            수업
+	                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+	                        </a>
+	                        <div class="collapse" id="collapsePages4" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+	                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+	                            	<th:block th:if="${ #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_USER' }">
+		                                <a class="nav-link collapsed" th:onclick="'location.href=\'/lessons/timetablecalendar\''"  data-bs-toggle="collapse">
+		                                    시간표
+		                                </a>
+	                                </th:block>
+	                                <th:block th:if="${ #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_USER' }">
+		                                <a class="nav-link collapsed" th:onclick="'location.href=\'/lessons/plan\''"  data-bs-toggle="collapse">
+		                                    수업계획서
+		                                </a>
+	                                </th:block>
+	                                <th:block th:if="${ #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_USER' or #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_ADMIN' }">
+		                                <a class="nav-link collapsed" th:onclick="'location.href=\'/lessons/report\''"  data-bs-toggle="collapse">
+		                                    수업보고서
+		                                </a>
+	                                </th:block>
+	                            </nav>
+	                        </div>
+						</th:block>
                         <!-- 식단 카테고리 -->
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages5" aria-expanded="false" aria-controls="collapsePages">
                             <div class="sb-nav-link-icon"><i class="fas fa-burger"></i></div>
@@ -113,24 +130,26 @@
                                 </a>
                             </nav>
                         </div>
-
+                        
                         <!-- 물품 카테고리 -->
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages6" aria-expanded="false" aria-controls="collapsePages">
-                            <div class="sb-nav-link-icon"><i class="fas fa-box-archive"></i></div>
-                            물품
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapsePages6" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link collapsed" th:onclick="'location.href=\'/item/itemmanagement\''" data-bs-toggle="collapse">
-                                    비품 별 재고
-                                </a>
-                                <a class="nav-link collapsed" th:onclick="'location.href=\'/item/companymanagement\''" data-bs-toggle="collapse">
-                                    거래업체
-                                </a>
-                            </nav>
-                        </div>
-
+						<th:block th:unless="${ #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_EATMANAGE' }">
+	                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages6" aria-expanded="false" aria-controls="collapsePages">
+	                            <div class="sb-nav-link-icon"><i class="fas fa-box-archive"></i></div>
+	                            물품
+	                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+	                        </a>
+	                        <div class="collapse" id="collapsePages6" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+	                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+	                                <a class="nav-link collapsed" th:onclick="'location.href=\'/item/itemmanagement\''" data-bs-toggle="collapse">
+	                                    비품 별 재고
+	                                </a>
+	                                <a class="nav-link collapsed" th:onclick="'location.href=\'/item/companymanagement\''" data-bs-toggle="collapse">
+	                                    거래업체
+	                                </a>
+	                            </nav>
+	                        </div>
+						</th:block>
+							
                         <!-- 공지사항 카테고리 -->
                         <a class="nav-link" th:onclick="'location.href=\'/notice/list\''">
                             <div class="sb-nav-link-icon"><i class="fas fa-circle-exclamation"></i></div>
@@ -141,13 +160,13 @@
                 </div>
                 <div class="sb-sidenav-footer">
                 	<th:block th:if="${ #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_USER' }">
-                		<div class="small" th:text="|${ #authentication.getPrincipal().empName } 선생님|"></div>
+                		<div class="small" th:text="|${ #authentication.getPrincipal().empName }  [선생님]|"></div>
                 	</th:block>
                 	<th:block th:if="${ #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_EATMANAGE' }">
-                		<div class="small" th:text="|${ #authentication.getPrincipal().empName } 영양사|"></div>
+                		<div class="small" th:text="|${ #authentication.getPrincipal().empName }  [영양사]|"></div>
                 	</th:block>
                 	<th:block th:if="${ #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_ADMIN' }">
-                		<div class="small" th:text="|${ #authentication.getPrincipal().empName } 관리자|"></div>
+                		<div class="small" th:text="|${ #authentication.getPrincipal().empName }  [관리자]|"></div>
                 	</th:block>
                     <p th:text="${ #authentication.getPrincipal().empId }">
                     
