@@ -20,6 +20,7 @@ import com.kindergarten.hi.common.paging.Pagenation;
 import com.kindergarten.hi.common.paging.SelectCriteria;
 import com.kindergarten.hi.food.controller.DeleteException;
 import com.kindergarten.hi.item.model.dto.ItemDTO;
+import com.kindergarten.hi.item.model.dto.ItemManagementHisDTO;
 import com.kindergarten.hi.item.model.service.ItemService;
 
 @Controller
@@ -96,9 +97,11 @@ public class ItemController {
 		log.info("[ItemController] goitemManagementDetail itemNo : " + itemNo);
 
 		ItemDTO itemDetail = itemService.goitemManagementDetail(itemNo);
+		ItemManagementHisDTO itemHisDetail = itemService.goitemManagementHisDetail(itemNo);
 		System.out.println("조회 : " + itemDetail);
 
 		mv.addObject("itemDetail", itemDetail);
+		mv.addObject("itemHisDetail", itemHisDetail);
 		mv.setViewName("/item/itemManagementDetail");
 
 		return mv;

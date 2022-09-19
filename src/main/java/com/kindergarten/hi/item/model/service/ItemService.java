@@ -6,6 +6,7 @@ import java.util.Map;
 import com.kindergarten.hi.common.paging.SelectCriteria;
 import com.kindergarten.hi.food.controller.DeleteException;
 import com.kindergarten.hi.item.model.dto.ItemDTO;
+import com.kindergarten.hi.item.model.dto.ItemManagementHisDTO;
 
 public interface ItemService {
 
@@ -15,7 +16,10 @@ public interface ItemService {
 
 	ItemDTO goitemManagementDetail(Long itemNo);
 
+	ItemManagementHisDTO goitemManagementHisDetail(Long itemNo);
+
 	void goItemDelete(ItemDTO item) throws DeleteException;
+	void getItemHisDelete(ItemDTO item) throws DeleteException;
 
 
 

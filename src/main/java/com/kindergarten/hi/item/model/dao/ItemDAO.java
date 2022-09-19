@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.kindergarten.hi.common.paging.SelectCriteria;
 import com.kindergarten.hi.item.model.dto.ItemDTO;
+import com.kindergarten.hi.item.model.dto.ItemManagementHisDTO;
 
 @Mapper
 public interface ItemDAO {	
@@ -18,5 +19,10 @@ public interface ItemDAO {
 	ItemDTO goItemmanageMentDetail(Long itemNo);
 
 	int goItemDelete(ItemDTO item);
+
+	ItemManagementHisDTO goItemmanageMentHisDetail(Long itemNo);
+
+
+	int getItemHisDelete(ItemDTO item);
 	
 }

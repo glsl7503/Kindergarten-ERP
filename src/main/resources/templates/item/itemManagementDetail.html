@@ -97,24 +97,24 @@
 
 						<tr>
 							<td class="bg-apricot">비품번호</td>
-							<td colspan="3" ></td>
+							<td colspan="3" th:text="${ itemHisDetail.processNo }"></td>
 
 						</tr>
 						<tr>
 							<td class="bg-apricot">사용수량</td>
-							<td colspan="3" ></td>
+							<td colspan="3" th:text="${ itemHisDetail.processIn }"></td>
 						</tr>
 						<tr>
 							<td class="bg-apricot">등록수량</td>
-							<td colspan="3" ></td>
+							<td colspan="3" th:text="${ itemHisDetail.processOut }"></td>
 						</tr>
 						<tr>
 							<td class="bg-apricot">처리시간</td>
-							<td colspan="3" ></td>
+							<td colspan="3" th:text="${ itemHisDetail.time }"></td>
 						</tr>
 						<tr>
-							<td class="bg-apricot">사용한 직원</td>
-							<td colspan="3" ></td>
+							<td class ="bg-apricot">사용한 직원</td>
+							<td colspan="3" th:text="${ itemHisDetail.empNo }"></td>
 						</tr>
 					</table>
 

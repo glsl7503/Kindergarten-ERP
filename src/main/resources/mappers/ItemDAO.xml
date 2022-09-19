@@ -131,6 +131,18 @@
 	      FROM ITEM F
 	     WHERE F.ITEM_NO = #{ itemNo } 
     </select>
+
+	 <select id="goItemmanageMentHisDetail" resultMap="ItemMenagementHisResultMap">
+    	SELECT
+    	B.PROCESS_IN
+		, B.TIME
+		, B.PROCESS_OUT
+		, B.PROCESS_NO
+		, B.EMP_NO
+	      FROM  ITEM_HIS A
+	      JOIN ITEMMANAGEMENT_HIS B ON (A.PROCESS_NO = B.PROCESS_NO)
+	      WHERE A.ITEM_NO = #{ itemNo } 
+    </select>
     
     
     <delete id="goItemDelete">
@@ -139,6 +151,11 @@
     	 WHERE ITEM_NO = #{ itemNo }
     </delete>
     
+    <delete id="getItemHisDelete">
+    	DELETE
+    	  FROM ITEM_HIS
+    	 WHERE ITEM_NO = #{ itemNo }
+    </delete>
 
     
 </mapper>
