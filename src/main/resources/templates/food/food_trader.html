@@ -8,6 +8,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>거래업체</title>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="sb-nav-fixed">
   
@@ -109,7 +110,7 @@
             </div>
         </main>
     </div>
-	<script th:inline="javascript">
+ 	<script th:inline="javascript">
 		
 	   let message = '[[${message}]]';
 	
@@ -138,6 +139,6 @@
 	 	$("#insert").click(function () {
 	        $("form").attr("action", "/food/trader/insert");
 	 	});
-	</script>
+	</script> 
 </body>
 </html>
