@@ -193,6 +193,12 @@ public class EmployeeServiceImpl implements EmployeeService	 {
 		List<ManagementDTO> managementList = employeedao.selectManagementList(selectCriteria);
 		return managementList;
 	}
+	
+//	@Override
+//	public List<ManagementDTO> selectManagementList2(SelectCriteria selectCriteria,int no) {
+//		List<ManagementDTO> managementList = employeedao.selectManagementList2(selectCriteria, no);
+//		return managementList;
+//	}
 
 	@Override
 	@Transactional

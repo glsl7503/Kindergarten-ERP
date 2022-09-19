@@ -76,6 +76,8 @@ public interface EmployeeDAO {
 
 	int employeeUpdate(EmployeeDTO employee);
 
+	List<ManagementDTO> selectManagementList2(SelectCriteria selectCriteria, int no);
+
 
 
 }

@@ -84,6 +84,8 @@ public interface EmployeeService {
 
 	void updateVacationPy(int no, String yN);
 
+//	List<ManagementDTO> selectManagementList2(SelectCriteria selectCriteria, int no);
+
 
 
 	

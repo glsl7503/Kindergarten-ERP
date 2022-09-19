@@ -165,19 +165,20 @@
     	,C.ATTE_SORT
     	,C.ATTE_WRITEDATE
            FROM ATTE_MANAGEMENT C
-    						<where>						
+    						<where>			
 							<if test="searchCondition == 'mananame'">
 	           				 C.ATTE_MANANAME LIKE '%' || #{ searchValue } || '%' 	
 							</if>
-							AND C.ATTE_PRO_YN = 'Y'
+						AND C.ATTE_PRO_YN = 'Y'
+						AND C.ATTE_DEL_YN = 'N'
     					</where>
                          )B
                   <![CDATA[
                   WHERE ROWNUM <= #{ endRow }
                   ]]>
                ) A
+ 
          WHERE A.RNUM >= #{ startRow }     
-        
 	</select>
 	
 	<!-- 회원정보 상세페이지 -->
@@ -363,6 +364,8 @@ VALUES
 	       		)
     </insert>
 
+	
+	
        <!-- <selectkey keyproperty="empNo" resultType="_int" order="before">
 		   	SELECT
 		   	       SEQ_EMP_NO.CURRVAL
