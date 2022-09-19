@@ -99,7 +99,6 @@ public class ItemController {
 		System.out.println("조회 : " + itemDetail);
 
 		mv.addObject("itemDetail", itemDetail);
-		mv.addObject("itemNo", itemNo);
 		mv.setViewName("/item/itemManagementDetail");
 
 		return mv;
@@ -110,20 +109,20 @@ public class ItemController {
 	@PostMapping("/itemmanagementdetail/delete")
 	public String goItemDelete(RedirectAttributes rttr, @ModelAttribute ItemDTO item) throws DeleteException{
 		
-		System.out.println(item);
+		System.out.println("item 조회 : " + item);
 		
 		itemService.goItemDelete(item);
 
-		rttr.addFlashAttribute("message", "수정 되었습니다.");
+//		rttr.addFlashAttribute("message", "수정 되었습니다.");
 
-		return "redirect:/item/itemManagement";
+		return "redirect:/item/itemmanagement";
 
 	}
-
-	@GetMapping("/itemcreat")
-	public String goItemCreat() {
-		return "item/itemCreat";
-	}
+//
+//	@GetMapping("/itemcreat")
+//	public String goItemCreat() {
+//		return "item/itemCreat";
+//	}
 
 //	@GetMapping("/itemupdate")
 //	public String goitemUpdate() {
