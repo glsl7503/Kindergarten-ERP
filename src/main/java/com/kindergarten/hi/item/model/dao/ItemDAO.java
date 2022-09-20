@@ -24,5 +24,9 @@ public interface ItemDAO {
 
 
 	int getItemHisDelete(ItemDTO item);
+
+	int insertItemgoods(ItemDTO item);
+
+	int itemUpdate(ItemDTO item);
 	
 }
