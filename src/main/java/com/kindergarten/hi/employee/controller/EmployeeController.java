@@ -226,9 +226,10 @@ public class EmployeeController {
         * 파라미터로 전달되는 페이지가 있는 경우 currentPage는 파라미터로 전달받은 페이지 수 이다.
         */
 	     
-	 	System.out.println("user" + user);
-		int userId = user.getEmpNo();
-		
+	// 	System.out.println("user" + user);
+	//	int userId = user.getEmpNo();
+	//	String auth = request.getParameter(a);
+				
        String currentPage = request.getParameter("currentPage");
        int pageNo = 1;
 
@@ -244,9 +245,21 @@ public class EmployeeController {
        String searchCondition = request.getParameter("searchCondition");
        String searchValue = request.getParameter("searchValue");
 
+       String userNo = null;
        Map<String, String> searchMap = new HashMap<>();
+       
+       int status = user.getLoginEmployeeRoleList().get(0).getAuthorityCode(); //권한조회
+       
+       System.out.println("user.getLoginEmployeeRoleList().get(0).getAuthorityCode() : " + user.getLoginEmployeeRoleList().get(0).getAuthorityCode());
+       System.out.println("Integer.toString(user.getEmpNo()) : " + Integer.toString(user.getEmpNo()));
+       
+       if(status !=3) {
+    	   userNo = Integer.toString(user.getEmpNo());
+       }
+      
        searchMap.put("searchCondition", searchCondition);
        searchMap.put("searchValue", searchValue);
+       searchMap.put("userNo", userNo);
 
        log.info("[ManagementController] 컨트롤러에서 검색조건 확인하기 : " + searchMap);
        
@@ -274,9 +287,9 @@ public class EmployeeController {
        }
 
        log.info("[ManagementController] selectCriteria : " + selectCriteria);
-
+       System.out.println("userNo : " + userNo);
        /* 조회해 온다 */
-       List<ManagementDTO> managementList = employeeService.selectManagementList(selectCriteria);
+       List<ManagementDTO> managementList = employeeService.selectManagementList(selectCriteria, userNo);
 
        log.info("[ManagementController] managementList : " + managementList);
 
@@ -289,79 +302,6 @@ public class EmployeeController {
        return mv;
    }
 	
-//	/* 사용자용 근태조회*/
-//	@GetMapping("/usermanagementList")
-//	public ModelAndView usermanagementList(HttpServletRequest request, ModelAndView mv, @AuthenticationPrincipal User user ) {
-//		
-//		 log.info("");
-//	     log.info("");
-//	     log.info("[ManagementController] =========================================================");
-//		/*
-//        * 목록보기를 눌렀을 시 가장 처음에 보여지는 페이지는 1페이지이다.
-//        * 파라미터로 전달되는 페이지가 있는 경우 currentPage는 파라미터로 전달받은 페이지 수 이다.
-//        */
-//	     
-//	   int no = ((UserImpl) user).getEmpNo();
-//	     
-//       String currentPage = request.getParameter("currentPage");
-//       int pageNo = 1;
-//
-//       if(currentPage != null && !"".equals(currentPage)) {
-//           pageNo = Integer.parseInt(currentPage);
-//       }
-//       
-//       if(pageNo <= 0) {
-//       	
-//       	pageNo = 1;
-//       }
-//
-//       String searchCondition = request.getParameter("searchCondition");
-//       String searchValue = request.getParameter("searchValue");
-//
-//       Map<String, String> searchMap = new HashMap<>();
-//       searchMap.put("searchCondition", searchCondition);
-//       searchMap.put("searchValue", searchValue);
-//
-//       log.info("[ManagementController] 컨트롤러에서 검색조건 확인하기 : " + searchMap);
-//       
-//       /*
-//        * 전체 게시물 수가 필요하다.
-//        * 데이터베이스에서 먼저 전체 게시물 수를 조회해올 것이다.
-//        * 검색조건이 있는 경우 검색 조건에 맞는 전체 게시물 수를 조회한다.
-//        */
-//       int totalCount = employeeService.selectTotalCount2(searchMap);
-//       log.info("[ManagementController] totalBoardCount : " + totalCount);
-//
-//       /* 한 페이지에 보여 줄 게시물 수 */
-//       int limit = 10;		//얘도 파라미터로 전달받아도 된다.
-//
-//       /* 한 번에 보여질 페이징 버튼의 갯수 */
-//       int buttonAmount = 5;
-//
-//       /* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
-//       SelectCriteria selectCriteria = null;
-//
-//       if(searchCondition != null && !"".equals(searchCondition)) {
-//           selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchCondition, searchValue);
-//       } else {
-//           selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
-//       }
-//
-//       log.info("[ManagementController] selectCriteria : " + selectCriteria);
-//
-//       /* 조회해 온다 */
-//       List<ManagementDTO> managementList = employeeService.selectManagementList2(selectCriteria, no);
-//
-//       log.info("[ManagementController] managementList : " + managementList);
-//
-//       mv.addObject("managementList", managementList);
-//       mv.addObject("selectCriteria", selectCriteria);
-//       log.info("[ManagementController] SelectCriteria : " + selectCriteria);
-//       mv.setViewName("employee/managementview");
-//
-//       log.info("[ManagementController] =========================================================");
-//       return mv;
-//   }
 	/* 근태정보 상세조회 */	
 	@GetMapping("/managementdetail")
 	public String selectManagementDetail(HttpServletRequest request, Model model) {
@@ -456,7 +396,7 @@ public class EmployeeController {
         return gson.toJson(empcalList);
 	}
 	
-	/* 출결관리 캘린더 */
+	/* 출결관리 캘린더 출근*/
 	@GetMapping("employeecalender")
 	public String insertCalender(@ModelAttribute CalenderEmployeeDTO calender, RedirectAttributes rttr, @AuthenticationPrincipal User user) throws employeeCalenderException {
 		
@@ -472,7 +412,7 @@ public class EmployeeController {
 		
 		return "redirect:/employee/employeecal";
 	}
-	 /* 출결관리 캘린더2 */ 
+	 /* 출결관리 캘린더 퇴근*/ 
 	@GetMapping("employeecalender2")
 	public String insert2Calender(@ModelAttribute CalenderEmployeeDTO calender, RedirectAttributes rttr, @AuthenticationPrincipal User user) throws employeeCalenderException {
 		
@@ -489,7 +429,7 @@ public class EmployeeController {
 		return "redirect:/employee/employeecal";
 	}
 	
-	@PostMapping("/employeeregister")
+	@GetMapping("/employeeregister")
 	public String registerEmployee(@ModelAttribute EmployeeDTO employeeDTO,@ModelAttribute EmplAuthDTO emplAuthDTO, HttpServletRequest request, RedirectAttributes rttr) {
 		
 		String address = request.getParameter("zipcode") + "$" + employeeDTO.getAddre() + "$" + request.getParameter("addre2") + "$" + request.getParameter("addre3");
@@ -513,28 +453,28 @@ public class EmployeeController {
 		return "redirect:/";
 	}
 	
-	@PostMapping("/idDupCheck")
-    public ResponseEntity<String> checkDuplication(@RequestBody EmployeeDTO employeeDTO) throws JsonProcessingException {
-
-        log.info("");
-        log.info("");
-        log.info("[EmployeeController] checkDuplication ==========================================================");
-
-        String result = "사용 가능한 아이디 입니다.";
-        log.info("[EmployeeController] Request Check ID : " + employeeDTO.getId());
-
-        if("".equals(employeeDTO.getId())) {
-            log.info("[EmployeeController] No Input Employee ID");
-            result = "아이디를 입력해 주세요";
-        } else if(employeeService.selectEmployeeById(employeeDTO.getId())) {
-            log.info("[EmployeeController] Already Exist");
-            result = "중복된 아이디가 존재합니다.";
-        }
-
-        log.info("[MemberController] checkDuplication ==========================================================");
-
-        return ResponseEntity.ok(result);
-    }
+//	@PostMapping("/idDupCheck")
+//    public ResponseEntity<String> checkDuplication(@RequestBody EmployeeDTO employeeDTO) throws JsonProcessingException {
+//
+//        log.info("");
+//        log.info("");
+//        log.info("[EmployeeController] checkDuplication ==========================================================");
+//
+//        String result = "사용 가능한 아이디 입니다.";
+//        log.info("[EmployeeController] Request Check ID : " + employeeDTO.getId());
+//
+//        if("".equals(employeeDTO.getId())) {
+//            log.info("[EmployeeController] No Input Employee ID");
+//            result = "아이디를 입력해 주세요";
+//        } else if(employeeService.selectEmployeeById(employeeDTO.getId())) {
+//            log.info("[EmployeeController] Already Exist");
+//            result = "중복된 아이디가 존재합니다.";
+//        }
+//
+//        log.info("[MemberController] checkDuplication ==========================================================");
+//
+//        return ResponseEntity.ok(result);
+//    }
 	
 	
 	// 권한체크

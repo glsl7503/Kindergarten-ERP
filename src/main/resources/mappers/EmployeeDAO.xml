@@ -28,7 +28,8 @@
 		<result property="mainreason" column="ATTE_MAINREASON" />
 		<result property="noreason" column="ATTE_NOREASON" />
 		<result property="pro_yn" column="ATTE_PRO_YN" />
-		<result property="del_yn" column="ATTE_DEL_YN" />		
+		<result property="del_yn" column="ATTE_DEL_YN" />	
+		<result property="emp_no" column="EMP_NO" />			
 	</resultMap>
 
 	<resultMap type="EmplAuthDTO" id="emplAuthResultMap">
@@ -140,17 +141,21 @@
         SELECT 
         	COUNT(*)
         FROM ATTE_MANAGEMENT A
-        <where>
-            <if test="searchCondition == 'mananame'">
-              AND A.ATTE_MANANAME LIKE '%' || #{ searchValue } || '%'
-            </if>
-            <if test="userNo!=null and !userNo.equals('')">
-        	 AND	A.EMP_NO = #{ userNo }
-        	</if>
-        	<if test="userNo ==null or userNo.equals('')">
-        						AND A.ATTE_PRO_YN = 'Y'
-        						</if>
-        </where>
+        <trim prefix="WHERE" prefixOverrides="AND">
+           
+	       <if test="searchCondition == 'mananame'"> 
+	          A.ATTE_MANANAME LIKE '%' || #{ searchValue } || '%'
+	            
+	       </if>
+	       <if test="userNo!=null and !userNo.equals('')">
+	          AND A.EMP_NO = #{ userNo }
+	       </if>
+	       <if test="userNo ==null or userNo.equals('')">
+	          AND A.ATTE_PRO_YN = 'Y'
+	        </if>
+          </trim>
+       
+    
     </select>
     
 	 <select id="selectManagementList" resultMap="managementResultMap">
@@ -161,31 +166,41 @@
     	,A.ATTE_MANANAME
     	,A.ATTE_SORT
     	,A.ATTE_WRITEDATE
+    	,A.ATTE_PRE
           FROM (SELECT ROWNUM RNUM
         ,B.ATTE_NO
     	,B.ATTE_MANANAME
     	,B.ATTE_SORT
     	,B.ATTE_WRITEDATE
+    	,B.ATTE_PRE
            FROM (SELECT C.ATTE_NO
     	,C.ATTE_MANANAME
     	,C.ATTE_SORT
     	,C.ATTE_WRITEDATE
+    	,C.ATTE_PRE
            FROM ATTE_MANAGEMENT C
-    						<where>
-		 					 						
-							<if test="searchCondition == 'mananame'">
-	           				 C.ATTE_MANANAME LIKE '%' || #{ searchValue } || '%' 	
-							</if>
-						AND C.ATTE_PRO_YN = 'Y'
-						AND C.ATTE_DEL_YN = 'N'
-    					</where>
+            <trim prefix="WHERE" prefixOverrides="AND">
+    		<if test="selectCriteria.searchCondition == 'mananame'"> 
+	          C.ATTE_MANANAME LIKE '%' || #{ selectCriteria.searchValue } || '%'
+	            
+	       </if>
+	       <if test="userNo!=null and !userNo.equals('')">
+	          AND C.EMP_NO = #{ userNo }
+	       </if>
+	       <if test="userNo ==null or userNo.equals('')">
+	          AND C.ATTE_PRO_YN = 'Y'
+	        </if>
+	          AND C.ATTE_DEL_YN = 'N'  
+         </trim> 
+          
                          )B
                   <![CDATA[
-                  WHERE ROWNUM <= #{ endRow }
+                  WHERE ROWNUM <= #{ selectCriteria.endRow }
                   ]]>
                ) A
- 
-         WHERE A.RNUM >= #{ startRow }     
+ 		
+	       WHERE A.RNUM >= #{ selectCriteria.startRow }  
+	       
 	</select>
 	
 	<!-- 회원정보 상세페이지 -->
@@ -225,6 +240,7 @@
 			INTO ATTE_MANAGEMENT G
 			(
 				G.ATTE_NO
+				,G.EMP_NO
 				,G.ATTE_WRITEDATE			
 				,G.ATTE_SORT
 				,G.ATTE_PRE
@@ -237,6 +253,7 @@
 			VALUES
 			(
 			  ATTE_NO.NEXTVAL 
+			 ,#{ emp_no }
 			 ,SYSDATE
 			 ,#{ sort }
 	 		 ,#{ pre }
@@ -271,7 +288,7 @@
 	 		,F.ATTE_NOREASON = #{ noreason } 
 	 		WHERE ATTE_NO = #{ no }
 	</update>
-	
+
 	<update id="managementsubmit">
 		UPDATE ATTE_MANAGEMENT H
 		 SET H.ATTE_PRO_YN = 'Y'
@@ -324,8 +341,7 @@
  			,EMP_TITLE
  			,EMP_GOTIME
  			,EMP_OUTTIME
- 			FROM EMP_CAL
- 		
+ 			FROM EMP_CAL	
   	</select>
  	
  	<insert id="insertEmployee" parameterType="EmployeeDTO">

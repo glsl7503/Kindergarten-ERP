@@ -52,7 +52,7 @@
 						<th>휴대폰번호</th>
 						<th>입사일</th>
 						<th>급여(원)</th>						
-						<th>삭제하기</th>
+						
 					</tr>
 				</thead>
 				<tbody>
@@ -64,9 +64,9 @@
 						<td class="delete" th:text="${employee.endate}"></td>
 						<td class="delete" th:text="${employee.salary}"></td>
 						
-						<td>
+				<!--		<td>
 							<button class="btn-orange ms-3"><a th:onclick="'location.href=\'/employee/delete?no='+ @{${ employee.no }} + '\''">삭제하기</a></button>
-						</td>
+						</td> -->
 					</tr>
 				</tbody>
 			</table>
@@ -146,7 +146,7 @@
  	 });
   
  	$("#insert").click(function () {
-        $("form").attr("action", "/employee/register");
+        $("form").attr("action", "/employee/employeeregister");
  	});
  	
  	

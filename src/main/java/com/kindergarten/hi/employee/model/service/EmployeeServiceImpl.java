@@ -1,5 +1,6 @@
 package com.kindergarten.hi.employee.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,10 +21,10 @@ import com.kindergarten.hi.employee.model.dto.CalenderEmployeeDTO;
 import com.kindergarten.hi.employee.model.dto.EmplAuthDTO;
 import com.kindergarten.hi.employee.model.dto.EmployeeDTO;
 import com.kindergarten.hi.employee.model.dto.HolidayDTO;
+import com.kindergarten.hi.employee.model.dto.ManagementDTO;
 import com.kindergarten.hi.food.controller.DeleteException;
 import com.kindergarten.hi.food.controller.InsertException;
 import com.kindergarten.hi.food.controller.UpdateException;
-import com.kindergarten.hi.employee.model.dto.ManagementDTO;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService	 {
@@ -189,8 +190,14 @@ public class EmployeeServiceImpl implements EmployeeService	 {
 	}
 
 	@Override
-	public List<ManagementDTO> selectManagementList(SelectCriteria selectCriteria) {
-		List<ManagementDTO> managementList = employeedao.selectManagementList(selectCriteria);
+	public List<ManagementDTO> selectManagementList(SelectCriteria selectCriteria,String userNo) {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("selectCriteria", selectCriteria);
+		map.put("userNo", userNo);
+		
+		System.out.println("map check : " + map);
+		List<ManagementDTO> managementList = employeedao.selectManagementList(map);
 		return managementList;
 	}
 	
@@ -225,6 +232,8 @@ public class EmployeeServiceImpl implements EmployeeService	 {
 
 	@Override
 	public int selectTotalCount2(Map<String, String> searchMap) {
+		
+		System.out.println(searchMap);
 		int result = employeedao.selectTotalCount2(searchMap);
 		return result;
 	}
@@ -290,7 +299,8 @@ public class EmployeeServiceImpl implements EmployeeService	 {
 	public List<HolidayDTO> selectVacationListPy(Map<String, Object> foodMap) {
 		List<HolidayDTO> empList = employeedao.selectVacationListPy(foodMap);
 		
-		return empList;	}
+		return empList;	
+	}
 	
 	@Override
 	@Transactional

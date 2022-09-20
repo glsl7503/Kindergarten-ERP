@@ -5,7 +5,7 @@ import java.sql.Date;
 public class ManagementDTO {
 
 
-	private Integer no;
+	private int no;
 	private String mananame;
 	private Date writedate;
 	private String sort;
@@ -14,11 +14,12 @@ public class ManagementDTO {
 	private String noreason;
 	private String pro_yn;
 	private String del_yn;
+	private int emp_no;
 	
 	public ManagementDTO() {}
 
-	public ManagementDTO(Integer no, String mananame, Date writedate, String sort, String pre, String mainreason,
-			String noreason, String pro_yn, String del_yn) {
+	public ManagementDTO(int no, String mananame, Date writedate, String sort, String pre, String mainreason,
+			String noreason, String pro_yn, String del_yn, int emp_no) {
 		super();
 		this.no = no;
 		this.mananame = mananame;
@@ -29,13 +30,14 @@ public class ManagementDTO {
 		this.noreason = noreason;
 		this.pro_yn = pro_yn;
 		this.del_yn = del_yn;
+		this.emp_no = emp_no;
 	}
 
-	public Integer getNo() {
+	public int getNo() {
 		return no;
 	}
 
-	public void setNo(Integer no) {
+	public void setNo(int no) {
 		this.no = no;
 	}
 
@@ -103,13 +105,22 @@ public class ManagementDTO {
 		this.del_yn = del_yn;
 	}
 
+	public int getEmp_no() {
+		return emp_no;
+	}
+
+	public void setEmp_no(int emp_no) {
+		this.emp_no = emp_no;
+	}
+
 	@Override
 	public String toString() {
 		return "ManagementDTO [no=" + no + ", mananame=" + mananame + ", writedate=" + writedate + ", sort=" + sort
 				+ ", pre=" + pre + ", mainreason=" + mainreason + ", noreason=" + noreason + ", pro_yn=" + pro_yn
-				+ ", del_yn=" + del_yn + "]";
+				+ ", del_yn=" + del_yn + ", emp_no=" + emp_no + "]";
 	}
+	
+	
+}
 
 	
-
-}

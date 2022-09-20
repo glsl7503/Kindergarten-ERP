@@ -37,6 +37,7 @@
                         <col width="25%">
                         <col width="25%">
                     </colgroup>
+                    <input type="hidden" name="emp_no" th:value="${#authentication.getPrincipal().getEmpNo()}">
                     <tr>
                         <td class="bg-apricot">근태사유서번호</td>
                         <td colspan="3"><input type="text" name="no"></td>

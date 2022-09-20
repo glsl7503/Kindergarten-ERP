@@ -40,7 +40,7 @@ public interface EmployeeService {
 
 	int selectTotalCount2(Map<String, String> searchMap);
 
-	List<ManagementDTO> selectManagementList(SelectCriteria selectCriteria);
+	List<ManagementDTO> selectManagementList(SelectCriteria selectCriteria, String userNo);
 
 	ManagementDTO selectManagementDetail(Long no);
 

@@ -26,7 +26,7 @@ public interface EmployeeDAO {
 
 	int deleteEmployee(EmployeeDTO employee);
 
-	List<ManagementDTO> selectManagementList(SelectCriteria selectCriteria);
+	List<ManagementDTO> selectManagementList(Map<String, Object> map);
 
 	int deletemanagement(int no);
 
