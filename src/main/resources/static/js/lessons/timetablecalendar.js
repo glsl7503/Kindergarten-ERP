@@ -15,9 +15,7 @@ function select(){
 			
 			if(Object.keys(data).length !== 0) {
 				calendar_draw(data);
-			} else {
-				console,log("오류 발생!!");
-			}
+			} 
 			
 		},
 		error: function(error){

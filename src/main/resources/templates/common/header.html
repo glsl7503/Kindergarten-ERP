@@ -26,7 +26,7 @@
 
 </head>
 <body>
-	<input type="text" id="loginMemberIdx" th:value="${ #authentication.getPrincipal().empNo }">
+	<input type="hidden" id="loginMemberIdx" th:value="${ #authentication.getPrincipal().empNo }">
 	<!-- 헤더 영역 -->
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-orange">
         <!-- Navbar Brand-->
