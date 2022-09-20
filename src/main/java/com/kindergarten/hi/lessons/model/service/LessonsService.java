@@ -193,6 +193,11 @@ public class LessonsService {
 		List<ReportTableDTO> time = lessonsDAO.reportTimeSelect(param);
 		return time;
 	}
+
+	public String authCheck(String loginIdx) {
+		String auth = lessonsDAO.authCheck(loginIdx);
+		return auth;
+	}
 	
 
 	

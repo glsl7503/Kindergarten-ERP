@@ -72,4 +72,6 @@ public interface LessonsDAO {
 
 	List<ReportTableDTO> reportTimeSelect(String param);
 
+	String authCheck(String loginIdx);
+
 }

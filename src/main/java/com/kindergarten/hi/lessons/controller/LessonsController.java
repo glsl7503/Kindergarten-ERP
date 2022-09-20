@@ -459,6 +459,8 @@ public class LessonsController {
 			String selectVal = (String) request.getParameter("selectVal");
 			String searchVal = (String) request.getParameter("searchVal");
 			
+			String loginIdx = (String) request.getParameter("loginIdx");
+			
 			String currentPage = request.getParameter("currentPage");
 	        int pageNo = 1;
 
@@ -472,6 +474,13 @@ public class LessonsController {
 			hm.put("endDate", endDate);
 			hm.put("selectVal", selectVal);
 			hm.put("searchVal", searchVal);
+			hm.put("loginIdx", loginIdx);
+			
+			String auth = lessonsService.authCheck(loginIdx);
+			
+			hm.put("auth", auth);
+			
+			System.out.println("auth > " + auth);
 			
 			int totalCount = lessonsService.reportSelectTotalCount(hm);
 			

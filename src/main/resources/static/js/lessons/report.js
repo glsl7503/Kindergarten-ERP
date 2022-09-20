@@ -15,6 +15,8 @@ function fn_go_page(pageNo){
 	let selectVal = $("#selectVal").val();
 	let searchVal = $("#searchVal").val();
 	
+	let loginIdx = $("#loginMemberIdx").val(); 
+	
 	if(startDate != "" && endDate != ""){
 		if(startDate > endDate){
 			alert("시작날짜와 마지막 날짜를 확인하세요.");
@@ -29,7 +31,8 @@ function fn_go_page(pageNo){
 					endDate:endDate,
 					selectVal:selectVal,
 					searchVal:searchVal,
-					currentPage:currentPage
+					currentPage:currentPage,
+					loginIdx:loginIdx
 				}
 				
 	console.log(data);
