@@ -24,8 +24,7 @@
                         <form id="searchForm"
                           th:action="@{/student/studentselectlist}"
                           method="get"
-                          style="display: inline-block">
-                          
+                          style="display: inline-block">                          
                             <div class="dataTable-search">
                                 <select th:name="searchCondition" id="searchCondition" class="dataTable-selector">
                                     <option value="category">-선택-</option>
@@ -35,8 +34,7 @@
                                 </select>
                                 <input type="search" id="searchValue" name="searchValue"  class="dataTable-input" placeholder="search">
                             </div>
-                            <button class="btn-orange ms-3" type="submit">검색</button>
-                             </form>
+                            <button class="btn-orange ms-3" type="submit">검색</button>                             </form>
                             
                             <div>
                                 <button class="btn-orange"
@@ -79,7 +77,8 @@
                                     <td th:text="${ stu.phone }"></td>
                                     <td th:text="${ stu.adderss }"></td>
                                     <td th:text="${ stu.admission }"></td>
-                                    <td th:text="${ stu.exit }"></td>                                    
+                                    <td th:text="${ stu.exit }" th:if="${ stu.exit } != null"></td>                                    
+                                    <td th:if="${ stu.exit } == null">--</td>                                    
                                 </tr>                           
                             </tbody>
                             
@@ -112,53 +111,49 @@
                                 </ul>
                             </nav>
                         </div> -->
-                         <!-- 페이지 처리 -->
-                <div class="dataTable-bottom" align="center">
-                <nav class="dataTable-pagination">
-                    <!-- 맨 앞으로 이동 버튼 -->
-                    <button
-                            th:onclick="'location.href=\'/board/list?currentPage='+ @{${selectCriteria.startPage}} + '\''"
-                            th:disabled="${selectCriteria.pageNo == 1}"
-                    >
-                        <<
-                    </button>
-                    <!-- 이전 페이지 버튼 -->
-                    <button
-                            th:onclick="'location.href=\'/board/list?currentPage='+ @{${selectCriteria.pageNo - 1}} + '\''"
-                            th:disabled="${selectCriteria.pageNo == 1}"
-                    >
-                        <
-                    </button>
-                    <!-- 숫자 버튼 -->
-                    <th:block th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
-                        <button
-                                th:text="${ page }"
-                                th:onclick="'location.href=\'/board/list?currentPage='+ @{${page}} + '\''"
-                                th:disabled="${ selectCriteria.pageNo eq page }">
-                        </button>
-                    </th:block>
+                           <!-- 페이지 처리 -->
+			  <div class="pagingArea dataTable-bottom">
+                    <nav class="dataTable-pagination">
+                        <ul class="dataTable-pagination-list">
+                            <li class="pager">
+                              <a
+                            	th:onclick="'location.href=\'/student/studentselectlist?currentPage='+ @{${selectCriteria.startPage}} + '\''"
+                            	th:disabled="${selectCriteria.pageNo == 1}"> <<
+                    	 	  </a>
+                            
+                            </li>
+                            <li class="pager">
+                                <a 
+                                   th:onclick="'location.href=\'/student/studentselectlist?currentPage='+ @{${selectCriteria.pageNo - 1}} + '\''"
+                            	   th:disabled="${selectCriteria.pageNo == 1}"> <
+                            	</a>
+                            </li>
+                           
+                             <li class="active" th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
+                        		<a class="dataTable-pagination-list"
+                               	   th:text="${ page }"
+                               	   th:onclick="'location.href=\'/student/studentselectlist?currentPage='+ @{${page}} + '\''"
+                               	   th:disabled="${ selectCriteria.pageNo eq page }">
+                        		</a>
+                          	 </li>
+                            
+                            <li class="pager">
+                                <a 
+                                   th:onclick="'location.href=\'/student/studentselectlist?currentPage='+ @{${selectCriteria.pageNo + 1}} + '\''"
+                            	   th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}">>
+                            	</a>
+                            </li>
+                            <li class="pager">
+                               <a
+                            	   th:onclick="'location.href=\'/student/studentselectlist?currentPage='+ @{${selectCriteria.maxPage}} + '\''"
+                           	 	   th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"> >>
+                    		   </a>
+                            </li>
+                        </ul>
+                    </nav> 
+            	</div>
 
-                    <!-- 다음 페이지 버튼 -->
-                    <button
-                            th:onclick="'location.href=\'/board/list?currentPage='+ @{${selectCriteria.pageNo + 1}} + '\''"
-                            th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"
-                    >
-                        >
-                    </button>
-                    <!-- 마지막 페이지로 이동 버튼 -->
-                    <button
-                            th:onclick="'location.href=\'/board/list?currentPage='+ @{${selectCriteria.maxPage}} + '\''"
-                            th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"
-                    >
-                        >>
-                    </button>
-                    </nav>
-                </div>
-                    </div>
-                </main>
-            </div>
-            <script th:inline="javascript">
-   
+            <script th:inline="javascript">  
 
     if (document.querySelectorAll(".dataTable-table td")) {
         const $tds = document.querySelectorAll(".dataTable-table td");

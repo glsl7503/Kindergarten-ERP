@@ -9,62 +9,20 @@
     <meta name="author" content="" />
     <title>HI KINDERGARTEN</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-    <link href="../css/styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../css/commons.css">
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-    <style>
-        .btn-upload {
-            width: 150px;
-            height: 30px;
-            background: #fff;
-            border: 1px solid rgb(77, 77, 77);
-            border-radius: 10px;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #file {
-            display: none;
-        }
-
-        .backslash {
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="0" x2="100%" y2="100%" stroke="gray" /></svg>');
-        }
-
-        .slash,
-        .backslash {
-            text-align: left;
-        }
-
-        .slash div,
-        .backslash div {
-            text-align: right;
-        }
-        
-        h5 {
-            margin-top: -75px;
-
-
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/student/Studentupdate.css}">  
 </head>
 
 <body class="sb-nav-fixed">
 
 	<div th:replace="common/header"></div>
 	<div th:replace="common/sidebar"></div>
-
-
   
         <!-- 컨텐츠 영역 -->
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
                     <h1 class="mt-4">원생개인정보 수정</h1> 
-                    <form th:action="@{ /student/studentselect }" method="post">
+                    <form th:action="@{ /student/studentupdate2 }" method="post">
                     <button class="btn-orange">수정</button>                    
                     <button class="btn-orange">취소하기</button>                    
                     <br>
@@ -78,9 +36,10 @@
                         </colgroup>
                         <tr>
                             <td class="col-apricot">성명</td>
-                            <td class="txtBox"><input type="text" th:value="${ student.name }"></td>
+                            <td class="txtBox"><input type="text" name="name" th:value="${ student.name }"></td>
                             <td class="col-apricot">반</td>
-                            <td class="txtBox"><select name="itemls1">
+                            <td class="txtBox">
+                            <select name="wClass">
                                 <option value="1">토끼반</option>
                                 <option value="2">해바라기반</option>
                                 <option value="3">꽃잎반</option>
@@ -91,11 +50,11 @@
                         </tr>
                         <tr>
                             <td class="col-apricot">생년월일</td>
-                            <td class="txtBox"><input type="date" th:value="${ student.birth }"></td>
+                            <td class="txtBox"><input type="date" name="birth" th:value="${ student.birth }"></td>
                             <td class="col-apricot">주민등록번호</td>
                             <td class="txtBox" th:text="${ student.resident }">
-                                <input type="tel" style="width: 130px;"  id="jumin1" name="inputValue" maxlength="6" > 
-                                - <input type="input" style="width: 130px;" id="jumin2" maxlength="7">
+                                <input type="tel" style="width: 130px;"  id="jumin1" name="resident" maxlength="6"> - 
+                                <input type="text" style="width: 130px;" id="jumin2" name="resident2" maxlength="7" required>
                                 <script>
                                     $("#jumin1").on('keypress', function(){
                                       var text = $('#jumin1').val().replace(/[^0-9]/g,"");
@@ -160,20 +119,21 @@
 								</script>
                             </td> 
                             <td class="col-apricot">학생번호</td>
-                            <td class="txtBox"th:text="${ student.no }"></td>
+                            <td class="txtBox" name="no" th:text="${ student.no }"></td>
+                            <input type="hidden" th:value="${ student.no }" name="no"/>
                         </tr>
                         <tr>
                             <td class="col-apricot">입학일</td>
-                            <td class="txtBox"><input type="date" th:value="${ student.admission }"></td>
+                            <td class="txtBox"><input type="date" name="admission" th:value="${ student.admission }"></td>
                             <td class="col-apricot">졸업일</td>
-                            <td class="txtBox"><input type="date" th:value="${ student.exit }"></td>
+                            <td class="txtBox"><input type="date" name="exit" th:value="${ student.exit }"></td>
                         </tr>
                         <tr>
                            
                             <td class="col-apricot">주소</td>
                             <td colspan="3" class="txtBox">
-                                <input type="text" id="sample5_address" placeholder="주소" th:value="${ student.adderss }">
-                                <input type="button" class="btn-sky" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+                                <input type="text" id="sample5_address" placeholder="주소" name="adderss" th:value="${ student.adderss }">
+                                <input type="button" class="btn-sky" onclick="sample5_execDaumPostcode()" value="주소 검색" name="adderss"><br>
                                 <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
 
                                 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -242,7 +202,7 @@
                         </colgroup>
                         <tr>
                             <td class="col-apricot backslash" >
-                                <div>요일</div>교시
+                                <div>구분</div>학기
                             </td>
                             <td>1학기</td>
                             <td>2학기</td>
@@ -252,45 +212,45 @@
                             <td>2학기</td>
                         </tr>
                         <tr>
-                            <td class="col-apricot">보육일수</td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[0].total }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[1].total }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[2].total }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[3].total }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[4].total }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[5].total }"></td>
+                            <td class="col-apricot">출석</td>
+                            <td><input type="number" style="width: 50px;" name="p1_1" th:value="${ attendance[0].attendence[0].total }"></td>
+                            <td><input type="number" style="width: 50px;" name="p1_2" th:value="${ attendance[0].attendence[1].total }"></td>
+                            <td><input type="number" style="width: 50px;" name="p2_1" th:value="${ attendance[0].attendence[2].total }"></td>
+                            <td><input type="number" style="width: 50px;" name="p2_2" th:value="${ attendance[0].attendence[3].total }"></td>
+                            <td><input type="number" style="width: 50px;" name="p3_1" th:value="${ attendance[0].attendence[4].total }"></td>
+                            <td><input type="number" style="width: 50px;" name="p3_2" th:value="${ attendance[0].attendence[5].total }"></td>
                             
                         </tr>
                         <tr>
                             <td class="col-apricot">결석</td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[0].non }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[1].non }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[2].non }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[3].non }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[4].non }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[5].non }"></td>
+                            <td><input type="number" style="width: 50px;" name="p1_3" th:value="${ attendance[0].attendence[0].non }"></td>
+                            <td><input type="number" style="width: 50px;" name="p1_4" th:value="${ attendance[0].attendence[1].non }"></td>
+                            <td><input type="number" style="width: 50px;" name="p2_3" th:value="${ attendance[0].attendence[2].non }"></td>
+                            <td><input type="number" style="width: 50px;" name="p2_4" th:value="${ attendance[0].attendence[3].non }"></td>
+                            <td><input type="number" style="width: 50px;" name="p3_3" th:value="${ attendance[0].attendence[4].non }"></td>
+                            <td><input type="number" style="width: 50px;" name="p3_4" th:value="${ attendance[0].attendence[5].non }"></td>
                         </tr>
                         <tr>
                             <td class="col-apricot">지각</td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[0].late }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[1].late }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[2].late }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[3].late }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[4].late }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[5].late }"></td>
+                            <td><input type="number" style="width: 50px;" name="p1_5" th:value="${ attendance[0].attendence[0].late }"></td>
+                            <td><input type="number" style="width: 50px;" name="p1_6" th:value="${ attendance[0].attendence[1].late }"></td>
+                            <td><input type="number" style="width: 50px;" name="p2_5" th:value="${ attendance[0].attendence[2].late }"></td>
+                            <td><input type="number" style="width: 50px;" name="p2_6" th:value="${ attendance[0].attendence[3].late }"></td>
+                            <td><input type="number" style="width: 50px;" name="p3_5" th:value="${ attendance[0].attendence[4].late }"></td>
+                            <td><input type="number" style="width: 50px;" name="p3_6" th:value="${ attendance[0].attendence[5].late }"></td>
                         </tr>
                         <tr>
                             <td class="col-apricot">병결</td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[0].sick }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[1].sick }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[2].sick }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[3].sick }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[4].sick }"></td>
-                            <td><input type="number" style="width: 50px;" th:value="${ attendance[0].attendence[5].sick }"></td>
+                            <td><input type="number" style="width: 50px;" name="p1_7" th:value="${ attendance[0].attendence[0].sick }"></td>
+                            <td><input type="number" style="width: 50px;" name="p1_8" th:value="${ attendance[0].attendence[1].sick }"></td>
+                            <td><input type="number" style="width: 50px;" name="p2_7" th:value="${ attendance[0].attendence[2].sick }"></td>
+                            <td><input type="number" style="width: 50px;" name="p2_8" th:value="${ attendance[0].attendence[3].sick }"></td>
+                            <td><input type="number" style="width: 50px;" name="p3_7" th:value="${ attendance[0].attendence[4].sick }"></td>
+                            <td><input type="number" style="width: 50px;" name="p3_8" th:value="${ attendance[0].attendence[5].sick }"></td>
                         </tr>
                         <tr>
                             <td class="col-apricot" >특이사항</td>
-                            <td colspan="6" class="txtBox"><input type="text" style="width: 600px;" th:value="${ student.spac }"></td>
+                            <td colspan="6" class="txtBox"><input type="text" style="width: 600px;" name="spac" th:value="${ student.spac }"></td>
                         </tr>
                     </table>
                     <table class="tbTem tdTmq">
@@ -305,12 +265,13 @@
                             <td class="col-apricot">보호자1</td>
                            <td
 								style="text-align: left; position: relative; left: 20px; top: 7px">
-							<select name="ParentsDTO[0].name">
+							<select name="parents1">
 									<option value="부">부</option>
 									<option value="모">모</option>									
 							</select>
 								<p>
 									이름 : <input type="text" style="width: 100px;" name="name1" th:value="${ choice[0].parents.name }" required>
+									<input type="hidden" th:value="${ choice[0].parents.no }" name="pNo1">
 								</p> <br>
 								<p>
 									번호 : <input type="tel" oninput="hypenTel1(this)" maxlength="13" name="phone1" id="phone" th:value="${ choice[0].parents.phone }" required> 
@@ -328,12 +289,13 @@
 							<td class="col-apricot">보호자2</td>
 							<td
 								style="text-align: left; position: relative; left: 20px; top: 7px">
-								<select name="ParentsDTO[1].name">
+								<select name="parents2">
 									<option value="부">부</option>
 									<option value="모">모</option>									
 								</select>
 								<p>
 									이름 : <input type="text" style="width: 100px;" name="name2" th:value="${ choice[1].parents.name }" required>
+									<input type="hidden" th:value="${ choice[1].parents.no }" name="pNo2">
 								</p> <br>
 								<p>
 									번호 : <input type="tel" oninput="hypenTel2(this)" maxlength="13" name="phone2" id="phone" th:value="${ choice[1].parents.phone }" required> 
@@ -347,13 +309,19 @@
 								</p>
 							</td>                  
                         </tr>
+                      </table>
                     </form>
 
                 </div>
             </main>
         </div>
-    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="../js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <script src="../js/datatables-simple-demo.js"></script>
 </body>
 
 </html>

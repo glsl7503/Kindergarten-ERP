@@ -12,6 +12,7 @@ import com.kindergarten.hi.student.model.dao.StudentDAO;
 import com.kindergarten.hi.student.model.dto.AttendanceDTO;
 import com.kindergarten.hi.student.model.dto.ParentsDTO;
 import com.kindergarten.hi.student.model.dto.StudentDTO;
+import com.kindergarten.hi.student.model.dto.WonParDTO;
 
 
 @Service
@@ -40,7 +41,7 @@ public class StudentService {
 
 	/**
 	 * <pre>
-	 *   원생 상세조
+	 *   원생 상세조회
 	 * </pre>
 	 * 
 	 * @param no
@@ -60,11 +61,13 @@ public class StudentService {
 		return choice;
 	}
 
+	
 	public List<StudentDTO> selectAdStudentDetail(Long no) {
 
 		List<StudentDTO> attendance = mapper.selectAdStudentDetail(no);
 		return attendance;
 	}
+	
 	public StudentDTO selectStudentinforDetail(Long no) {
 		StudentDTO studentinforDetail = null;
 
@@ -76,17 +79,10 @@ public class StudentService {
 
 	/* 공지사항 등록 */
 	@Transactional
-	public int registstudent(StudentDTO student, ParentsDTO parents, Map<String, Object> hm) {
+	public void registstudent(StudentDTO student, ParentsDTO parents, Map<String, Object> hm) {
 
 		System.out.println("student 조회" + student);
-		
-		String name = student.getClassDTO().getName();
-		
-		System.out.println("name: " + name);
-		
-		System.out.println("no1 =" + student);
-	 	student.setClassDTO(mapper.selectClassname(name));
-	 	System.out.println("no2 =" + student);
+
 	 	// 2. 원생정보 insert하기
 	 	int result = mapper.insertstudent(student);
 	 	
@@ -97,40 +93,98 @@ public class StudentService {
 	 		result = mapper.insertstudentinfor(attendance);
 	 	}
 	 	
-//	 	Employee1DTO employee = mapper.selectEmployee(student.getEmpNo());
-//	 	System.out.println("employee =" + employee);
-//	 	student.setEmployee(employee);
-//	 	System.out.println("no3 =" + student);
-	 	
-		
 		System.out.println("result =" + result);
 		if (result > 0) {
 			
 			System.out.println("hm 조회 : " + hm);
 			System.out.println("attendence1 조회 : " + hm.get("attendence1"));
 			//mapper.insertSelectstudent(hm.get("attendence1"));
-			mapper.insertSelectstudentto(parents);
+			
+			int parenttest = 0;
+			int wonClassNotest = 0;
+			// 1
+			ParentsDTO parent1 = (ParentsDTO) hm.get("parent1");
+			int n1 = mapper.insertSelectstudentto(parent1);
 
+			wonClassNotest = mapper.selectClassNo();
+			parenttest = mapper.selectParentSelect();
+			
+			WonParDTO wonPar1 = new WonParDTO();
+			wonPar1.setWonClassNo(wonClassNotest);
+		    wonPar1.setParentsNo(parenttest);
+		    int n3 = mapper.lastInsert(wonPar1);
+		    
+			// 2
+			ParentsDTO parent2 = (ParentsDTO) hm.get("parent2");
+			int n2 = mapper.insertSelectstudentto(parent2);
+			System.out.println("n2" + n2);
+			wonClassNotest = mapper.selectClassNo();
+			parenttest = mapper.selectParentSelect();
+			
+			WonParDTO wonPar2 = new WonParDTO();
+			wonPar2.setWonClassNo(wonClassNotest);
+		    wonPar2.setParentsNo(parenttest);
+		    int n4 = mapper.lastInsert(wonPar2);
+			
+			System.out.println("n4" + n4);
+		    
+		    
+//		   
 		}
-		return result;
-
 	}
 	/* 삭제 */
 	@Transactional
 	public void removeStudent(Long no) {
 		 int result = mapper.removeStudent(no);
 	        }
+	
+	
 	/* 수정 */
 	@Transactional
-	public int modifyStudent(StudentDTO student) {
-		 int result = mapper.modifyStudent(student);
-		 
-		return result;
+	public void modifyStudent(StudentDTO student, Map<String, Object> hm) {
+		
+		
+		
+		System.out.println("student 조회" + student);
 
-//	        if(!(result > 0)) {
-//	            throw new NoticeModifyException("공지사항 수정에 실패하셨습니다.");
-//	        }		
-	}
+	 	// 2. 원생정보 insert하기
+	 	int result = mapper.modifyStudent(student);
+	 	
+	 	int num1 = mapper.selectStudentNum(student);
+	 	int num2= num1 - 1;
+	 	System.out.println("애들 출결 번호 조회 : " + num1);
+	 	int classno = student.getNo();
+	 	for(int i = 1; i < 7; i++) {	 		
+	 		AttendanceDTO attendance = (AttendanceDTO) hm.get("attendence" + i);
+	 		attendance.setClassno(classno);
+	 		System.out.println("insert attendance" + i + " = " + attendance);
+	 		int number = num2 + i;
+	 		attendance.setNo(number);
+	 		result = mapper.updatestudentinfor(attendance);
+	 	}
+	 	
+	 	
+		System.out.println("result =" + result);
+		if (result > 0) {
+			
+			System.out.println("hm 조회 : " + hm);
+			System.out.println("attendence1 조회 : " + hm.get("attendence1"));
+			//mapper.insertSelectstudent(hm.get("attendence1"));
+			
+			// 1
+			ParentsDTO parent1 = (ParentsDTO) hm.get("parent1");
+			
+			
+			int n1 = mapper.updateSelectstudentto(parent1);
+			System.out.println("n1" + n1);
+		    
+			// 2
+			ParentsDTO parent2 = (ParentsDTO) hm.get("parent2");
+			int n2 = mapper.updateSelectstudentto(parent2);
+			System.out.println("n2" + n2);
+	 
+    	}
+    }
 }
 
 	
