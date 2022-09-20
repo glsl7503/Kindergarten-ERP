@@ -144,6 +144,12 @@
             <if test="searchCondition == 'mananame'">
               AND A.ATTE_MANANAME LIKE '%' || #{ searchValue } || '%'
             </if>
+            <if test="userNo!=null and !userNo.equals('')">
+        	 AND	A.EMP_NO = #{ userNo }
+        	</if>
+        	<if test="userNo ==null or userNo.equals('')">
+        						AND A.ATTE_PRO_YN = 'Y'
+        						</if>
         </where>
     </select>
     
@@ -165,7 +171,8 @@
     	,C.ATTE_SORT
     	,C.ATTE_WRITEDATE
            FROM ATTE_MANAGEMENT C
-    						<where>			
+    						<where>
+		 					 						
 							<if test="searchCondition == 'mananame'">
 	           				 C.ATTE_MANANAME LIKE '%' || #{ searchValue } || '%' 	
 							</if>
