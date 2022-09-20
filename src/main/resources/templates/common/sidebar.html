@@ -168,8 +168,7 @@
                 	<th:block th:if="${ #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_ADMIN' }">
                 		<div class="small" th:text="|${ #authentication.getPrincipal().empName }  [관리자]|"></div>
                 	</th:block>
-                    <p th:text="${ #authentication.getPrincipal().empId }">
-                    
+                    <!-- <p th:text="${ #authentication.getPrincipal().empId }"> -->
                 </div>
             </nav>
         </div>
