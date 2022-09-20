@@ -24,8 +24,10 @@
 				<br>
 				<form th:action="@{ /lessons/timetable/modify } " method="POST">
 					<div class="btn-right-mv70">
-						<button class="btn-orange" type="submit">임시저장</button>
-						<button class="btn-orange" type="button" onclick="submit_btn();">제출하기</button>
+						<th:block th:if="${ plan.report.toString() != 'Y' }">
+							<button class="btn-orange" type="submit">임시저장</button>
+							<button class="btn-orange" type="button" onclick="submit_btn();">제출하기</button>
+						</th:block>
 					</div>
 					<br>
 					<table class="tbTem">

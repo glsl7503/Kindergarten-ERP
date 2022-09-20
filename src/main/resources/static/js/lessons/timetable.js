@@ -30,9 +30,11 @@ function select(param) {
 				console.log(jsonObjEmpList);
 				console.log(jsonObjEmpList.empNo);
 
+				
+
 				if (jsonObjList == 0) {
 
-					console.log("asdsad");
+			
 					$tr = $("<tr>");
 
 					$period = $("<input name='period' style='border:0; text-align:center;' size='1' readonly>").val('1');
@@ -44,7 +46,6 @@ function select(param) {
 					$minus_btn = $("<button type='button' class='btn-success' onclick='minus(this); return false;'>-</button>");
 
 					for (let j in jsonObjEmpList) {
-
 
 						$option = $("<option value=" + jsonObjEmpList[j].empNo + ">").text(jsonObjEmpList[j].empName + "(" + jsonObjEmpList[j].empId + ")");
 
@@ -84,9 +85,11 @@ function select(param) {
 
 						for (let j in jsonObjEmpList) {
 
-
-							$option = $("<option value=" + jsonObjEmpList[j].empNo + ">").text(jsonObjEmpList[j].empName + "(" + jsonObjEmpList[j].empId + ")");
-
+							if(jsonObjList.title == jsonObjEmpList[j].empNo){
+								$option = $("<option value=" + jsonObjEmpList[j].empNo + "selected >").text(jsonObjEmpList[j].empName + "(" + jsonObjEmpList[j].empId + ")");
+							} else {
+								$option = $("<option value=" + jsonObjEmpList[j].empNo + ">").text(jsonObjEmpList[j].empName + "(" + jsonObjEmpList[j].empId + ")");
+							}
 							$select.append($option);
 
 						}
