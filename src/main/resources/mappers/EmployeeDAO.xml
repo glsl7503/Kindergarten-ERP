@@ -342,6 +342,7 @@
  			,EMP_GOTIME
  			,EMP_OUTTIME
  			FROM EMP_CAL	
+ 			WHERE EMP_NO = #{ no }
   	</select>
  	
  	<insert id="insertEmployee" parameterType="EmployeeDTO">

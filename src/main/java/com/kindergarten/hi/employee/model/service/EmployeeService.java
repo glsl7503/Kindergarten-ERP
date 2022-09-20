@@ -50,7 +50,7 @@ public interface EmployeeService {
 
 	void managementDelete(int no) throws managementDeleteException;
 
-	List<CalenderEmployeeDTO> selectempCalenderList();
+	List<CalenderEmployeeDTO> selectempCalenderList(int no);
 
 	void insertemployeeCalender(CalenderEmployeeDTO calender, int no) throws employeeCalenderException;
 
@@ -83,6 +83,7 @@ public interface EmployeeService {
 	void detailUpdateVacation(HolidayDTO holi) throws InsertException;
 
 	void updateVacationPy(int no, String yN);
+
 
 //	List<ManagementDTO> selectManagementList2(SelectCriteria selectCriteria, int no);
 

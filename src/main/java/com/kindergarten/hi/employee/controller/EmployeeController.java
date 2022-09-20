@@ -379,15 +379,16 @@ public class EmployeeController {
 	/* 캘린더 리스트 조회 */
 	@ResponseBody
 	@GetMapping(value="/callist", produces = "application/json; charset=utf-8")
-	public String selectempCalenderList() {
+	public String selectempCalenderList(@AuthenticationPrincipal User user) {
 		log.info("");
         log.info("");
         log.info("[CalendarController] 시작 : =====================================");
         
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         
-        
-        List<CalenderEmployeeDTO> empcalList = employeeService.selectempCalenderList();
+   
+        int no = ((UserImpl) user).getEmpNo();
+        List<CalenderEmployeeDTO> empcalList = employeeService.selectempCalenderList(no);
         
         System.out.println("캘린더 정보들어오는지 확인 : " + empcalList);
         log.info("[CalendarController] : " + gson.toJson(empcalList));

@@ -50,7 +50,7 @@ public interface EmployeeDAO {
 
 	int insertVacationEmp(int userNo);
 	
-	List<CalenderEmployeeDTO> selectempCalenderList();
+	List<CalenderEmployeeDTO> selectempCalenderList(int userNo);
 
 	HolidayDTO selectVacationDetail(Long no);
 

@@ -269,9 +269,9 @@ public class EmployeeServiceImpl implements EmployeeService	 {
 	}
 
 	@Override
-	public List<CalenderEmployeeDTO> selectempCalenderList() {
+	public List<CalenderEmployeeDTO> selectempCalenderList(int userNo) {
 		
-		List<CalenderEmployeeDTO> empcalList = employeedao.selectempCalenderList();
+		List<CalenderEmployeeDTO> empcalList = employeedao.selectempCalenderList(userNo);
 		return empcalList;
 	}
 

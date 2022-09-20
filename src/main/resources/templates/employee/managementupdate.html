@@ -48,11 +48,11 @@
 	                      <td colspan="3"><input type="date" name="writedate" th:value="${ management.writedate }"></td>
 	                  </tr>
 	                   <tr>
-	                      <td class="bg-apricot">근태분류</td>
+	                      <td class="bg-apricot">근태분류<br>(지각/조퇴/결근)</td>
 	                      <td colspan="3"><input type="text" name="sort" th:value="${ management.sort }"></td>
 	                  </tr>
 	                   <tr>
-	                      <td class="bg-apricot">사전보고여부</td>
+	                      <td class="bg-apricot">사전보고여부<br>( O / X )</td>
 	                      <td colspan="3"><input type="text" name="pre" th:value="${ management.pre }"></td>
 	                  </tr>
 	                   <tr>
@@ -66,8 +66,8 @@
               </table>
              
               <div class="btn-right-mv">
-                  <button class="btn-orange update" type="submit">수정하기 </button>
-                   <button class="btn-orange update2" type="submit">제출하기 </button>
+                  <button class="btn-orange update" type="submit" sec:authorize="hasAnyRole('AUTH_EATMANAGE','AUTH_USER')">수정하기 </button>
+                   <button class="btn-orange update2" type="submit" sec:authorize="hasAnyRole('AUTH_EATMANAGE','AUTH_USER')">제출하기 </button>
  				 <button class="btn-orange delete" type="submit">삭제하기 </button>
  				 <button class="btn-orange" type="button" onclick="history.back()">돌아가기</button>
               </div>
