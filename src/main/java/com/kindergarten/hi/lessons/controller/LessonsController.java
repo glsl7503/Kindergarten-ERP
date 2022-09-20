@@ -620,6 +620,20 @@ public class LessonsController {
 		
 		System.out.println("timeIdx > " + timeIdx);
 		
+		for(String i : period) {
+			System.out.println("period > " + i);
+			
+		}
+		
+		for(String i : emp) {
+			System.out.println("emp > " + i);
+			
+		}
+		for(String i : contents) {
+			System.out.println("contents > " + i);
+			
+		}
+		
 		int result1 = lessonsService.timeTableDelete(timeIdx);
 		
 		log.info("시간표 삭제 result1 > " + result1);
@@ -637,7 +651,7 @@ public class LessonsController {
 			hm.put("period", period[i]);
 			hm.put("emp", emp[i]);
 			hm.put("contents", contents[i]);
-			
+			System.out.println("hm > " + hm);
 			int result2 = lessonsService.timeTableModify(hm);
 			
 			if(result2 > 0) {

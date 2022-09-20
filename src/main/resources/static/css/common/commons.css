@@ -59,6 +59,11 @@
         0 3px 13px -1px rgba(0, 0, 0, 0.21);
 }
 
+.btn-orange a{
+    color: white;
+    text-decoration: none;
+}
+
 .btn-sky {
     color: white;
     padding: 5px 15px;

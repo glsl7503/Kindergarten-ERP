@@ -62,7 +62,7 @@
         <result property="modDate" column="MOD_DATE"/>
         <result property="status" column="STATUS"/>
         <result property="submit" column="SUBMIT"/>
-        <result property="submit" column="REPORT"/>
+        <result property="report" column="REPORT"/>
         
         <association property="classKindDTO" resultMap="ClassKindResultMap"/>
         <association property="lesEmployeeDTO" resultMap="LesEmployeeResultMap"/>
@@ -448,7 +448,8 @@
 			A.REG_DATE,
 			A.MOD_DATE,
 			A.STATUS,
-			A.SUBMIT
+			A.SUBMIT,
+			A.REPORT
         FROM LESSONS_PLAN A
         LEFT JOIN CLASS_KIND B ON (A.CLASS_IDX = B.CLASS_IDX)
 		LEFT JOIN EMPLOYEE C ON (A.REG_MEM  = C.EMP_NO)
