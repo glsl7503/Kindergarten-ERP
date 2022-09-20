@@ -218,13 +218,16 @@ function submit_btn(){
 	let age = $("#age").val();
 	let resDate = $("#resDate").val();
 	let ttlNum = $("#ttlNum").val();
+	let regMem = $("#loginMemberIdx").val();
+	
 	
 	let url = "/lessons/timetable/submit?lpIdx=" + lpIdx + "&"
 		 + "classIdx=" + classIdx + "&"
 		 + "mainTeacher=" + mainTeacher + "&"
 		 + "age=" + age + "&"
 		 + "resDate=" + resDate + "&"
-		 + "ttlNum=" + ttlNum; 
+		 + "ttlNum=" + ttlNum + "&"
+		 + "regMem=" + regMem;
 	console.log(url);
 	
 	location.href = url;

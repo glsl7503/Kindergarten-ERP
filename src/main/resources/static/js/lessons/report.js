@@ -49,50 +49,58 @@ function fn_go_page(pageNo){
 				
 				let jsonObjList = JSON.parse(data.list);
 				
-				for(let index in jsonObjList){
+				if(Object.keys(jsonObjList).length !== 0){
+				
+					for(let index in jsonObjList){
+						
+						$tr = $("<tr onclick='fn_go_detail(\""+ jsonObjList[index].rrIdx +"\");'>");
+						$lpIdx = $("<td>").text(jsonObjList[index].rrIdx);
+						$rsGoals = $("<td>").text(jsonObjList[index].rsGoals);
+						$age = $("<td>").text(jsonObjList[index].age);
+						$className = $("<td>").text(jsonObjList[index].classKindDTO.className);
+						$ttlNum = $("<td>").text(jsonObjList[index].ttlNum);
+						$resDate = $("<td>").text(jsonObjList[index].resDate);
+						$regMem = $("<td>").text(jsonObjList[index].lesEmployeeDTO.empName);
+						$regDate = $("<td>").text(jsonObjList[index].regDate);
+						$status = $("<td>").text(jsonObjList[index].status);
+						
+						//$tr.append(index);
+						$tr.append($lpIdx);
+						$tr.append($rsGoals);
+						$tr.append($age);
+						$tr.append($className);
+						$tr.append($ttlNum);
+						$tr.append($resDate);
+						$tr.append($regMem);
+						$tr.append($regDate);
+						$tr.append($status);
+						
+						$table.append($tr);
+						
+						let selectCriteria = JSON.parse(data.selectCriteria);
 					
-					$tr = $("<tr onclick='fn_go_detail(\""+ jsonObjList[index].rrIdx +"\");'>");
-					$lpIdx = $("<td>").text(jsonObjList[index].rrIdx);
-					$rsGoals = $("<td>").text(jsonObjList[index].rsGoals);
-					$age = $("<td>").text(jsonObjList[index].age);
-					$className = $("<td>").text(jsonObjList[index].classKindDTO.className);
-					$ttlNum = $("<td>").text(jsonObjList[index].ttlNum);
-					$resDate = $("<td>").text(jsonObjList[index].resDate);
-					$regMem = $("<td>").text(jsonObjList[index].lesEmployeeDTO.empName);
-					$regDate = $("<td>").text(jsonObjList[index].regDate);
-					$status = $("<td>").text(jsonObjList[index].status);
+						const pageNo = selectCriteria.pageNo;
+						const startPage = selectCriteria.startPage;
+						const endPage = selectCriteria.endPage;
+						const maxPage = selectCriteria.maxPage;
+						
+						page_draw(pageNo, startPage, endPage, maxPage);
+						
+					}
 					
-					//$tr.append(index);
-					$tr.append($lpIdx);
-					$tr.append($rsGoals);
-					$tr.append($age);
-					$tr.append($className);
-					$tr.append($ttlNum);
-					$tr.append($resDate);
-					$tr.append($regMem);
-					$tr.append($regDate);
-					$tr.append($status);
+				} else {
+					const $table = $("#reportTable tbody");
+					$table.html("");
+					$tr = $("<tr>");
 					
+					let html = "<td colspan='10' style='text-align: center;'>NOT FOUND DATA.</td>";
+					$tr.append(html);
 					$table.append($tr);
+					
+					
+				
 				}
 				
-				let selectCriteria = JSON.parse(data.selectCriteria);
-				
-				const pageNo = selectCriteria.pageNo;
-				const startPage = selectCriteria.startPage;
-				const endPage = selectCriteria.endPage;
-				const maxPage = selectCriteria.maxPage;
-				
-				page_draw(pageNo, startPage, endPage, maxPage);
-				
-			} else {
-				const $table = $("#reportTable tbody");
-				$table.html("");
-				$tr = $("<tr>");
-				
-				let html = "<td colspan='10' style='text-align: center;'>NOT FOUND DATA.</td>";
-				$tr.append(html);
-				$table.append($tr);
 			}
 			
 		},

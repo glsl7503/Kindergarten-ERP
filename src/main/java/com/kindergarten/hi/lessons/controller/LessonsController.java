@@ -32,6 +32,7 @@ import com.kindergarten.hi.lessons.model.dto.ClassKindDTO;
 import com.kindergarten.hi.lessons.model.dto.LesEmployeeDTO;
 import com.kindergarten.hi.lessons.model.dto.LessonsPlanDTO;
 import com.kindergarten.hi.lessons.model.dto.LessonsReportDTO;
+import com.kindergarten.hi.lessons.model.dto.ReportTableDTO;
 import com.kindergarten.hi.lessons.model.dto.TimeTableDTO;
 import com.kindergarten.hi.lessons.model.service.LessonsService;
 import com.kindergarten.hi.login.model.dto.UserImpl;
@@ -159,10 +160,12 @@ public class LessonsController {
 		LessonsReportDTO data = lessonsService.reportDetail(param);
 		List<LesEmployeeDTO> empList = lessonsService.PlanRegCategoryEmp();
 		List<ClassKindDTO> ckList = lessonsService.PlanRegCategoryCk();
+		List<ReportTableDTO> time = lessonsService.reportTimeSelect(param);
 		
 		mv.addObject("data", data);
 		mv.addObject("empList", empList);
 		mv.addObject("ckList", ckList);
+		mv.addObject("time", time);
 		mv.setViewName("lessons/reportmod");
 		
         return mv;
@@ -265,6 +268,7 @@ public class LessonsController {
 		String age = request.getParameter("age");
 		String resDate = request.getParameter("resDate");
 		String ttlNum = request.getParameter("ttlNum");
+		String regMem = request.getParameter("regMem");
 		
 		Map<String, Object> hm = new HashMap<>();
 		
@@ -274,6 +278,7 @@ public class LessonsController {
 		hm.put("age", age);
 		hm.put("resDate", resDate);
 		hm.put("ttlNum", ttlNum);
+		hm.put("regMem", regMem);
 		System.out.println("ma > " + mainTeacher);
 		int result = lessonsService.timeTableSubmit(hm);
 		

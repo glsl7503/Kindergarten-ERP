@@ -14,6 +14,7 @@ import com.kindergarten.hi.lessons.model.dto.ClassKindDTO;
 import com.kindergarten.hi.lessons.model.dto.LesEmployeeDTO;
 import com.kindergarten.hi.lessons.model.dto.LessonsPlanDTO;
 import com.kindergarten.hi.lessons.model.dto.LessonsReportDTO;
+import com.kindergarten.hi.lessons.model.dto.ReportTableDTO;
 import com.kindergarten.hi.lessons.model.dto.TimeTableDTO;
 
 @Service
@@ -186,6 +187,11 @@ public class LessonsService {
 	public int reportSubmit(String param) {
 		int result = lessonsDAO.reportSubmit(param);
 		return result;
+	}
+
+	public List<ReportTableDTO> reportTimeSelect(String param) {
+		List<ReportTableDTO> time = lessonsDAO.reportTimeSelect(param);
+		return time;
 	}
 	
 
