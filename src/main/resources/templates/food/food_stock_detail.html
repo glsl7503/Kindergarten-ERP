@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -25,12 +25,10 @@
               <br>
               
               <form th:action="@{/food/stock/update}" method="post">
-              
-              <div class="btn-right-mv70">
-                  <button class="btn-orange update" type="submit">수정하기 </button>
-                  <button class="btn-orange delete" type="submit">삭제하기 </button>
+              <div class="btn-right-mv70" sec:authorize="hasAnyRole('AUTH_EATMANAGE', 'AUTH_ADMIN')">
+                  <button class="btn-orange update">수정하기 </button>
+                  <button class="btn-orange delete">삭제하기 </button>
               </div>
-
               <br>
                            
               <table class="tbTem">
@@ -47,15 +45,22 @@
 	                  </tr>
 	                  <tr>
 	                      <td class="bg-apricot">음식명</td>
-	                      <td colspan="3"><input type="text" name="stockTitle" th:value="${ stock.stockTitle }" maxlength="10" placeholder="음식명을 입력해주세요! (ex: 10)"></td>
+	                      <td colspan="3">
+	                      <input type="text" name="stockTitle" th:value="${ stock.stockTitle }" maxlength="10" placeholder="음식명을 입력해주세요! (ex: 10)" sec:authorize="hasAnyRole('AUTH_EATMANAGE', 'AUTH_ADMIN')"/>
+	                      <p th:text="${ stock.stockTitle }" align="left" sec:authorize="hasRole('AUTH_USER')"/>
+	                      </td>
+	                  
 	                  </tr>
 	                  <tr>
 	                      <td class="bg-apricot">개수</td>
-	                      <td colspan="3"><input type="number" style="width: 100%; height: 60px;" id="stockCount" name="stockCount" th:value="${ stock.stockCount }" maxlength="5" placeholder="수량을 입력해주세요! (ex: 10)"></td>
+	                      <td colspan="3">
+	                      <input type="number" style="width: 100%; height: 60px;" id="stockCount" name="stockCount" th:value="${ stock.stockCount }" maxlength="5" placeholder="수량을 입력해주세요! (ex: 10)" sec:authorize="hasAnyRole('AUTH_EATMANAGE', 'AUTH_ADMIN')" />
+	                      <p th:text="${ stock.stockCount }" align="left" sec:authorize="hasRole('AUTH_USER')"/>
+	                      </td>
 	                  </tr>
               </table>
 			</form>
-			
+		
           </div>
          </main>
      </div>

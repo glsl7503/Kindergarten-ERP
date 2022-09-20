@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -20,8 +21,7 @@
     		<div class="container-fluid px-4">
     		<h1 class="mt-4">휴가관리 </h1>
             <br>
-          <form id="searchForm"
-                    method="get">
+          <form id="searchForm">
                 <div class="dataTable-top">
                   <div class="dataTable-search">
                     <input type="hidden" name="currentPage" value="1">
@@ -50,7 +50,7 @@
                             </thead>
                             <tbody>
                                 <tr th:each="empList : ${ empList }">
-                                    <td th:text="${ empList.rnum }"></td>
+                                    <td th:text="${ empList.rnum }" ></td>
                                     <td th:text="${ empList.holiNo }" style="display: none;"></td>
                                     <td th:text="${ empList.holiSort }"></td>
                                     <td th:text="${ empList.holiPeriod }"></td>
@@ -101,7 +101,6 @@
                         </ul>
                     </nav> 
             	</div>
-
                     </div>
                 </main>
             </div>
@@ -134,7 +133,7 @@
  	 });
   
  	$("#insert").click(function () {
-        $("form").attr("action", "/employee/vacation/insert");
+        $("form").attr("action", "/employee/vacation/insert").attr("method", "get");
  	});
  	
  	

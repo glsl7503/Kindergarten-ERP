@@ -26,7 +26,7 @@
               
               <form method="post">
               
-              <div class="btn-right-mv70">
+              <div class="btn-right-mv70" sec:authorize="hasAnyRole('AUTH_EATMANAGE', 'AUTH_ADMIN')">
                   <button class="btn-orange update" type="submit">수정하기 </button>
                   <button class="btn-orange delete" type="submit">삭제하기</button>
               </div>
@@ -41,21 +41,30 @@
                       <col width="25%">
                   </colgroup>
                   		<tr>
-	                      <td class="bg-apricot">업체인덱스</td>
-	                      <td colspan="3"><p th:text="${ trader.traderIdx }"></p></td>
+	                      <td class="bg-apricot">업체번호</td>
+	                      <td colspan="3"><p th:text="${ trader.traderIdx }" align="left"></p></td>
 	                      <input type="hidden" name="traderIdx" th:value="${ trader.traderIdx }">
 	                  </tr>
 	                  <tr>
 	                      <td class="bg-apricot">회사명 </td>
-	                      <td colspan="3"><input type="text" name="traderName" th:value="${ trader.traderName }" maxlength="10" placeholder="회사명을 입력해주세요! (ex: 하니주식회사)"></td>
+	                      <td colspan="3">
+	                        <input type="text" name="traderName" th:value="${ trader.traderName }" maxlength="10" placeholder="회사명을 입력해주세요! (ex: 하니주식회사)" sec:authorize="hasAnyRole('AUTH_EATMANAGE', 'AUTH_ADMIN')" />
+	                      	<p th:text="${ trader.traderName }" align="left" sec:authorize="hasRole('AUTH_USER')"/>
+	                      </td>
 	                  </tr>
 	                  <tr>
 	                      <td class="bg-apricot">담당자</td>
-	                      <td colspan="3"><input type="text" name="traderPic" th:value="${ trader.traderPic }" maxlength="5" placeholder="담당자를 입력해주세요! (ex: 김하니)"></td>
+	                      <td colspan="3">
+	                        <input type="text" name="traderPic" th:value="${ trader.traderPic }" maxlength="5" placeholder="담당자를 입력해주세요! (ex: 김하니)" sec:authorize="hasAnyRole('AUTH_EATMANAGE', 'AUTH_ADMIN')"/>
+	                     	<p th:text="${ trader.traderPic }" align="left" sec:authorize="hasRole('AUTH_USER')"/>
+	                      </td>
 	                  </tr>
 	                   <tr>
 	                      <td class="bg-apricot">전화번호</td>
-	                      <td colspan="3"><input type="text" id="phoneNumber" name="traderPhone" th:value="${ trader.traderPhone }" maxlength="13" placeholder="전화번호를 입력해보세요!"></td>
+	                      <td colspan="3">
+	                      	<input type="text" id="phoneNumber" name="traderPhone" th:value="${ trader.traderPhone }" maxlength="13" placeholder="전화번호를 입력해보세요!" sec:authorize="hasAnyRole('AUTH_EATMANAGE', 'AUTH_ADMIN')">
+	                        <p th:text="${ trader.traderPhone }" align="left" sec:authorize="hasRole('AUTH_USER')"/>
+	                      </td>
 	                  </tr>
               </table>
 			</form>

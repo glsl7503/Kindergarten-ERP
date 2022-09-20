@@ -345,8 +345,9 @@
 				A.EMP_SALARY,
 				A.EMP_RESIGN,
 				A.EMP_RESIGNDATE
-			FROM
-				EMPLOYEE A 
+			FROM EMPLOYEE A 
+		    JOIN EMPL_AUTH EA ON (A.EMP_NO = EA.EMP_NO)
+		   WHERE NOT EA.AUTH_NUM = 1  	
 	</select>
 
 </mapper>

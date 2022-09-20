@@ -7,7 +7,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
    <meta name="description" content="" />
    <meta name="author" content="" />
-   <title>음식품목 재고 등록 페이지</title>
+   <title>휴가관리 등록</title>
 
 </head>
 
@@ -20,8 +20,8 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">휴가결재 등록</h1>
-                    <form method="post">  
+                    <h1 class="mt-4">휴가결재</h1>
+                    <form>  
                      
                     <br>
                     
@@ -40,23 +40,23 @@
                         
                         <tr>
                             <td class="col-apricot" >직원명</td>
-                            <td colspan="3"><input type="text" name="empName"></td>
+                            <td colspan="3"><input type="text" name="empName" maxlength="10" placeholder="직원명을 입력해주세요! (ex: 김하니)"></td>
                         </tr>
                         <tr>
                             <td class="col-apricot">휴가분류</td>
-                            <td colspan="3"><input type="text" name="holiSort"></td>
+                            <td colspan="3"><input type="text" name="holiSort" maxlength="10" placeholder="휴가분류을 입력해주세요! (ex: 연차)"></td>
                         </tr>
                         <tr>
                            <td class="col-apricot">휴가기간</td>
-                           <td colspan="3"><input type="text" name="holiPeriod"></td>             
+                           <td colspan="3"><input type="text" name="holiPeriod" maxlength="10" placeholder="휴가기간을 입력해주세요! (ex: 5일)"></td>             
                         </tr>
                         <tr>
                             <td class="col-apricot" style="height: 200px;">사유</td>
-                             <td colspan="3"><input type="text" style="height: 200px;" name="holiReason"></td>
+                             <td colspan="3"><input type="text" style="height: 200px;" name="holiReason" placeholder="사유를 입력해주세요! (ex: 본가로 내려)"></td>
                         </tr>
                         <tr>
                             <td class="col-apricot">특이사항</td>
-                             <td colspan="3"><input type="text" name="holiOrder"></td>
+                             <td colspan="3"><input type="text" name="holiOrder" placeholder="특이사항을 입력해주세요! (ex: 이직 준비중)"></td>
                         </tr>                        
                     </table> 
                     </form>                  
@@ -68,7 +68,7 @@
  <script th:inline="javascript">
     
     $("#insert").click(function () {
-        $("form").attr("action", "/employee/vacation/insert");
+        $("form").attr("action", "/employee/vacation/insert").attr("method", "post");
  	 });
   
  	$("#back").click(function () {

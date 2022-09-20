@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -35,7 +36,7 @@
                           <input type="search" id="searchValue" name="searchValue" class="dataTable-input" placeholder="search">
                     </div>
                           <button id="search" class="btn-orange ms-3" type="submit">검색</button>
-                    <div>
+                    <div sec:authorize="hasAnyRole('AUTH_EATMANAGE', 'AUTH_ADMIN')">
                         <button id="insert" class="btn-orange ms-3" type="submit">등록</button>
                     </div>
                   </div>

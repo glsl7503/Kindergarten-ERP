@@ -393,6 +393,8 @@ public class FoodController {
 		log.info("");
 		log.info("[deleteConalender] 시작 : =================================================");
 	
+		System.out.println("calender 확인 : " + calender);
+		
 		foodService.deleteCalender(calender);
 		
 		log.info("[deleteConalender] 끝 : =================================================");

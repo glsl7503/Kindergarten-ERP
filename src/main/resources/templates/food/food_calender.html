@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
    <meta charset="utf-8" />
@@ -31,7 +32,7 @@
                <div id="calendar1"></div>
            </div>
 			
-	  <form>	
+	  <form sec:authorize="hasAnyRole('AUTH_EATMANAGE', 'AUTH_ADMIN')">	
 		<div id="insertModal" class="modal">
 			<div class="modal_body">
 				<input type="hidden" id="start" name="start">
@@ -59,22 +60,21 @@
 			<br><br><br><br><br>
 				
 		     <div>
-               <button id="insert" class="btn-orange" type="submit">신청하기</button>
+               <button id="insert" class="btn-orange">추가하기</button>
              </div>
              
 		</div>
 		</div>
 	</form>
 
-           <form id="fm">
-           
+         <form id="fm" sec:authorize="hasAnyRole('AUTH_EATMANAGE', 'AUTH_ADMIN')">
            <div id="foodModal" class="modal">
 			<div class="modal_body">
 				<input type="hidden" name="id" id="calenderHidden">
 				<h3 id="h3">음식 수정하기</h3>
 				
 				<div class="area">
-       			  <input type="text" id="title" name="title" autocomplete="off" required maxlength="10">
+       			  <input type="text" id="title" name="title" autocomplete="off" maxlength="10">
       			 	  <label for="foodTitle">음식명 </label>
     			    </div>
 			
@@ -95,8 +95,8 @@
 			<br><br><br><br><br>
 				
 		     <div>
-               <button id="update" class="btn-orange" type="submit">수정하기</button>
-               <button id="delete" class="btn-orange" type="submit">삭제하기</button>
+               <button id="update" class="btn-orange">수정하기</button>
+               <button id="delete" class="btn-orange">삭제하기</button>
              </div>
 	       </div>	            
          </div>
