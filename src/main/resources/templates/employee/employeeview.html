@@ -24,23 +24,24 @@
 				<br>
 				
 				<!-- 검색 -->
-				 <form id="searchForm"
-                    method="get">
-                <div class="dataTable-top">
-                  <div class="dataTable-search">
-                    <input type="hidden" name="currentPage" value="1">
-                      <select id="searchCondition" name="searchCondition" class="dataTable-selector">
-                        <option value="name">이름</option>
-                      </select>
-                        <input type="search" id="searchValue" name="searchValue" class="dataTable-input" placeholder="search">
-                  </div>
-                      <button id="search" class="btn-orange ms-3" type="submit">검색</button>
-                  <div>
-                      <button id="insert" class="btn-orange"><a th:href="@{/employee/employeeregister}">등록</a></button>
-                  </div>
-                </div>
-                </div>
-			  </form>
+				<form id="searchForm" method="get">
+					<div class="dataTable-top">
+						<div class="dataTable-search">
+							<input type="hidden" name="currentPage" value="1"> <select
+								id="searchCondition" name="searchCondition"
+								class="dataTable-selector">
+								<option value="name">이름</option>
+							</select> <input type="search" id="searchValue" name="searchValue"
+								class="dataTable-input" placeholder="search">
+						</div>
+						<button id="search" class="btn-orange ms-3" type="submit">검색</button>
+						<div>
+							<button id="insert" class="btn-orange">등록</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			  
 			 
 			<!-- 리스트 -->
 			<table class="dataTable-table" id="listArea">
@@ -146,7 +147,7 @@
  	 });
   
  	$("#insert").click(function () {
-        $("form").attr("action", "/employee/register");
+        $("form").attr("action", "/employee/regist");
  	});
  	
  	

@@ -412,6 +412,12 @@ public class EmployeeController {
 		return "redirect:/employee/employeecal";
 	}
 	
+	@GetMapping("/regist")
+	public String goregist() {
+		
+		return "/employee/employeeregister";
+	}
+	
 	@PostMapping("/employeeregister")
 	public String registerEmployee(@ModelAttribute EmployeeDTO employeeDTO,@ModelAttribute EmplAuthDTO emplAuthDTO, HttpServletRequest request, RedirectAttributes rttr) {
 		

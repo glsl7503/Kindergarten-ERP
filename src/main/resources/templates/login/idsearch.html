@@ -30,21 +30,28 @@
     <div id="wrap">
         <div id="header">
             <div id="box">
-            	<form th:action="@{  }" method="get">
+            	<form th:action="@{ /login/idsearch2 }" method="post">
                 <div class="idsearch" id="findId">
-                    <a th:href="@{/login/idsearch.html}" style="color:#FF865E;">아이디찾기</a>
+                    <a style="color:#FF865E;">아이디찾기</a>
                 </div>
                 <div class="pwdsearch" id="findPassword">
-                    <a th:href="@{/login/pwdsearch.html}" style="color:#FF865E;">비밀번호찾기</a>
+                    <a style="color:#FF865E;">비밀번호찾기</a>
                 </div>
                 <table>
                     <tr>
                         <td style="height: 55px;width: 200px;">이름</td>
-                        <td colspan="2"><input type="text" style="width: 250px;height: 30px;"></td>
+                        <td colspan="2"><input name="name" type="text" style="width: 250px;height: 30px;"></td>
                     </tr>
                     <tr>
                         <td style="height: 55px;">이메일</td>
-                        <td><input type="text" style="height: 30px;"></td>
+                        <td><input type="text" name="email"
+								style="width: 149px; height: 20px;"> @ 
+								<select name="email2" style="width: 149px;" id="" class="dataTable-selector">
+									<option value="naver.com">naver.com</option>
+									<option value="hotmail.com">hotmail.com</option>
+									<option value="daum.net">daum.net</option>
+									<option value="gmail.com">gmail.com</option>
+								</select></td>
                         <td><button style="background-color: #FF865E;height: 34px;width: 75px;border: 0;font-size: 11px;">인증번호 발송</button></td>
                     </tr>
                     <tr>
@@ -53,7 +60,7 @@
                         <td><button style="background-color: #FF865E;height: 34px;width: 75px;border: 0;font-size: 11px;">인증번호 확인</button></td>
                     </tr>
                 </table><br><hr style="height: 1px;border: 0;" color="#FF865E"><br>
-                <button class="cancelbtn" style="width: 75px;height: 34px;background-color: #FEF9EF;border: 0;">취소</button>
+                <button class="cancelbtn" style="width: 75px;height: 34px;background-color: #FEF9EF;border: 0;" type="button" th:onclick="'location.href=\'/login/gologin\''">취소</button>
                 <button class="checkbtn" style="width: 75px;height: 34px;background-color: #FF865E;border: 0;" type="submit">확인</button>
                 </form>
             </div>
