@@ -187,7 +187,7 @@
         JOIN EMPLOYEE E ON(A.EMP_NO = E.EMP_NO)
         WHERE A.RNUM >= #{ selectCriteria.startRow }
           AND A.EXPE_YN = 'N'
-        ORDER BY 1 ASC
+        ORDER BY A.EXPE_NO DESC
 	</select>
 	
 	
