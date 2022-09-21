@@ -207,6 +207,7 @@
       			LEFT JOIN LESSONS_MANAGEMENT_HIS D ON (F.LP_IDX = D.LP_IDX)
  			 		<![CDATA[
        					WHERE F.RNUM >= #{ startRow }
+       					  AND F.SUBMIT ='Y'
          			]]>
       			ORDER BY 1 ASC
     </select>
