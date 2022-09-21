@@ -6,9 +6,12 @@ $(document).ready(function(){
 
 function select(){
 	
+	let loginIdx = $("#loginMemberIdx").val(); 
+	
 	$.ajax({
 		url: "/lessons/timetable/calendar/select",
 		type: "POST",
+		data: {data:loginIdx},
 		success: function(data){
 			
 			console.table(data);

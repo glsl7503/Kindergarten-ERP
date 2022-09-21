@@ -86,8 +86,8 @@ public class LessonsService {
 		return result;
 	}
 
-	public List<LessonsPlanDTO> timeTablecalendarSelect() {
-		List<LessonsPlanDTO> list = lessonsDAO.timeTablecalendarSelect();
+	public List<LessonsPlanDTO> timeTablecalendarSelect(String idx) {
+		List<LessonsPlanDTO> list = lessonsDAO.timeTablecalendarSelect(idx);
 		return list;
 	}
 

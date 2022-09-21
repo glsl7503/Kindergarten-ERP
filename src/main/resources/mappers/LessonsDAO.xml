@@ -524,6 +524,7 @@
 			WHERE 1=1
 				AND A.STATUS = 'N'
 				AND A.SUBMIT = 'Y'
+				AND A.REG_MEM = #{ idx }
 				AND C.PROCESS = '승인'
    	</select>
    	

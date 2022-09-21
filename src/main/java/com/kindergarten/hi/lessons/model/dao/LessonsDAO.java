@@ -38,7 +38,7 @@ public interface LessonsDAO {
 
 	int planMod(LessonsPlanDTO lessonsPlanDTO);
 
-	List<LessonsPlanDTO> timeTablecalendarSelect();
+	List<LessonsPlanDTO> timeTablecalendarSelect(String idx);
 
 	List<TimeTableDTO> timeTableSelect(String param);
 

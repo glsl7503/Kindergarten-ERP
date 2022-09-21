@@ -613,9 +613,11 @@ public class LessonsController {
 	
 	@PostMapping(value="/timetable/calendar/select", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-    public String timeTablecalendarSelect() {
+    public String timeTablecalendarSelect(HttpServletRequest request) {
 		
-		List<LessonsPlanDTO> list = lessonsService.timeTablecalendarSelect();
+		String idx = request.getParameter("data");
+		
+		List<LessonsPlanDTO> list = lessonsService.timeTablecalendarSelect(idx);
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		String data = gson.toJson(list);
