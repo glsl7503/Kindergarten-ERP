@@ -54,6 +54,50 @@
 		<result property="resigndate" column="EMP_RESIGNDATE" />			
 	</resultMap>
 
+	<update id="updatePaymentFinal">
+		UPDATE EXPE_MANAGEMENT_HIS
+			   SET PROCESS = #{ yN },
+			   	   TIME = TRUNC(SYSDATE)
+			 WHERE EXPE_NO = #{ no }
+	</update>
+	
+	<update id="updateSubmitedPayment" parameterType="_int">
+		UPDATE EXPE_MANAGEMENT_HIS
+		   SET PROCESS = '대기',
+		   	   TIME = TRUNC(SYSDATE),
+		   	   IN_TIME = TRUNC(SYSDATE)
+		 WHERE EXPE_NO = #{ no }
+	</update>
+	
+	<update id="updatePaymentToSup" parameterType="_int">
+		UPDATE EXPENDITURE
+		   SET EXPE_STATUS = 'Y'
+		 WHERE EXPE_NO = #{ no }
+	</update>
+	
+	<delete id="deletePaymentFile" parameterType="_int">
+		DELETE
+		  FROM EXPENDITURE_FILE
+		 WHERE EXPE_NO = #{ no }
+	</delete>
+	
+	<delete id="deletePaymentHis" parameterType="_int">
+		DELETE
+		  FROM EXPE_MANAGEMENT_HIS
+		 WHERE EXPE_NO = #{ no }
+	</delete>
+	
+	<update id="deletePayment" parameterType="_int">
+		UPDATE EXPENDITURE
+		   SET EXPE_YN = 'Y'
+		 WHERE EXPE_NO = #{ no }
+		
+	</update>
+
+	
+
+	
+
 	<select id="selectTotalCount" resultType="_int" parameterType="hashmap">
         SELECT 
         	COUNT(*)
