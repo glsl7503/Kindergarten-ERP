@@ -11,7 +11,6 @@
     	<result property="noticeEnrolldate" column="NOTICE_ENROLLDATE"/>
     	<result property="noticeUpdatedate" column="NOTICE_UPDATEDATE"/>
     	<result property="no" column="EMP_NO"/>
-    	<result property="viewCount" column="VIEW_COUNT"/>
     	
     	<association property="employeeDTO" resultMap="generalNoticeEmployeeResultMap"/>
     </resultMap>
@@ -90,7 +89,6 @@
         , A.NOTICE_CONTENT
         , A.NOTICE_ENROLLDATE
         , A.NOTICE_UPDATEDATE
-        , A.VIEW_COUNT
         , A.EMP_NAME
         FROM (SELECT ROWNUM RNUM
         , B.NOTICE_NO
@@ -98,14 +96,12 @@
         , B.NOTICE_CONTENT
         , B.NOTICE_ENROLLDATE
         , B.NOTICE_UPDATEDATE
-        , B.VIEW_COUNT
         , B.EMP_NAME
         FROM (SELECT C.NOTICE_NO
         , C.NOTICE_TITLE
         , C.NOTICE_CONTENT
         , C.NOTICE_ENROLLDATE
         , C.NOTICE_UPDATEDATE
-        , C.VIEW_COUNT
         , D.EMP_NAME
         FROM NOTICE C
         JOIN EMPLOYEE D ON(C.EMP_NO = D.EMP_NO)

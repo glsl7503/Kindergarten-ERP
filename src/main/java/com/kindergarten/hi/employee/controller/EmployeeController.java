@@ -627,6 +627,128 @@ public class EmployeeController {
 		return "redirect:/employee/vacation";
 	}
 	
-	
+	// 권한체크
+		@GetMapping("/vacationPy")
+		public String checkSup(@AuthenticationPrincipal UserImpl user, HttpServletRequest request,RedirectAttributes rttr) {
+			
+			 int status = user.getLoginEmployeeRoleList().get(0).getAuthorityCode(); //권한조회
+			 String message = "";
+			
+		        if(status !=3) {
+		        	message = "권한이 없습니다.";
+		        	rttr.addFlashAttribute("message", message);
+		       return "redirect:/";
+		        }
+		        
+		        return "redirect:/employee/vacationSup";
+		}
+
+		/* 결제- 휴가관리 조회 페이지 메소드 (페이징) */
+		@GetMapping("/vacationSup")
+		public ModelAndView selectvacationSup(ModelAndView mv, HttpServletRequest request) {
+			
+			log.info("");
+			log.info("[ insertVacation 컨트롤러 시작 ] ============================");
+			
+			
+
+			
+	        String currentPage = request.getParameter("currentPage");
+	        int pageNo = 1;
+
+	        if(currentPage != null && !"".equals(currentPage)) {
+	            pageNo = Integer.parseInt(currentPage);
+	        }
+	        
+	        if(pageNo == 0) {
+	        	
+	        	pageNo= 1;
+	        }
+	        
+	        String searchCondition = request.getParameter("searchCondition");
+	        String searchValue = request.getParameter("searchValue");
+
+	        Map<String, Object> searchMap = new HashMap<>();
+	        searchMap.put("searchCondition", searchCondition);
+	        searchMap.put("searchValue", searchValue);
+	       
+	        int totalCount = employeeService.selectVacationTotalCountPy(searchMap);
+
+	        /* 한 페이지에 보여 줄 게시물 수 */
+	        int limit = 10;		//얘도 파라미터로 전달받아도 된다.
+
+	        /* 한 번에 보여질 페이징 버튼의 갯수 */
+	        int buttonAmount = 5;
+
+	        /* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
+	        com.kindergarten.hi.common.paging.SelectCriteria selectCriteria = null;
+
+	        
+	        if(searchCondition != null && !"".equals(searchCondition)) {
+	            selectCriteria = com.kindergarten.hi.common.paging.Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchCondition, searchValue);
+	        } else {
+	            selectCriteria = com.kindergarten.hi.common.paging.Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
+	        }
+
+	        Map<String, Object> foodMap = new HashMap<>();
+	        foodMap.put("selectCriteria",selectCriteria);
+
+	        
+	        
+			List<HolidayDTO> empList = employeeService.selectVacationListPy(foodMap);
+			
+			log.info("empList : " + empList);
+			
+			mv.addObject("selectCriteria", selectCriteria);
+			mv.addObject("empList", empList);
+			mv.setViewName("/payment/vacation");
+			
+			return mv;
+		}
+		/* 휴가관리 상세조회 메소드 */
+		@GetMapping("/vacation/detailPy")
+		public String selectVacationDetailPy(HttpServletRequest request, Model model) {
+			
+			log.info("");
+		     log.info("");
+		     log.info("[디테일 컨트롤러 확인] =============================================================================");
+
+		     Long no = Long.valueOf(request.getParameter("no"));
+		     
+	        HolidayDTO holiDetail = employeeService.selectVacationDetail(no);
+	        
+	        System.out.println("holiDetail : " + holiDetail);
+	        
+	        model.addAttribute("holiDetail", holiDetail);
+	        model.addAttribute("no",no);
+
+	        log.info("[휴가관리 끝]  =========================================================");
+
+	        return "payment/vacation_detail";
+		}
+		/* 휴가관리 제출하기 메소드  */
+		@GetMapping("/updateVacationPy")
+		public String updateVacationPy(HttpServletRequest request, RedirectAttributes rttr) throws InsertException{
+			
+			int no =  Integer.parseInt(request.getParameter("no"));
+			String check = request.getParameter("yN");
+			String yN = null;
+			
+			if(check.equals("Y")) {
+				yN = "승인";
+				rttr.addFlashAttribute("message","승인 되었습니다.");
+			}else if(check.equals("N")){
+				yN = "반려";
+				rttr.addFlashAttribute("message","반려 되었습니다.");
+			}
+
+			
+			try{ employeeService.updateVacationPy(no,yN);
+			}catch (IllegalStateException e) {
+	            e.printStackTrace();}
+
+			
+			return "redirect:/employee/vacationSup";
+		}
 	
 }
