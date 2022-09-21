@@ -67,6 +67,10 @@
     <result property="choice" column="PARENTS_CHOICE"/>    
 </resultMap>
 
+<resultMap type="WonParDTO" id="wonParResultMap">
+	<result property="wonClassNo" column="WON_CLASSNO"/>
+	<result property="ParentsNo" column="PARENTS_NO"/>
+</resultMap>
 <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
 	SELECT 
         COUNT(*)
@@ -186,6 +190,7 @@ LEFT JOIN EMPLOYEE E ON (C.EMP_NO = E.EMP_NO)
     SELECT
                 C.PARENTS_NAME
               , C.PARENTS_PHONE
+              , C.PARENTS_NO
           FROM WONSENG A
       LEFT JOIN WON_PAR B ON (A.WON_CLASSNO = B.WON_CLASSNO)
       LEFT JOIN PARENTS C ON (B.PARENTS_NO = C.PARENTS_NO)
@@ -210,7 +215,7 @@ LEFT JOIN EMPLOYEE E ON (C.EMP_NO = E.EMP_NO)
     </select>
     <!-- 반조회  -->
     <select id="selectClassname" resultMap="ClassResultMap">
-       	SELECT
+       	SELECT DISTINCT
     		  B.EMP_NO
     	    , B.CLASS_IDX
 		FROM WONSENG A
@@ -218,7 +223,7 @@ LEFT JOIN EMPLOYEE E ON (C.EMP_NO = E.EMP_NO)
 		WHERE B.CLASS_NAME = #{ name }
     </select>
     
-    <insert id="insertstudent" parameterType="StudentDTO">
+    <insert id="insertstudent">
         INSERT
         INTO WONSENG
         (
@@ -232,12 +237,11 @@ LEFT JOIN EMPLOYEE E ON (C.EMP_NO = E.EMP_NO)
 		  , WON_EXIT
 		  , WON_SPAC
 		  , ADDRESS
-		  , EMP_NO
 		  )
 		  VALUES
 		  (
 		    #{ name }
-		  , #{ classDTO.no }
+		  , #{ wClass }
 		  , #{ birth }
 		  , #{ resident }
 		  , #{ phone }
@@ -246,7 +250,6 @@ LEFT JOIN EMPLOYEE E ON (C.EMP_NO = E.EMP_NO)
 		  , #{ exit }
 		  , #{ spac }
 		  , #{ adderss }
-		  , #{ classDTO.empno }
 		  )    
     </insert>
     
@@ -278,7 +281,7 @@ LEFT JOIN EMPLOYEE E ON (C.EMP_NO = E.EMP_NO)
         )    
     </insert>
     
-    <insert id="insertSelectstudentto" parameterType="ParentsDTO">
+    <insert id="insertSelectstudentto">
         INSERT
         INTO PARENTS
         (
@@ -287,7 +290,6 @@ LEFT JOIN EMPLOYEE E ON (C.EMP_NO = E.EMP_NO)
 		, PARENTS_PHONE
 		, PARENTS_CHOICE
         )
-        
         VALUES
         (
           SEQ_PARENTS.NEXTVAL
@@ -297,25 +299,89 @@ LEFT JOIN EMPLOYEE E ON (C.EMP_NO = E.EMP_NO)
         )
     </insert>
     
+    
+    <select id="selectClassNo" resultType="int">
+    	SELECT *
+		  FROM(
+    			SELECT 
+        			   WON_CLASSNO 
+    			  FROM WONSENG
+ 		         ORDER BY ROWNUM DESC)
+	     WHERE ROWNUM = 1
+    </select>
+    
+    <select id="selectStudentNum" resultType="int">
+    SELECT *
+		  FROM(SELECT
+                ATTENDANCE_NO
+          FROM  ATTENDANCE
+          WHERE WON_CLASSNO = #{ no }
+          ORDER BY ROWNUM
+          )
+            WHERE ROWNUM = 1
+    </select>
+    <select id="selectParentSelect" resultType="int">
+    	SELECT *
+		  FROM(
+    		   SELECT 
+       				  PARENTS_NO
+    			 FROM PARENTS
+    	  ORDER BY ROWNUM DESC)
+	      WHERE ROWNUM = 1
+    </select>
+    
+    <insert id="lastInsert">
+    	INSERT
+		  INTO WON_PAR
+		  (
+		    WON_CLASSNO
+		  , PARENTS_NO
+		  )
+		  VALUES
+		  (
+		    #{ wonClassNo }
+		  , #{ ParentsNo } 
+		  )
+    </insert>
+    
     <delete id="removeStudent" parameterType="long">
         DELETE 
         FROM WONSENG A
         WHERE A.WON_CLASSNO = #{ no }
     </delete>
-    <update id="modifyStudent" parameterType="StudentDTO">
+    <update id="modifyStudent">
     UPDATE WONSENG
-   	SET WON_NAME = ${ name }
-       , CLASS_IDX = ${ wClass } 
-       , WON_BIRTH = ${ birth } 
-       , WON_RESIDENT = ${ resident }
-       , WON_PHONE = ${ phone }    
-       , WON_ADMISSION = ${ admission }
-       , WON_EXIT = ${ exit }
-       , WON_SPAC = ${ spac }
-       , ADDRESS = ${ adderss }
-       , EMP_NO = ${ empNo }
- 	 WHERE WON_CLASSNO = ${ no }    
+   	SET WON_NAME = #{ name }
+       , CLASS_IDX = #{ wClass } 
+       , WON_BIRTH = #{ birth } 
+       , WON_PHONE = #{ phone }    
+       , WON_ADMISSION = #{ admission }
+       , WON_EXIT = #{ exit }
+       , WON_SPAC = #{ spac }
+       , ADDRESS = #{ adderss }
+ 	 WHERE WON_CLASSNO = #{ no }    
     </update>
-      
-
+  
+    <update id="updateSelectstudentto">
+    UPDATE PARENTS
+    SET 
+      PARENTS_NAME = #{ name }
+    , PARENTS_PHONE = #{ phone }
+    , PARENTS_CHOICE = #{ choice }
+    WHERE PARENTS_NO = #{ no }
+    
+    </update>
+  	<update id="updatestudentinfor">
+  	UPDATE ATTENDANCE
+  	SET   ATTENDANCE_AGE = #{ age }
+		, ATTENDANCE_SEMESTER = #{ semester }
+		, ATTENDANCE_TOTAL = #{ total }
+		, ATTENDANCE_ATT = #{ att }
+		, ATTENDANCE_NON = #{ non }
+		, ATTENDANCE_LATE = #{ late }
+		, ATTENDANCE_SICK = #{ sick }
+     WHERE WON_CLASSNO = #{ classno }
+     AND ATTENDANCE_NO = #{ no } 	
+  	</update>
+  
 </mapper>

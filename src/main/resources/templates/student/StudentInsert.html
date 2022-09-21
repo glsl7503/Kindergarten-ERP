@@ -24,27 +24,27 @@
 				<h1 class="mt-4">원생개인정보 등록</h1>
 				<form th:action="@{ /student/studentinsert }" method="post">
 					<button class="btn-orange" type="submit">등록</button>
-					<button class="btn-orange">취소하기</button>
+					<button class="btn-orange" type="button" th:onclick="'location.href=\'/student/studentselect\''">취소하기</button>
 					<br> <br>
 					<table class="tbTem">
 						<colgroup>
-							<col width="20%">
 							<col width="11%">
 							<col width="24%">
 							<col width="11%">
 							<col width="24%">
 						</colgroup>
 						<tr>
-							<td class="col" rowspan="4"></td>
 							<td class="col-apricot">성명</td>
 							<td class="txtBox"><input name="name" type="text" required></td>
 							<td class="col-apricot">반</td>
 							<td class="txtBox">
-							<select name="ClassDTO.name">
-									<option value="토끼반">토끼반</option>
-									<option value="포도반">포도반</option>
-									<option value="모과반">모과반</option>
-									<option value="사과반">사과반</option>
+							<select name="wClass">
+									<option value="1">토끼반</option>
+                                	<option value="2">해바라기반</option>
+                                	<option value="3">꽃잎반</option>
+                                	<option value="4">열매반</option>
+                                	<option value="5">햇님반</option>
+                                	<option value="6">달님반</option>
 							</select></td>
 						</tr>
 						<tr>
@@ -161,7 +161,9 @@
 																						/(?<=.{1})./gi,
 																						"*"));
 													});
-								</script></td>
+								</script>
+								
+								</td>
 						</tr>
 						<tr>
 							<td class="col-apricot">연락처</td>
@@ -185,16 +187,11 @@
 							<td class="txtBox">
 							<input type="date" name="exit"></td>
 						</tr>
-						<tr>
-							<td class="col-apricot"><label for="file">
-									<div class="btn-upload">파일 업로드하기</div>
-							</label> 
-							<input type="file" name="file" id="file"></td>
+						<tr>						
 							<td class="col-apricot">주소</td>
 							<td colspan="3" class="txtBox">
-							<input type="text" id="sample5_address" placeholder="주소" name="adderss"> 
+							<input type="text" id="sample5_address" placeholder="주소" name="adderss" required> 
 							<input type="button" class="btn-sky" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
-								<div id="map" style="width: 300px; height: 300px; margin-top: 10px; display: none"></div>
 
 								<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 								<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=발급받은 API KEY를 사용하세요&libraries=services"></script>
@@ -341,7 +338,7 @@
 							<td class="col-apricot">보호자1</td>
 							<td
 								style="text-align: left; position: relative; left: 20px; top: 7px">
-							<select name="ParentsDTO[0].name">
+							<select name="parents1">
 									<option value="부">부</option>
 									<option value="모">모</option>									
 							</select>
@@ -364,8 +361,8 @@
 							<td class="col-apricot">보호자2</td>
 							<td
 								style="text-align: left; position: relative; left: 20px; top: 7px">
-								<select name="ParentsDTO[1].name">
-									<option value="부">부</option>
+								<select name="parents2">
+									<option value="부" >부</option>
 									<option value="모">모</option>									
 								</select>
 								<p>

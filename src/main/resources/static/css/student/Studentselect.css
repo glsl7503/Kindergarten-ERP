@@ -1,0 +1,36 @@
+.btn-upload {
+            width: 150px;
+            height: 30px;
+            background: #fff;
+            border: 1px solid rgb(77, 77, 77);
+            border-radius: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #file {
+            display: none;
+        }
+
+        .backslash {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="0" x2="100%" y2="100%" stroke="gray" /></svg>');
+        }
+
+        .slash,
+        .backslash {
+            text-align: left;
+        }
+
+        .slash div,
+        .backslash div {
+            text-align: right;
+        }
+        
+        h5 {
+            margin-top: -75px;
+
+
+        }
