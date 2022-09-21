@@ -584,6 +584,7 @@ public class EmployeeController {
             pageNo = Integer.parseInt(currentPage);
         }
         
+        
         if(pageNo == 0) {
         	
         	pageNo= 1;
