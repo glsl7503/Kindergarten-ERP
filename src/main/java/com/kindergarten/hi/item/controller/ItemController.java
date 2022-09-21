@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,8 +20,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kindergarten.hi.common.paging.Pagenation;
 import com.kindergarten.hi.common.paging.SelectCriteria;
 import com.kindergarten.hi.food.controller.DeleteException;
+import com.kindergarten.hi.food.controller.InsertException;
+import com.kindergarten.hi.food.controller.UpdateException;
+import com.kindergarten.hi.food.model.dto.FoodDTO;
 import com.kindergarten.hi.item.model.dto.ItemDTO;
+import com.kindergarten.hi.item.model.dto.ItemManagementHisDTO;
 import com.kindergarten.hi.item.model.service.ItemService;
+import com.kindergarten.hi.login.model.dto.UserImpl;
 
 @Controller
 @RequestMapping("/item")
@@ -96,9 +102,12 @@ public class ItemController {
 		log.info("[ItemController] goitemManagementDetail itemNo : " + itemNo);
 
 		ItemDTO itemDetail = itemService.goitemManagementDetail(itemNo);
+		ItemManagementHisDTO itemHisDetail = itemService.goitemManagementHisDetail(itemNo);
 		System.out.println("조회 : " + itemDetail);
-
+		System.out.println("itemHisDetail : " + itemHisDetail);
+		
 		mv.addObject("itemDetail", itemDetail);
+		mv.addObject("itemHisDetail", itemHisDetail);
 		mv.setViewName("/item/itemManagementDetail");
 
 		return mv;
@@ -118,11 +127,52 @@ public class ItemController {
 		return "redirect:/item/itemmanagement";
 
 	}
-//
-//	@GetMapping("/itemcreat")
-//	public String goItemCreat() {
-//		return "item/itemCreat";
-//	}
+	
+	/* 수정하기 메소드 */
+	@PostMapping("/itemupdate")
+	public String itemUpdate(@ModelAttribute ItemDTO item, RedirectAttributes rttr) throws UpdateException{
+		
+		log.info("");
+		log.info("");
+		log.info("[updateStockController] 들어옴 s: =================================");
+
+		System.out.println("item : " + item);
+
+		itemService.itemUpdate(item);
+
+		rttr.addFlashAttribute("message","수정 되었습니다.");
+		
+		log.info("[itemUpdateController] end : ==========================================");
+		
+		return "redirect:/item/itemmanagement";
+	}	
+	
+	
+	/* 등록 페이지 메소드 */
+	
+	@GetMapping("/iteminsert")
+	public ModelAndView itemInsert(ModelAndView mv) {
+		
+		mv.setViewName("/item/iteminsert");
+		
+		return mv;
+	}
+	
+	/* 등록하기 메소드 */
+	@PostMapping("/iteminsert/insert")
+	public String insertItemgoods(@AuthenticationPrincipal UserImpl user, @ModelAttribute ItemDTO item, RedirectAttributes rttr) throws InsertException{
+		
+		item.setEmpNo(user.getEmpNo()) ;
+		
+		System.out.println("ItemDTO" + item);
+		System.out.println("=========================================");
+		itemService.insertItemgoods(item);
+
+		rttr.addFlashAttribute("message", "등록되었습니다.");
+		
+		return "redirect:/item/itemmanagement";
+	}
+	
 
 //	@GetMapping("/itemupdate")
 //	public String goitemUpdate() {

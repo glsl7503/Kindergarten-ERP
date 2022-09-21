@@ -63,7 +63,7 @@
 		<result property="resigndate" column="EMP_RESIGNDATE" />
 	</resultMap>
 
-	<!-- 음식품목 전체 개수 조회하는 쿼리문 -->
+	<!-- 음식품목 전체 개수 조회하는 쿼리문 
 	<select id="selectTotalCount" resultType="_int" parameterType="hashmap">
 		SELECT
 				COUNT(*)
@@ -76,7 +76,40 @@
 			</if>
 		</where>
 	</select>
-
+	-->
+	
+	<!-- 등록 -->
+   <insert id="insertItemgoods" parameterType="ItemDTO">
+     	INSERT
+    	  INTO ITEM F 
+    	  (
+    	  	F.ITEM_NAME
+		  ,	F.ITEM_CATEGORY
+		  ,	F.ITEM_NUMBER
+		  ,	F.ITEM_PRICE
+		  ,	F.ITEM_REGDATE
+		  ,	F.ITEM_UPDATE
+		  ,	F.EMP_NO
+		  ,	F.ITEM_NO
+		  ,	F.TRADER_IDX
+           
+          )
+           VALUES
+          (
+            #{ name }
+          , #{ category }
+          , #{ number }
+          , #{ price }
+          , SYSDATE
+          , SYSDATE
+          , #{ empNo }
+          , SEQ_ITEM.NEXTVAL
+          , 1
+          )   
+           
+    </insert>
+          
+    
 	<select id="selectItemList" resultMap="ItemResultMap">
 		SELECT
 		A.RNUM
@@ -131,6 +164,18 @@
 	      FROM ITEM F
 	     WHERE F.ITEM_NO = #{ itemNo } 
     </select>
+
+	 <select id="goItemmanageMentHisDetail" resultMap="ItemMenagementHisResultMap">
+    	SELECT
+    	  A.PROCESS_IN
+		, A.TIME
+		, A.PROCESS_OUT
+		, A.PROCESS_NO
+		, A.EMP_NO
+	      FROM ITEMMANAGEMENT_HIS A
+	      JOIN ITEM_HIS B ON (A.PROCESS_NO = B.PROCESS_NO)
+	      WHERE B.ITEM_NO = #{ itemNo } 
+    </select>
     
     
     <delete id="goItemDelete">
@@ -139,6 +184,26 @@
     	 WHERE ITEM_NO = #{ itemNo }
     </delete>
     
+    <delete id="getItemHisDelete">
+    	DELETE
+    	  FROM ITEM_HIS
+    	 WHERE ITEM_NO = #{ itemNo }
+    </delete>
+
+ 	<!-- 수정 -->
+    <update id="itemUpdate">
+    	UPDATE ITEM
+    	  SET ITEM_NAME = #{ name }
+		 	  ITEM_CATEGORY = #{ category }
+			, ITEM_NUMBER = #{ number }
+			, ITEM_PRICE = #{ price }
+			, ITEM_REGDATE = #{ regdate}
+			, ITEM_UPDATE = #{ update }
+			, EMP_NO = # { empNo }
+			, ITEM_NO = { itmeNo }
+			, TRADER_IDX = #{ traderIdx }
+    	  WHERE ITEM_NO = #{ itemNo }
+    </update>
 
     
 </mapper>

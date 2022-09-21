@@ -22,7 +22,7 @@
 				<h1 class="mt-4">비품관리</h1>
 				<br>
 				<!-- 검색하기  -->
-              <form id="searchForm" method="get">
+              <form id="searchForm">
 				<div class="dataTable-top">
 					<div class="dataTable-search">
 						<input type="text" name="date" id="date2" size="12" class="dataTable-input" />
@@ -34,13 +34,13 @@
 						</select>
 						<input type="search" id="searchValue" name="searchValue" class="dataTable-input" placeholder="search">
 					</div>
-					<button class="btn-orange ms-3">검색</button>
+                      <button id="search" class="btn-orange ms-3" type="submit">검색</button>
 					<div>
-						<button class="btn-orange" th:onclick="'location.href=\'/item/itemcreat\''">
-							등록</button>
+                      <button id="insert" class="btn-orange" type="submit">등록</button>
 					</div>
 				</div>
-
+			</form>
+				<!-- 리스트 조회 -->
 				<table class="dataTable-table" id="listArea" style="text-align:  center;">
 					<thead>
 						<tr>
@@ -98,7 +98,7 @@
 					</nav>
 				</div>
 
-				</form>
+				
 			</div>
 		</main>
 	</div>
@@ -127,11 +127,11 @@
     }
     
     $("#search").click(function () {
-        $("form").attr("action", "/item/stock");
+        $("form").attr("action", "/item/itemmanagement");
  	 });
   
  	$("#insert").click(function () {
-        $("form").attr("action", "/food/stock/insert");
+        $("form").attr("action", "/item/iteminsert").attr("method", "get");
  	});	
   
 </script>

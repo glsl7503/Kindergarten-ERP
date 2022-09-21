@@ -26,10 +26,9 @@
 				<br>
 				<br>
 
-              <form th:action="@{ /item/itemmanagement }" method="post">
-
+					<form th:action="@{ /item/itemmanagement }" method="post">
 					<div class="btn-right-mv70">
-						<button class="btn-orange update" type="submit">수정하기 </button>
+	<!--					<button class="btn-orange update" type="submit">수정하기 </button>	-->
 						<button class="btn-orange delete" type="submit">삭제하기 </button>
 					</div>
 					<h4>[ 기본 정보 ]</h4>
@@ -84,7 +83,7 @@
 					<br>
 
 
-					<table class="tbTem">
+					<!--<table class="tbTem">
 						<colgroup>
 							<col width="25%">
 							<col width="25%">
@@ -97,29 +96,28 @@
 
 						<tr>
 							<td class="bg-apricot">비품번호</td>
-							<td colspan="3" ></td>
+							<td colspan="3" th:text="${ itemHisDetail.processNo }"></td>
 
 						</tr>
 						<tr>
 							<td class="bg-apricot">사용수량</td>
-							<td colspan="3" ></td>
+							<td colspan="3" th:text="${ itemHisDetail.processIn }"></td>
 						</tr>
 						<tr>
 							<td class="bg-apricot">등록수량</td>
-							<td colspan="3" ></td>
+							<td colspan="3" th:text="${ itemHisDetail.processOut }"></td>
 						</tr>
 						<tr>
 							<td class="bg-apricot">처리시간</td>
-							<td colspan="3" ></td>
+							<td colspan="3" th:text="${ itemHisDetail.time }"></td>
 						</tr>
 						<tr>
-							<td class="bg-apricot">사용한 직원</td>
-							<td colspan="3" ></td>
+							<td class ="bg-apricot">사용한 직원</td>
+							<td colspan="3" th:text="${ itemHisDetail.empNo }"></td>
 						</tr>
-					</table>
+					</table>-->
 
 					</form>
-
 			</div>
 		</main>
 	</div>
