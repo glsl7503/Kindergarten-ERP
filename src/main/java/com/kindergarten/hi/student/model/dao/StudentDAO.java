@@ -2,7 +2,6 @@ package com.kindergarten.hi.student.model.dao;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,6 +11,7 @@ import com.kindergarten.hi.student.model.dto.ClassDTO;
 import com.kindergarten.hi.student.model.dto.Employee1DTO;
 import com.kindergarten.hi.student.model.dto.ParentsDTO;
 import com.kindergarten.hi.student.model.dto.StudentDTO;
+import com.kindergarten.hi.student.model.dto.WonParDTO;
 
 @Mapper
 public interface StudentDAO {
@@ -28,7 +28,6 @@ public interface StudentDAO {
 
 	int insertstudent(StudentDTO student);	
 
-	int insertSelectstudentto(ParentsDTO parents);
 
 	Employee1DTO selectEmployee(int empNo);
 
@@ -42,7 +41,20 @@ public interface StudentDAO {
 
 	int modifyStudent(StudentDTO student);
 
-	
+	int insertSelectstudentto(ParentsDTO parent);
 
+	int selectClassNo();
+
+	int selectParentSelect();
+
+	int lastInsert(WonParDTO wonPar);
+
+	int selectStudentNum(StudentDTO student);
+
+	int updatestudentinfor(AttendanceDTO attendance);
+
+	int updateSelectstudentto(ParentsDTO parent);
+
+	int selectParent(StudentDTO student);
 
 }

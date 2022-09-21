@@ -32,10 +32,13 @@
         h5 {
             margin-top: -75px;
 
+<<<<<<< HEAD
 
         }
-
-        .pfpicture {
+=======
+        }
+        
+               .pfpicture {
             width: 150px;
             height: 200px;
             background-color: black;
@@ -227,3 +230,4 @@
     display: flex;
     justify-content: center;
 }
+>>>>>>> branch 'sangdon' of https://gitlab.com/hiproject1/final/hiproject.git
