@@ -14,7 +14,96 @@
         <link th:href="@{/css/common/styles.css}" rel="stylesheet"/>
         <link rel="stylesheet" th:href="@{/css/common/commons.css}">
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+         <script>
+         /* $(document).ready(function(){
+     		$(".duplicationCheck").click(function(){
+
+     			
+     			alert("dasdsad");
+     			let id = $("#id").val();
+     			
+     			$.ajax({
+     				url: "/mypage/idDupCheck",
+     				type: "POST",
+     				contentType: 'json',
+     				data: {
+     					id:id
+     				},
+     				success: function(data){
+     					console.log(data);
+     					alert(data);
+     					if(data == 1){
+     						alert("중복된 아이디값이 없읍니다!");
+     						$("#id").val(data);
+     					}
+     					
+     				},
+     				error: function(error){
+     					console.log(error);	
+     				}
+     			});
+     			
+     		});
+     		
+     	}); */
+         
+         
+    function sample6_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if(data.userSelectedType === 'R'){
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    // 조합된 참고항목을 해당 필드에 넣는다.
+                    document.getElementById("sample6_extraAddress").value = extraAddr;
+                
+                } else {
+                    document.getElementById("sample6_extraAddress").value = '';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('sample6_postcode').value = data.zonecode;
+                document.getElementById("sample6_address").value = addr;
+             	// 커서를 상세주소 필드로 이동한다.
+                document.getElementById("sample6_detailAddress").focus();
+            }
+        }).open();
+    }
+
+    
+   
+
+</script>
     </head>
+    
     <body class="sb-nav-fixed">
     
     	<div th:replace="common/header"></div>
@@ -26,9 +115,10 @@
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">개인정보 수정</h1>
                         <br>
+                        <form th:action="@{ /mypage/personaldataupdate2 }" method="post">
                         <div class="btn-right-mv70">
                             <button class="btn-orange" style="margin-right: 20px;">수정</button>
-                            <button class="btn-orange" th:onclick="'location.href=\'/mypage/gomypage\''">취소</button>
+                            <button class="btn-orange" type="button" id="main2" th:onclick="'location.href=\'/main\''">취소</button>
                         </div>
                         <br>
                         <table class="tbTem">
@@ -36,24 +126,30 @@
                                 <col width="20%">
                                 <col width="80%">
                             </colgroup>
-                            <tr>
+                            <!-- <tr>
+                            
                                 <td class="col-apricot">아이디</td>
-                                <td class="txtBox"><input class="title1" type="text" style="width: 149px;height: 38px;"></td>
-                            </tr>
-                            <tr>
-                                <td class="col-apricot">비밀번호</td>
-                                <td class="txtBox" style="width: 149px;height: 38px;"></td>
-                            </tr>
+                                <td class="txtBox">
+                                	<input class="id" id="id" type="text" name="id" style="width: 149px;height: 38px;">
+                                	<button type="button" class="btn-orange duplicationCheck" id="duplicationCheck" name="duplicationCheck">중복확인</button>
+                                	<input type="hidden" id="idcheck" value="0">
+                                </td>
+                            </tr> -->
                             <tr>
                                 <td class="col-apricot">이름</td>
-                                <td class="txtBox" style="width: 149px;height: 38px;"></td>
+                                <td class="txtBox" style="width: 149px;height: 38px;"><input type="text" name="name" style="width: 149px;height: 38px;"></td>
                             </tr>
                             <tr>
-                                <td class="col-apricot">휴대전화</td>
+                                <td class="col-apricot">전화번호</td>
                                 <td class="txtBox">
-                                    <input type="tel" style="width: 50px;height: 38px;" maxlength="4">
-                                    - <input type="tel" style="width: 70px;height: 38px;" maxlength="4">
-                                    - <input type="tel" style="width: 70px;height: 38px;" maxlength="4">
+                                    <input type="tel" oninput="hypenTel(this)" maxlength="13" name="phone" id="phone"> 
+			                        <script>
+			                          const hypenTel = (target) => {
+			                         target.value = target.value
+			                           .replace(/[^0-9]/g, '')
+			                           .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+			                        }                        
+			                        </script>
                                 </td>
                             </tr>
                             <tr>
@@ -61,7 +157,6 @@
                                 <td class="txtBox" colspan="3"><input type="text" name="email"
 								style="width: 149px; height: 38px;"> @ 
 								<select name="email2" id="" class="dataTable-selector">
-									<option value="">-선택-</option>
 									<option value="naver.com">naver.com</option>
 									<option value="hotmail.com">hotmail.com</option>
 									<option value="daum.net">daum.net</option>
@@ -80,7 +175,7 @@
 							</td>
                             </tr>
                             <tr>
-                                <td class="col-apricot">직급</td>
+                                <td class="col-apricot">권한</td>
                                 <td class="txtBox">
                                     <select name="value" id="" class="dataTable-selector">
                                         <option value="1">선생님</option>
@@ -94,12 +189,15 @@
                                 <td class="txtBox" style="width: 149px;height: 38px;"><input type="date" name="birth"></td>
                             </tr>
                         </table>
-                        
+						</form>
+						<input type="hidden" id="idcheck2" th:value="${ #authentication.getPrincipal().empId }">                     
                     </div>
                 </main>
             </div>
-        </div>
-
-
+            <!-- <script>
+	            $("#main2").click(function () {
+	              $("form").attr("action", "/main");
+	     	    });
+            </script> -->
     </body>
 </html>

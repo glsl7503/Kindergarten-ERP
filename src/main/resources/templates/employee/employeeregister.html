@@ -67,7 +67,14 @@
 						</tr>
 						<tr>
 							<td class="col-apricot">전화번호</td>
-							<td colspan="3" class="txtBox"><input type="text" name="phone" style="width: 30%;height: 38px;"> - <input type="text" name="phone2" style="width: 30%;height: 38px;"> - <input type="text" name="phone3" style="width: 30%;height: 38px;"></td>
+							<td colspan="3" class="txtBox"><input type="tel" oninput="hypenTel(this)" maxlength="13" name="phone" id="phone"> 
+			                        <script>
+			                          const hypenTel = (target) => {
+			                         target.value = target.value
+			                           .replace(/[^0-9]/g, '')
+			                           .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+			                        }                        
+			                        </script></td>
 						</tr>
 						<tr>
 							<td class="col-apricot">생년월일</td>

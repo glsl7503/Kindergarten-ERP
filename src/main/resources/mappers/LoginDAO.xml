@@ -37,6 +37,14 @@
 		<result property="authExpl" column="AUTH_EXPL"/>
     </resultMap>
 
+ 	<update id="pwdchange">
+		UPDATE 
+		       EMPLOYEE A
+		   SET A.EMP_PWD = #{ pwd }
+		 WHERE A.EMP_ID = #{ id }
+		   AND A.EMP_EMAIL = #{ email }
+	</update>
+
     <select id="findLoginEmployeeById" resultMap="loginEmployeeResultMap">
         SELECT
                A.EMP_NO

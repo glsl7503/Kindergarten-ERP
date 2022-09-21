@@ -2,6 +2,46 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kindergarten.hi.employee.model.dao.MyPageDAO">
+<mapper namespace="com.kindergarten.hi.mypage.model.dao.MyPageDAO">
     
+    <select id="selectMemberById" resultType="string">
+        SELECT 
+               A.EMP_ID
+          FROM EMPLOYEE A
+         WHERE A.EMP_RESIGN = 'N'
+           AND A.EMP_ID = #{ empId }
+    </select>
+    
+	<select id="pwdCheckBySelect" resultType="string">
+		SELECT
+		       EMP_PWD
+		  FROM EMPLOYEE
+		 WHERE EMP_ID = #{ id }
+	</select>
+	
+	<update id="newPwdUpdate">
+		UPDATE 
+		       EMPLOYEE
+		   SET EMP_PWD = #{ newpwd }
+		 WHERE EMP_ID = #{ userId }
+	</update>
+	
+	<update id="updatePersonal">
+		UPDATE
+		       EMPLOYEE A
+		   SET A.EMP_NAME = #{ employeeDTO.name }
+		     , A.EMP_PHONE = #{ employeeDTO.phone }
+		     , A.EMP_EMAIL = #{ employeeDTO.email }
+		     , A.EMP_ADDRE = #{ employeeDTO.addre } 
+		     , A.EMP_BIRTH = #{ employeeDTO.birth }
+		 WHERE A.EMP_RESIGN = 'N'
+		   AND A.EMP_NO = #{ empNo }
+	</update>
+	
+	<update id="updateAuthNum">
+		UPDATE
+		       EMPL_AUTH
+		   SET AUTH_NUM = #{ emplAuthDTO.authNum }
+		 WHERE EMP_NO = #{ empNo }
+	</update>
 </mapper>

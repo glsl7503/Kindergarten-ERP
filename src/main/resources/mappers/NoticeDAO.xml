@@ -127,10 +127,10 @@
         ORDER BY 1 ASC
     </select>
     
-    <update id="incresementBoardCount" parameterType="string">
+    <!-- <update id="incresementBoardCount" parameterType="string">
         update NOTICE
         set VIEW_COUNT = nvl(VIEW_COUNT, 0) + 1
         where NOTICE_NO = #{ no }
 
-    </update>
+    </update> -->
 </mapper>

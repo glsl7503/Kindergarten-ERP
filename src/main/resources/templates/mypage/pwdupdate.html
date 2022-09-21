@@ -10,25 +10,27 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>HI KINDERGARTEN</title>
-    </head>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script type="text/javascript">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    	<script type="text/javascript">
     	$(document).ready(function(){
-    		
-    		$("#pwdcheck").on("click", function(){
+    		$(".pwdcheck").click(function(){
 
-				let pwd = $("#pwd").val();
+    			
+    			alert("check");
+				let pwd = $("#pwd").val(); 
+				let id = $("#idpwd").val();
 				
 				$.ajax({
 					url: "/mypage/pwd/check",
-					method: "POST",
+					type: "POST",
 					data: {
-						pwd:pwd
+						pwd:pwd,
+						id:id
 					},
 					success: function(data){
 						console.log(data);
-						
-						if(data){
+						alert(data);
+						if(data == 1){
 							$("#pwdcheck").val(data);
 						}
 						
@@ -42,43 +44,14 @@
     		
     	});
     </script>
+        
+    </head>
     <body class="sb-nav-fixed">
 
         <div th:replace="common/header"></div>
 		<div th:replace="common/sidebar"></div>
 
-		<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    	<script type="text/javascript">
-    	$(document).ready(function(){
-    		
-    		$("#pwdcheck").on("click", function(){
-
-				let pwd = $("#pwd").val();
-				
-				$.ajax({
-					url: "/mypage/pwd/check",
-					method: "POST",
-					data: {
-						pwd:pwd
-					},
-					success: function(data){
-						console.log(data);
-						
-						if(data){
-							$("#pwdcheck").val(data);
-						}
-						
-					},
-					error: function(error){
-						console.log(error);	
-					}
-				});
-    			
-    		});
-    		
-    	});
-    </script>
-			
+					
 			
             <!-- 컨텐츠 영역 -->
             <div id="layoutSidenav_content">
@@ -91,20 +64,20 @@
                         <br>
                         <h5>* 영문 대소문자, 숫자 및 특수문자를 포함시켜 주세요</h5>
                         <br>
-                        <input type="hidden" id="pwdcheck" value="false">
+                        <input type="hidden" id="pwdcheck" value="0">
                         <br>
-                        <form th:action="@{ /mypage/pwdupdate }" method="post">
+                        <form th:action="@{ /mypage/pwdupdate2 }" method="post">
                         <table>
                             <tr>
                                 <td><input type="password" id="pwd" placeholder="현재 비밀번호" style="width: 600px;height: 40px;"></td>
-                                <td><button id="pwdcheck" class="btn-orange" type="button">비밀번호 확인</button></td>
+                                <td><button class="pwdcheck btn-orange" type="button">비밀번호 확인</button></td>
                             </tr>
                         </table>
                         <br>
                         <br>
                         <table>
                             <tr>
-                                <td><input id="pwd1" type="password" placeholder="새 비밀번호" style="width: 600px;height: 40px;"></td>
+                                <td><input name="newpwd" id="pwd1" type="password" placeholder="새 비밀번호" style="width: 600px;height: 40px;"></td>
                             </tr>
                             <tr>
                                 <td><input id="pwd2" type="password" placeholder="새 비밀번호 확인" style="width: 600px;height: 40px;">
@@ -116,6 +89,7 @@
                             <button id="cancel" class="btn-orange" th:onclick="'location.href=\'/mypage/gomypage\''">취소</button>
                         </div>
                         </form>
+                        <input type="hidden" id="idpwd" th:value="${ #authentication.getPrincipal().empId }">
                     </div>
                 </main>
             </div>
@@ -123,6 +97,8 @@
             function test() {
                 var p1 = document.getElementById('pwd1').value;
                 var p2 = document.getElementById('pwd2').value;
+                var p3 = document.getElementById('pwdcheck').value;
+               
                 if(p1.length < 8) {
                     alert('입력한 글자가 8글자 이상이어야 합니다.');
                     return false;
@@ -135,19 +111,24 @@
                     alert("비밀번호가 일치합니다");
                     return true;
                 }
+                
+                if(p3 != 1){
+                	alert("비밀번호확인진행해주삼");
+                    return false;
+                }
             }
             
-            $("#check").click(function () {
-                $("form").attr("", "test()");
-         	 });
+            /* $("#check").click(function () {
+                $("form").attr("action", "/mypage/pwdupdate");
+         	}); */
             
-            $("#check").click(function () {
+            /* $("#check").click(function () {
             	$("#check").function(test());
-         	 });
+         	 }); */
           
-         	$("#cancel").click(function () {
+         	/* $("#cancel").click(function () {
                 $("form").attr("action", "/mypage/gomypage");
-         	});
+         	}); */
         </script>
 
 
