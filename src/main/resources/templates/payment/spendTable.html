@@ -151,7 +151,6 @@
 
 			<div class="pagingArea dataTable-pagination" align="center" style="margin-left:40%; margin-top:5%;">
 				<!-- 맨 앞으로 이동 버튼 -->
-				<th:block th:if="selectCriteria.pageNo == 1">
 				<a class="pager"
 					th:onclick="'location.href=\'/payment/spendlist?currentPage='+ @{${selectCriteria.startPage}} + '\''"
 					th:disabled="${selectCriteria.pageNo == 1}"> <<
@@ -162,10 +161,9 @@
 					th:disabled="${selectCriteria.pageNo == 1}"> <
 				</a>
 				
-				</th:block>
 				<!-- 숫자 버튼 -->
-				<th:block th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
-					<a class="pager" th:text="${ page }"
+				<th:block class="active" th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
+					<a class="dataTable-pagination-list" th:text="${ page }"
 						th:onclick="'location.href=\'/payment/spendlist?currentPage='+ @{${page}} + '\''"
 						th:disabled="${ selectCriteria.pageNo eq page }">
 					</a>

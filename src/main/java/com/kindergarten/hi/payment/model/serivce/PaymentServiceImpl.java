@@ -167,6 +167,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 
 	@Override
+	@Transactional
 	public void updatePaymentFinal(int no, String yN) {
 		int result = mapper.updatePaymentFinal(no,yN);
 		

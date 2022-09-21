@@ -69,7 +69,10 @@ public class PaymentController {
         if(currentPage != null && !"".equals(currentPage)) {
             pageNo = Integer.parseInt(currentPage);
         }
-        
+        if(pageNo==0) {
+        	pageNo=1;
+        }
+
         String searchCondition = request.getParameter("searchCondition");
         String searchValue = request.getParameter("searchValue");
         
