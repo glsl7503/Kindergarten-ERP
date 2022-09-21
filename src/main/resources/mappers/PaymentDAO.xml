@@ -178,6 +178,7 @@
         						AND C.EXPE_STATUS = 'Y'
         						</if>
     					</where>
+    					ORDER BY C.EXPE_NO DESC
                          )B
                   <![CDATA[
                   WHERE ROWNUM <= #{ selectCriteria.endRow }
