@@ -77,9 +77,7 @@ public class ItemServiceImpl implements ItemService {
 
 		int result = itemDao.insertItemgoods(item);
 		
-		// 
-
-		//m
+		
 		if (!(result > 0)) {
 			throw new InsertException("게시글 등록에 실패하셨습니다.");
 
