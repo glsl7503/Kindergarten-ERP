@@ -145,7 +145,7 @@ public class EmployeeController {
 	
 	/* 회원정보 상세조회 */
 	@GetMapping("/detail")
-	public String selectEmployeeDetail(HttpServletRequest request, Model model) {
+	public ModelAndView selectEmployeeDetail(HttpServletRequest request, ModelAndView model) {
 		 log.info("");
 	     log.info("");
 	     log.info("[selectEmployeeDetailController] =============================================================================");
@@ -158,12 +158,17 @@ public class EmployeeController {
         
         System.out.println("foodDetail : " + employeeDetail);
         
-        model.addAttribute("employee", employeeDetail);
-        model.addAttribute("no",no);
-
+//        model.addAttribute("employee", employeeDetail);
+//        model.addAttribute("no",no);
+        
+        model.addObject("employee", employeeDetail);
+        model.addObject("no",no);
+        model.setViewName("employee/employeedetail");
+        
+        
         log.info("[SelectEmployeeDetail] selectEmployeeDetail=========================================================");
 
-        return "employee/detail";
+        return model;
 	}
 	
 	/* 회원정보 수정 */
