@@ -29,7 +29,8 @@
 		<result property="noreason" column="ATTE_NOREASON" />
 		<result property="pro_yn" column="ATTE_PRO_YN" />
 		<result property="del_yn" column="ATTE_DEL_YN" />	
-		<result property="emp_no" column="EMP_NO" />			
+		<result property="emp_no" column="EMP_NO" />	
+		<result property="emp_name" column="EMP_NAME" />
 	</resultMap>
 
 	<resultMap type="EmplAuthDTO" id="emplAuthResultMap">
@@ -276,6 +277,8 @@
 			,E.ATTE_NOREASON
 			FROM ATTE_MANAGEMENT E
 			WHERE E.ATTE_NO = #{no}
+			
+			
 	</select>
 	
 	<update id="managementUpdate" >
@@ -342,7 +345,7 @@
  			,EMP_GOTIME
  			,EMP_OUTTIME
  			FROM EMP_CAL	
- 			WHERE EMP_NO = #{ no }
+ 			WHERE EMP_NO = #{ no } 
   	</select>
  	
  	<insert id="insertEmployee" parameterType="EmployeeDTO">

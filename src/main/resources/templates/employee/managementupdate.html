@@ -34,14 +34,15 @@
                       <col width="25%">
                       <col width="25%">
                   </colgroup>
-                  		<tr>
-	                      <td class="bg-apricot">근태사유서번호</td>
-	                      <td colspan="3"><p th:text="${ management.no }"></p></td>
+              <!--     <input type="hidden" name="emp_no" th:value="${#authentication.getPrincipal().getEmpNo()}">
+	                 <td class="bg-apricot">근태사유서번호</td>
+	                      <td colspan="3"><p th:text="${ management.no }"></p></td> -->
 	                      <input type="hidden" name="no" th:value="${ management.no }">
-	                  </tr>
 	                  <tr>
 	                      <td class="bg-apricot">이름</td>
-	                      <td colspan="3"><p th:text="${ management.mananame }"></p></td>
+	                      <td colspan="3">
+	                      	<input type="text" name="mananame" th:value="${ management.mananame }" readonly>
+	                      </td>
 	                  </tr>
 	                  <tr>
 	                      <td class="bg-apricot">작성일</td>

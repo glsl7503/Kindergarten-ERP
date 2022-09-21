@@ -38,13 +38,10 @@
                         <col width="25%">
                     </colgroup>
                     <input type="hidden" name="emp_no" th:value="${#authentication.getPrincipal().getEmpNo()}">
-                    <tr>
-                        <td class="bg-apricot">근태사유서번호</td>
-                        <td colspan="3"><input type="text" name="no"></td>
-                    </tr>
+
                     <tr>
                         <td class="bg-apricot">이름</td>
-                        <td colspan="3"><input type="text" name="mananame"></td>
+                        <td colspan="3"><input type="hidden" name="mananame" th:value="${#authentication.getPrincipal().getEmpName()}" th:text="${#authentication.getPrincipal().getEmpName()}"></td>
                     </tr>
                     <tr>
                         <td class="bg-apricot">작성일</td>
@@ -55,7 +52,7 @@
                         <td colspan="3"><input type="text" name="sort"></td>
                     </tr>
                      <tr>
-                        <td class="bg-apricot">사전보고여부</td>
+                        <td class="bg-apricot">사전보고여부<br>( O / X )</td>
                         <td colspan="3"><input type="text" name="pre"></td>
                     </tr>
                      <tr>
