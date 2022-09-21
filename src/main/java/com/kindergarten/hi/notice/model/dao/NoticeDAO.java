@@ -23,6 +23,6 @@ public interface NoticeDAO {
 
 	int deleteNotice(int no);
 
-	int incrementNoticeCount(Long no);
+//	int incrementNoticeCount(Long no);
 
 }

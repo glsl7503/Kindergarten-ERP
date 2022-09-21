@@ -57,4 +57,6 @@ public class LoginServiceImpl implements LoginService {
         user.setDetails(loginEmployee);
         return user;
     }
+
+	
 }

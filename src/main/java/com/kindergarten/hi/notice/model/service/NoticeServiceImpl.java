@@ -51,11 +51,11 @@ public class NoticeServiceImpl implements NoticeService {
 	@Transactional
 	public NoticeDTO selectNoticeDetail(Long no) {
 		NoticeDTO noticeDetail = null;
-		int result = noticeDAO.incrementNoticeCount(no);
+//		int result = noticeDAO.incrementNoticeCount(no);
 		
-		if(result > 0) {
+//		if(result > 0) {
 		noticeDetail = noticeDAO.selectNoticeDetail(no);
-		}
+//		}
 		return noticeDetail;
 	}
 

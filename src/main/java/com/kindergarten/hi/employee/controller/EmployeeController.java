@@ -424,11 +424,11 @@ public class EmployeeController {
 		String address = request.getParameter("zipcode") + "$" + employeeDTO.getAddre() + "$" + request.getParameter("addre2") + "$" + request.getParameter("addre3");
 		System.out.println(address);
 		int value = Integer.parseInt(request.getParameter("value"));
-		String phone = employeeDTO.getPhone() + request.getParameter("phone2") + request.getParameter("phone3");
+//		String phone = employeeDTO.getPhone() + request.getParameter("phone2") + request.getParameter("phone3");
 //		employeeDTO.setPhone(employeeDTO.getPhone().replace("-", ""));
 		emplAuthDTO.setAuthNum(value);
 		employeeDTO.setAddre(address);
-		employeeDTO.setPhone(phone);
+//		employeeDTO.setPhone(phone);
 		System.out.println(employeeDTO);
 		System.out.println(emplAuthDTO);
 		System.out.println(employeeDTO.getPwd());
