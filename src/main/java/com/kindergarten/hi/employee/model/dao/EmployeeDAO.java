@@ -26,7 +26,7 @@ public interface EmployeeDAO {
 
 	int deleteEmployee(EmployeeDTO employee);
 
-	List<ManagementDTO> selectManagementList(SelectCriteria selectCriteria);
+	List<ManagementDTO> selectManagementList(Map<String, Object> map);
 
 	int deletemanagement(int no);
 
@@ -50,7 +50,7 @@ public interface EmployeeDAO {
 
 	int insertVacationEmp(int userNo);
 	
-	List<CalenderEmployeeDTO> selectempCalenderList();
+	List<CalenderEmployeeDTO> selectempCalenderList(int userNo);
 
 	HolidayDTO selectVacationDetail(Long no);
 
@@ -75,6 +75,8 @@ public interface EmployeeDAO {
 	int insertemployee2Calender(CalenderEmployeeDTO calender, int no);
 
 	int employeeUpdate(EmployeeDTO employee);
+
+	List<ManagementDTO> selectManagementList2(SelectCriteria selectCriteria, int no);
 
 
 

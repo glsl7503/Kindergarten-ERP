@@ -216,7 +216,7 @@ public class EmployeeController {
 	
 	/* 근태정보조회 */
 	@GetMapping("/managementList")
-	public ModelAndView managementList(HttpServletRequest request, ModelAndView mv) {
+	public ModelAndView managementList(HttpServletRequest request, ModelAndView mv, @AuthenticationPrincipal UserImpl user) {
 		
 		 log.info("");
 	     log.info("");
@@ -225,6 +225,11 @@ public class EmployeeController {
         * 목록보기를 눌렀을 시 가장 처음에 보여지는 페이지는 1페이지이다.
         * 파라미터로 전달되는 페이지가 있는 경우 currentPage는 파라미터로 전달받은 페이지 수 이다.
         */
+	     
+	// 	System.out.println("user" + user);
+	//	int userId = user.getEmpNo();
+	//	String auth = request.getParameter(a);
+				
        String currentPage = request.getParameter("currentPage");
        int pageNo = 1;
 
@@ -240,9 +245,21 @@ public class EmployeeController {
        String searchCondition = request.getParameter("searchCondition");
        String searchValue = request.getParameter("searchValue");
 
+       String userNo = null;
        Map<String, String> searchMap = new HashMap<>();
+       
+       int status = user.getLoginEmployeeRoleList().get(0).getAuthorityCode(); //권한조회
+       
+       System.out.println("user.getLoginEmployeeRoleList().get(0).getAuthorityCode() : " + user.getLoginEmployeeRoleList().get(0).getAuthorityCode());
+       System.out.println("Integer.toString(user.getEmpNo()) : " + Integer.toString(user.getEmpNo()));
+       
+       if(status !=3) {
+    	   userNo = Integer.toString(user.getEmpNo());
+       }
+      
        searchMap.put("searchCondition", searchCondition);
        searchMap.put("searchValue", searchValue);
+       searchMap.put("userNo", userNo);
 
        log.info("[ManagementController] 컨트롤러에서 검색조건 확인하기 : " + searchMap);
        
@@ -270,9 +287,9 @@ public class EmployeeController {
        }
 
        log.info("[ManagementController] selectCriteria : " + selectCriteria);
-
+       System.out.println("userNo : " + userNo);
        /* 조회해 온다 */
-       List<ManagementDTO> managementList = employeeService.selectManagementList(selectCriteria);
+       List<ManagementDTO> managementList = employeeService.selectManagementList(selectCriteria, userNo);
 
        log.info("[ManagementController] managementList : " + managementList);
 
@@ -362,15 +379,16 @@ public class EmployeeController {
 	/* 캘린더 리스트 조회 */
 	@ResponseBody
 	@GetMapping(value="/callist", produces = "application/json; charset=utf-8")
-	public String selectempCalenderList() {
+	public String selectempCalenderList(@AuthenticationPrincipal User user) {
 		log.info("");
         log.info("");
         log.info("[CalendarController] 시작 : =====================================");
         
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         
-        
-        List<CalenderEmployeeDTO> empcalList = employeeService.selectempCalenderList();
+   
+        int no = ((UserImpl) user).getEmpNo();
+        List<CalenderEmployeeDTO> empcalList = employeeService.selectempCalenderList(no);
         
         System.out.println("캘린더 정보들어오는지 확인 : " + empcalList);
         log.info("[CalendarController] : " + gson.toJson(empcalList));
@@ -379,7 +397,7 @@ public class EmployeeController {
         return gson.toJson(empcalList);
 	}
 	
-	/* 출결관리 캘린더 */
+	/* 출결관리 캘린더 출근*/
 	@GetMapping("employeecalender")
 	public String insertCalender(@ModelAttribute CalenderEmployeeDTO calender, RedirectAttributes rttr, @AuthenticationPrincipal User user) throws employeeCalenderException {
 		
@@ -395,7 +413,7 @@ public class EmployeeController {
 		
 		return "redirect:/employee/employeecal";
 	}
-	 /* 출결관리 캘린더2 */ 
+	 /* 출결관리 캘린더 퇴근*/ 
 	@GetMapping("employeecalender2")
 	public String insert2Calender(@ModelAttribute CalenderEmployeeDTO calender, RedirectAttributes rttr, @AuthenticationPrincipal User user) throws employeeCalenderException {
 		
@@ -411,7 +429,7 @@ public class EmployeeController {
 		
 		return "redirect:/employee/employeecal";
 	}
-	
+
 	@GetMapping("/regist")
 	public String goregist() {
 		
@@ -442,28 +460,28 @@ public class EmployeeController {
 		return "redirect:/";
 	}
 	
-	@PostMapping("/idDupCheck")
-    public ResponseEntity<String> checkDuplication(@RequestBody EmployeeDTO employeeDTO) throws JsonProcessingException {
-
-        log.info("");
-        log.info("");
-        log.info("[EmployeeController] checkDuplication ==========================================================");
-
-        String result = "사용 가능한 아이디 입니다.";
-        log.info("[EmployeeController] Request Check ID : " + employeeDTO.getId());
-
-        if("".equals(employeeDTO.getId())) {
-            log.info("[EmployeeController] No Input Employee ID");
-            result = "아이디를 입력해 주세요";
-        } else if(employeeService.selectEmployeeById(employeeDTO.getId())) {
-            log.info("[EmployeeController] Already Exist");
-            result = "중복된 아이디가 존재합니다.";
-        }
-
-        log.info("[MemberController] checkDuplication ==========================================================");
-
-        return ResponseEntity.ok(result);
-    }
+//	@PostMapping("/idDupCheck")
+//    public ResponseEntity<String> checkDuplication(@RequestBody EmployeeDTO employeeDTO) throws JsonProcessingException {
+//
+//        log.info("");
+//        log.info("");
+//        log.info("[EmployeeController] checkDuplication ==========================================================");
+//
+//        String result = "사용 가능한 아이디 입니다.";
+//        log.info("[EmployeeController] Request Check ID : " + employeeDTO.getId());
+//
+//        if("".equals(employeeDTO.getId())) {
+//            log.info("[EmployeeController] No Input Employee ID");
+//            result = "아이디를 입력해 주세요";
+//        } else if(employeeService.selectEmployeeById(employeeDTO.getId())) {
+//            log.info("[EmployeeController] Already Exist");
+//            result = "중복된 아이디가 존재합니다.";
+//        }
+//
+//        log.info("[MemberController] checkDuplication ==========================================================");
+//
+//        return ResponseEntity.ok(result);
+//    }
 	
 	
 	// 권한체크

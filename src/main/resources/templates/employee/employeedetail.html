@@ -97,11 +97,12 @@
 
 					</table>
 					<div class="btn-right-mv">
-						<button class="btn-orange update" type="submit">수정하기 </button>					
-					<!--    <button class="btn-orange delete" type="submit">삭제하기</button> -->
+						<button class="btn-orange update" type="submit">수정하기 </button>		
+						<button class="btn-orange delete" type="submit">삭제하기 </button>								
+						<button class="btn-orange" type="button" onclick="history.back()">돌아가기</button>
 					</div>
 				</form>
-					<button class="btn-orange" onclick="history.back()">돌아가기</button>
+					
 			</div>
 		</main>
 	</div>
@@ -161,9 +162,9 @@
 			$("form").attr("action", "/employee/update");
 		});
 
-		/* $(".delete").click(function () {
-		   $("form").attr("action", "/food/trader/delete");
-		}); */
+		 $(".delete").click(function () {
+		   $("form").attr("action", "/employee/delete");
+		}); 
 	</script>
 </body>
 

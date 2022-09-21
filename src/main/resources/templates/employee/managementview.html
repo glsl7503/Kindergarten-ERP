@@ -30,14 +30,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
                   <div class="dataTable-search">
                     <input type="hidden" name="currentPage" value="1">
                       <select id="searchCondition" name="searchCondition" class="dataTable-selector">
-                        <option value="mananame">이름</option>
+                        <option value="mananame">이름</option>            
                       </select>
                         <input type="search" id="searchValue" name="searchValue" class="dataTable-input" placeholder="search">
                   </div>
                       <button id="search" class="btn-orange ms-3" type="submit">검색</button>
                   
                    <div>
-                        <button id="insert" class="btn-orange ms-3" type="submit">등록</button>
+                        <button id="insert" type="button" class="btn-orange ms-3" th:onclick="'location.href=\'/employee/managementRegister\''">등록</button>
                    </div>
                   </div>
                 </div>
@@ -50,7 +50,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
                                     <th>이름</th>
                                     <th>근태분류</th>
                                     <th>작성일</th>
-                                    <th>삭제하기</th>
+                                   <th>사전보고여부</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -59,10 +59,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
                                     <td class="detail" th:text="${management.mananame }"></td>  
                                     <td class="detail" th:text="${management.sort}"></td>
                                     <td class="detail" th:text="${management.writedate}"></td>
-                                                     
-                                    <td>                       
+                                     <td class="detail" th:text="${management.pre}"></td>
+                            <!--        <td>                       
                                       <button class="btn-orange ms-3"><a th:onclick="'location.href=\'/employee/managementdelete?no='+ @{${ management.no }} + '\''">삭제하기</button>
                                     </td>
+                                    -->
                                 </tr>
                             </tbody>
                         </table>
@@ -140,10 +141,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         $("form").attr("action", "/employee/managementList");
  	 });
   
- 	$("#insert").click(function () {
+ /*	$("#insert").click(function () {
         $("form").attr("action", "/employee/managementRegister");
  	});
- 	
+ 	*/
  	
   
 </script> 
