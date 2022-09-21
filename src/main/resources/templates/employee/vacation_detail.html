@@ -20,19 +20,21 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">휴가결재</h1>
+                    <h1 class="mt-4">휴가관리 상세조회</h1>
                     <br>
 
                     <form method="post">   
-
+ 
+                  <th:block th:if="${#strings.contains(holiDetail.holiSubmit,'N')}">
                     <div class="btn-right-mv70">
-                    <button class="btn-orange" id="insert">제출하기</button>  
-                    <button class="btn-orange" id="update">수정하기</button>  
-                    <button class="btn-orange" id="delete">삭제하기</button>  
+                      <button class="btn-orange" id="insert">제출하기</button>  
+                      <button class="btn-orange" id="update">수정하기</button>  
+                      <button class="btn-orange" id="delete">삭제하기</button>  
                     </div>
+                  </th:block>
+                  
+                  <br>
                     
-                    <br>
-                   
                     <table class="tbTem tdTmq">
                         <colgroup>
                             <col width="20%">
@@ -43,19 +45,31 @@
                         <tr>
                          <input type="hidden" name="holiNo" th:value="${ holiDetail.holiNo }">
                             <td class="col-apricot">휴가분류</td>
-                            <td colspan="3"><input type="text" name="holiSort" th:value="${ holiDetail.holiSort }"></td>
+                              <td colspan="3">
+                               <p th:text="${ holiDetail.holiSort }" align="left" th:if="${#strings.contains(holiDetail.holiSubmit, 'Y')}"/>     
+                                <input type="text" name="holiSort" th:value="${ holiDetail.holiSort }" th:if="${#strings.contains(holiDetail.holiSubmit, 'N')}">
+                              </td>
                         </tr>
                         <tr>
                            <td class="col-apricot">휴가기간</td>
-                           <td colspan="3"><input type="text" name="holiPeriod" th:value="${ holiDetail.holiPeriod }"></td>             
+                           <td colspan="3">
+								 <p th:text="${ holiDetail.holiPeriod }" align="left" th:if="${#strings.contains(holiDetail.holiSubmit, 'Y')}"/>                               	
+                                <input type="text" name="holiPeriod" th:value="${ holiDetail.holiPeriod }" th:if="${#strings.contains(holiDetail.holiSubmit, 'N')}">                   
+                           </td>             
                         </tr>
                         <tr>
                             <td class="col-apricot" style="height: 200px;">사유</td>
-                             <td colspan="3"><input type="text" style="height: 200px;" name="holiReason" th:value="${ holiDetail.holiReason }"></td>
+                            <td colspan="3">
+								 <p th:text="${ holiDetail.holiReason }" align="left" th:if="${#strings.contains(holiDetail.holiSubmit, 'Y')}"/>            
+                                <input type="text" style="height: 200px;" name="holiReason" th:value="${ holiDetail.holiReason }" th:if="${#strings.contains(holiDetail.holiSubmit, 'N')}"> 
+                            </td>
                         </tr>
                         <tr>
                             <td class="col-apricot">특이사항</td>
-                             <td colspan="3"><input type="text" name="holiOrder" th:value="${ holiDetail.holiOrder }"></td>
+                            <td colspan="3">
+                                <p th:text="${ holiDetail.holiOrder }" align="left" th:if="${#strings.contains(holiDetail.holiSubmit, 'Y')}"/>   
+                                <input type="text" name="holiOrder" th:value="${ holiDetail.holiOrder }" th:if="${#strings.contains(holiDetail.holiSubmit, 'N')}"/>
+                            </td>
                         </tr>                        
                     </table> 
                     </form>                  
@@ -77,6 +91,7 @@
  	$("#delete").click(function () {
         $("form").attr("action", "/employee/vacation/delete");
  	});
+ 	
  	
  	
   

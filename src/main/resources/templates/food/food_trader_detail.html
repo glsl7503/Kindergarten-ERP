@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
@@ -9,6 +9,7 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>거래업체 상세페이지</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="sb-nav-fixed">
 
@@ -25,7 +26,7 @@
               
               <form method="post">
               
-              <div class="btn-right-mv70">
+              <div class="btn-right-mv70" sec:authorize="hasAnyRole('AUTH_EATMANAGE', 'AUTH_ADMIN')">
                   <button class="btn-orange update" type="submit">수정하기 </button>
                   <button class="btn-orange delete" type="submit">삭제하기</button>
               </div>
@@ -40,21 +41,30 @@
                       <col width="25%">
                   </colgroup>
                   		<tr>
-	                      <td class="bg-apricot">업체인덱스</td>
-	                      <td colspan="3"><p th:text="${ trader.traderIdx }"></p></td>
+	                      <td class="bg-apricot">업체번호</td>
+	                      <td colspan="3"><p th:text="${ trader.traderIdx }" align="left"></p></td>
 	                      <input type="hidden" name="traderIdx" th:value="${ trader.traderIdx }">
 	                  </tr>
 	                  <tr>
-	                      <td class="bg-apricot">업체명 </td>
-	                      <td colspan="3"><input type="text" name="traderName" th:value="${ trader.traderName }"></td>
+	                      <td class="bg-apricot">회사명 </td>
+	                      <td colspan="3">
+	                        <input type="text" name="traderName" th:value="${ trader.traderName }" maxlength="10" placeholder="회사명을 입력해주세요! (ex: 하니주식회사)" sec:authorize="hasAnyRole('AUTH_EATMANAGE', 'AUTH_ADMIN')" />
+	                      	<p th:text="${ trader.traderName }" align="left" sec:authorize="hasRole('AUTH_USER')"/>
+	                      </td>
 	                  </tr>
 	                  <tr>
 	                      <td class="bg-apricot">담당자</td>
-	                      <td colspan="3"><input type="text" name="traderPic" th:value="${ trader.traderPic }"></td>
+	                      <td colspan="3">
+	                        <input type="text" name="traderPic" th:value="${ trader.traderPic }" maxlength="5" placeholder="담당자를 입력해주세요! (ex: 김하니)" sec:authorize="hasAnyRole('AUTH_EATMANAGE', 'AUTH_ADMIN')"/>
+	                     	<p th:text="${ trader.traderPic }" align="left" sec:authorize="hasRole('AUTH_USER')"/>
+	                      </td>
 	                  </tr>
 	                   <tr>
 	                      <td class="bg-apricot">전화번호</td>
-	                      <td colspan="3"><input type="text" name="traderPhone" th:value="${ trader.traderPhone }"></td>
+	                      <td colspan="3">
+	                      	<input type="text" id="phoneNumber" name="traderPhone" th:value="${ trader.traderPhone }" maxlength="13" placeholder="전화번호를 입력해보세요!" sec:authorize="hasAnyRole('AUTH_EATMANAGE', 'AUTH_ADMIN')">
+	                        <p th:text="${ trader.traderPhone }" align="left" sec:authorize="hasRole('AUTH_USER')"/>
+	                      </td>
 	                  </tr>
               </table>
 			</form>
@@ -64,7 +74,7 @@
           </div>
          </main>
      </div>
-<script th:inline="javascript">
+ <script th:inline="javascript">
    $(".update").click(function () {
        $("form").attr("action", "/food/trader/update");
 	 });
@@ -73,8 +83,34 @@
        $("form").attr("action", "/food/trader/delete");
 	});
 	
+	//휴대폰 번호 유효성 검사
+ 	let userPhone = document.querySelector("#phoneNumber");
+ 	userPhone.addEventListener("change", (e) => {
+ 	  validPhone(e.target);
+ 	});
+ 	function validPhone(obj) {
+ 	  console.log(obj);
+ 	  if (validPhoneCheck(obj) == false) {
+ 	    alert("올바른 번호를 입력하세요.");
+ 	    obj.value = "";
+ 	    obj.focus();
+ 	    return false;
+ 	  }
+ 	}
+ 	function validPhoneCheck(obj) {
+ 	  let pattern = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
+ 	  return obj.value.match(pattern) != null;
+ 	}
+
+ 	// 전화번호 입력 시 하이픈 넣는 코드
+ 	const autoHypen = (target) => {
+ 	  target.value = target.value
+ 	    .replace(/[^0-9]/g, "")
+ 	    .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
+ 	    .replace(/(\-{1,2})$/g, "");
+ 	};
 	
  
-     </script>
+     </script> 
   </body>
 </html>

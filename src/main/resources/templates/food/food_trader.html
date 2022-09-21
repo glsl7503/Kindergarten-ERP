@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,6 +9,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>거래업체</title>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="sb-nav-fixed">
   
@@ -34,7 +36,7 @@
                           <input type="search" id="searchValue" name="searchValue" class="dataTable-input" placeholder="search">
                     </div>
                           <button id="search" class="btn-orange ms-3" type="submit">검색</button>
-                    <div>
+                    <div sec:authorize="hasAnyRole('AUTH_EATMANAGE', 'AUTH_ADMIN')">
                         <button id="insert" class="btn-orange ms-3" type="submit">등록</button>
                     </div>
                   </div>
@@ -109,7 +111,7 @@
             </div>
         </main>
     </div>
-	<script th:inline="javascript">
+ 	<script th:inline="javascript">
 		
 	   let message = '[[${message}]]';
 	
@@ -138,6 +140,6 @@
 	 	$("#insert").click(function () {
 	        $("form").attr("action", "/food/trader/insert");
 	 	});
-	</script>
+	</script> 
 </body>
 </html>

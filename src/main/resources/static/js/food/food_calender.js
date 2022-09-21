@@ -135,14 +135,29 @@
       
 	  
 	  $("#update").click(function () {
+		if($("#category").val() == 0) {
+			alert("카테고리 지정해주세요")			
+			
+			} else {
+				
 	        $("#fm").attr("action", "/food/calender/update").attr("method", "post").submit();
-	  });
+
+			}  
+		});
 	  
 	 	$("#delete").click(function () {
+			
 	        $("#fm").attr("action", "/food/calender/delete").attr("method", "post").submit();
 	 });
 	 	$("#insert").click(function () {
+		
+		if($("#category").val() == 0) {
+			alert("카테고리를 지정해주세요")			
+			
+			} else {
+				
 	        $("form").attr("action", "/food/calender/insert").attr("method", "post").submit();
+			}  
 	 });
   	});	
   	
@@ -156,8 +171,10 @@
 				
 				const $empNo1 = $("#empNo1");
 				const $empNo2 = $("#empNo2");
-				let html2 = "<option>" + "회사명" + "</option>";
 				
+				//let html2 = "<option value='1'>" + "회사명" + "</option>";
+			
+				let html2 = "";
 				$empNo1.html("");
 				$empNo2.html("");
 				

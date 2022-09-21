@@ -314,5 +314,40 @@
 		)
 	</insert>
 
+	<!-- 식단표 수정하기 쿼리문 -->
+	<update id="updateCalender">
+		UPDATE FOOD_MENU
+		   SET FOOD_TITLE = #{ title }
+		     , FOOD_MODIFY = SYSDATE
+		     , EMP_NO = #{ empNo }
+		     , FOOD_CATEGORY_IDX = #{ foodCategoryIdx }
+		 WHERE FOOD_MENU_IDX = #{ id }
+	</update>
+	
+	<!-- 식단표 삭제하기 쿼리문 -->
+	<update id="deleteCalender">
+		UPDATE FOOD_MENU
+		   SET FOOD_YN = 'Y'
+		 WHERE FOOD_MENU_IDX = #{ id }
+	</update>
+	
+	<!-- 캘린더 직원 카테고리 쿼리문 -->
+	<select id="calenderCategoryEmp" resultMap="FoodEmployeeResultMap">
+	    SELECT
+				A.EMP_NO,
+				A.EMP_ID,
+				A.EMP_NAME,
+				A.EMP_BIRTH,
+				A.EMP_ENDATE,
+				A.EMP_EMAIL,
+				A.EMP_ADDRE,
+				A.EMP_PHONE,
+				A.EMP_SALARY,
+				A.EMP_RESIGN,
+				A.EMP_RESIGNDATE
+			FROM EMPLOYEE A 
+		    JOIN EMPL_AUTH EA ON (A.EMP_NO = EA.EMP_NO)
+		   WHERE NOT EA.AUTH_NUM = 1  	
+	</select>
 
 </mapper>
