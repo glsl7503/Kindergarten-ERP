@@ -128,7 +128,7 @@ FROM (SELECT
 , C.WON_EXIT
   FROM WONSENG C
 LEFT JOIN CLASS_KIND D  ON (C.CLASS_IDX = D.CLASS_IDX)
-LEFT JOIN EMPLOYEE E ON (C.EMP_NO = E.EMP_NO)
+LEFT JOIN EMPLOYEE E ON (D.EMP_NO = E.EMP_NO)
 <where>
    <if test="searchCondition  == 'category'">
   C.WON_CLASSNO LIKE '%' || #{ searchValue } || '%'   

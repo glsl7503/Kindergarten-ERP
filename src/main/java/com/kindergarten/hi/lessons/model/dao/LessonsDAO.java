@@ -10,6 +10,7 @@ import com.kindergarten.hi.lessons.model.dto.ClassKindDTO;
 import com.kindergarten.hi.lessons.model.dto.LesEmployeeDTO;
 import com.kindergarten.hi.lessons.model.dto.LessonsPlanDTO;
 import com.kindergarten.hi.lessons.model.dto.LessonsReportDTO;
+import com.kindergarten.hi.lessons.model.dto.ReportTableDTO;
 import com.kindergarten.hi.lessons.model.dto.TimeTableDTO;
 
 @Mapper
@@ -68,5 +69,9 @@ public interface LessonsDAO {
 	int reportMod(LessonsReportDTO lessonsReportDTO);
 
 	int reportSubmit(String param);
+
+	List<ReportTableDTO> reportTimeSelect(String param);
+
+	String authCheck(String loginIdx);
 
 }

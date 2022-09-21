@@ -11,7 +11,7 @@ public class StudentDTO {
 	private String phone;
 	private int no;
 	private java.sql.Date admission;
-	private java.sql.Date exit;
+	private String exit;
 	private String spac;
 	private String adderss;
 	private int empNo;
@@ -23,7 +23,7 @@ public class StudentDTO {
 	public StudentDTO() {}
 
 	public StudentDTO(String name, int wClass, Date birth, String resident, String phone, int no, Date admission,
-			Date exit, String spac, String adderss, int empNo, Employee1DTO employee, ClassDTO classDTO,
+			String exit, String spac, String adderss, int empNo, Employee1DTO employee, ClassDTO classDTO,
 			ParentsDTO parents, List<AttendanceDTO> attendence) {
 		super();
 		this.name = name;
@@ -99,11 +99,11 @@ public class StudentDTO {
 		this.admission = admission;
 	}
 
-	public java.sql.Date getExit() {
+	public String getExit() {
 		return exit;
 	}
 
-	public void setExit(java.sql.Date exit) {
+	public void setExit(String exit) {
 		this.exit = exit;
 	}
 

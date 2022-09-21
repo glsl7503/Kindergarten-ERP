@@ -1,5 +1,7 @@
 package com.kindergarten.hi.student.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,7 +99,7 @@ public class StudentController {
 		
 		
 	@GetMapping("/studentselect")  /* 상세 조회 */
-	public ModelAndView goStudentselect(@ModelAttribute StudentDTO student, ModelAndView mv, HttpServletRequest request, Model model) {		
+	public ModelAndView goStudentselect(@ModelAttribute StudentDTO student, ModelAndView mv, HttpServletRequest request, Model model) throws ParseException {		
 		        log.info("");
 		        log.info("");
 		        log.info("[BoardController] =========================================================");
@@ -113,8 +115,7 @@ public class StudentController {
 		       for(StudentDTO tt : attendance) {
 		    	   System.out.println("치킨 : " + tt);
 		       }
-		      
-		        System.out.println();
+		        System.out.println("student1 조회 : " + student1.getExit());
 		        mv.addObject("attendance", attendance);	
 		        mv.addObject("choice", choice);	
 		        mv.addObject("student", student1);		
@@ -139,7 +140,7 @@ public class StudentController {
 		// 해쉬맵으로 다 받으시오 dto x
 		student.setResident(student.getResident() + "-" + request.getParameter("resident2"));
 		
-		/* 보육일수 */
+		/* 출석 */
 		int p1_1 = Integer.parseInt(request.getParameter("p1_1"));
 		int p1_2 = Integer.parseInt(request.getParameter("p1_2"));
 		int p2_1 = Integer.parseInt(request.getParameter("p2_1"));
@@ -181,48 +182,42 @@ public class StudentController {
 
 		AttendanceDTO attendence1 = new AttendanceDTO();
 		int att1 = p1_1 - (p1_3 + p1_5 + p1_7);
-		attendence1.setTotal(total);
-		attendence1.setAtt(att1);
+		attendence1.setTotal(att1);
 		attendence1.setNon(p1_3);
 		attendence1.setLate(p1_5);
 		attendence1.setSick(p1_7);
 		
 		AttendanceDTO attendence2 = new AttendanceDTO();
 		int att2 = p1_2 - (p1_4 + p1_6 + p1_8);
-		attendence2.setTotal(total);
-		attendence2.setAtt(att2);
+		attendence2.setTotal(att2);
 		attendence2.setNon(p1_4);
 		attendence2.setLate(p1_6);
 		attendence2.setSick(p1_8);
 		
 		AttendanceDTO attendence3 = new AttendanceDTO();
 		int att3 = p2_1 - (p2_3 + p2_5 + p2_7);
-		attendence3.setTotal(total);
-		attendence3.setAtt(att3);
+		attendence3.setTotal(att3);
 		attendence3.setNon(p2_3);
 		attendence3.setLate(p2_5);
 		attendence3.setSick(p2_7);
 		
 		AttendanceDTO attendence4 = new AttendanceDTO();
 		int att4 = p2_2 - (p2_4 + p2_6 + p2_8);
-		attendence4.setTotal(total);
-		attendence4.setAtt(att4);
+		attendence4.setTotal(att4);
 		attendence4.setNon(p2_4);
 		attendence4.setLate(p2_6);
 		attendence4.setSick(p2_8);
 		
 		AttendanceDTO attendence5 = new AttendanceDTO();
 		int att5 = p3_1 - (p3_3 + p3_5 + p3_7);
-		attendence5.setTotal(total);
-		attendence5.setAtt(att4);
+		attendence5.setTotal(att5);
 		attendence5.setNon(p3_3);
 		attendence5.setLate(p3_5);
 		attendence5.setSick(p3_7);
 		
 		AttendanceDTO attendence6 = new AttendanceDTO();
 		int att6 = p3_2 - (p3_4 + p3_6 + p3_8);
-		attendence6.setTotal(total);
-		attendence6.setAtt(att4);
+		attendence6.setTotal(att6);
 		attendence6.setNon(p3_4);
 		attendence6.setLate(p3_6);
 		attendence6.setSick(p3_8);
@@ -344,52 +339,46 @@ public class StudentController {
 		
 		Map<String, Object> hm = new HashMap<>();
 		
-		int total = p1_1 + p1_2 + p2_1 + p2_2 + p3_1 + p3_2;
+	
 
 		AttendanceDTO attendence1 = new AttendanceDTO();
 		int att1 = p1_1 - (p1_3 + p1_5 + p1_7);
-		attendence1.setTotal(total);
-		attendence1.setAtt(att1);
+		attendence1.setTotal(att1);
 		attendence1.setNon(p1_3);
 		attendence1.setLate(p1_5);
 		attendence1.setSick(p1_7);
 		
 		AttendanceDTO attendence2 = new AttendanceDTO();
 		int att2 = p1_2 - (p1_4 + p1_6 + p1_8);
-		attendence2.setTotal(total);
-		attendence2.setAtt(att2);
+		attendence2.setTotal(att2);
 		attendence2.setNon(p1_4);
 		attendence2.setLate(p1_6);
 		attendence2.setSick(p1_8);
 		
 		AttendanceDTO attendence3 = new AttendanceDTO();
 		int att3 = p2_1 - (p2_3 + p2_5 + p2_7);
-		attendence3.setTotal(total);
-		attendence3.setAtt(att3);
+		attendence3.setTotal(att3);
 		attendence3.setNon(p2_3);
 		attendence3.setLate(p2_5);
 		attendence3.setSick(p2_7);
 		
 		AttendanceDTO attendence4 = new AttendanceDTO();
 		int att4 = p2_2 - (p2_4 + p2_6 + p2_8);
-		attendence4.setTotal(total);
-		attendence4.setAtt(att4);
+		attendence4.setTotal(att4);
 		attendence4.setNon(p2_4);
 		attendence4.setLate(p2_6);
 		attendence4.setSick(p2_8);
 		
 		AttendanceDTO attendence5 = new AttendanceDTO();
 		int att5 = p3_1 - (p3_3 + p3_5 + p3_7);
-		attendence5.setTotal(total);
-		attendence5.setAtt(att4);
+		attendence5.setTotal(att5);
 		attendence5.setNon(p3_3);
 		attendence5.setLate(p3_5);
 		attendence5.setSick(p3_7);
 		
 		AttendanceDTO attendence6 = new AttendanceDTO();
 		int att6 = p3_2 - (p3_4 + p3_6 + p3_8);
-		attendence6.setTotal(total);
-		attendence6.setAtt(att4);
+		attendence6.setTotal(att6);
 		attendence6.setNon(p3_4);
 		attendence6.setLate(p3_6);
 		attendence6.setSick(p3_8);

@@ -24,9 +24,11 @@
 				<br>
 				<form th:action="@{/lessons/report/modify}" method="post">
 					<div class="btn-right-mv70">
-						<th:block th:if="${ !data.status.toString().equals('Y') }">
-							<button class="btn-orange" type="submit">저장하기</button>
-							<button class="btn-orange" type="button" onclick="report_submit();">제출하기</button>
+						<th:block th:unless="${ #authentication.getPrincipal().loginEmployeeRoleList[0].authority.authName.toString() == 'ROLE_AUTH_ADMIN' }">
+							<th:block th:if="${ !data.status.toString().equals('Y') }">
+								<button class="btn-orange" type="submit">저장하기</button>
+								<button class="btn-orange" type="button" onclick="report_submit();">제출하기</button>
+							</th:block>
 						</th:block>
 					</div>
 					<br>
@@ -123,10 +125,10 @@
 						<td class="col-apricot">수업일정</td>
 						<td colspan="5">
 							<ul>
-								<li th:each=" report : ${ data.reportTableDTO }" >
-									<span th:text="|[${ report.period }교시]|"></span>
-									<span th:text="|[${ report.LesEmployeeDTO.empName }]|"></span>
-									<span th:text="${ report.specalNote}"></span>
+								<li th:each=" time : ${ time }" >
+									<span th:text="|[${ time.period }교시]|"></span>
+									<span th:text="|[${ time.LesEmployeeDTO.empName}교사]|"></span>
+									<span th:text="${ time.specalNote}"></span>
 								</li>
 							</ul>
 						</td>
@@ -142,8 +144,7 @@
 											<td>0000년 00월 00일</td>
 										</tr>
 										<tr>
-											<td style="text-align: right; padding-right: 15%;">보고자 :
-												전보경 (인)</td>
+											<td style="text-align: right; padding-right: 15%;" th:text="|보고자 :${data.LesEmployeeDTO.empName}(인)|">
 										</tr>
 									</table>
 								</div>

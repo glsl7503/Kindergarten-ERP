@@ -2,14 +2,13 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<meta name="description" content="" />
-<meta name="author" content="" />
-<title>HI KINDERGARTEN</title>
-<link rel="stylesheet" th:href="@{/css/student/StudentInsert.css}">
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<title>HI KINDERGARTEN</title>
+	<link rel="stylesheet" th:href="@{/css/student/StudentInsert.css}">
 </head>
 <body class="sb-nav-fixed">
 
@@ -26,7 +25,7 @@
 					<button class="btn-orange" type="submit">등록</button>
 					<button class="btn-orange" type="button" th:onclick="'location.href=\'/student/studentselect\''">취소하기</button>
 					<br> <br>
-					<table class="tbTem">
+					<table class="tbTem1">
 						<colgroup>
 							<col width="11%">
 							<col width="24%">
@@ -53,8 +52,8 @@
 							<input type="date" required name="birth"></td>
 							<td class="col-apricot">주민등록번호</td>
 							<td class="txtBox">
-							<input type="tel" style="width: 130px;" id="jumin1" name="resident" maxlength="6"> - 
-							<input type="text" style="width: 130px;" id="jumin2" name="resident2" maxlength="7"required> 
+							<input type="tel" style="width: 40%;" id="jumin1" name="resident" maxlength="6"> - 
+							<input type="text" style="width: 40%;" id="jumin2" name="resident2" maxlength="7"required> 
 								
 								<script>
 									$("#jumin1")
@@ -284,7 +283,7 @@
 							<td>2학기</td>
 						</tr>
 						<tr>
-							<td class="col-apricot">보육일수</td>
+							<td class="col-apricot">출석</td>
 							<td><input type="number" min="0" value="0" style="width: 50px;" name="p1_1"></td>
 							<td><input type="number" min="0" value="0" style="width: 50px;" name="p1_2"></td>
 							<td><input type="number" min="0" value="0" style="width: 50px;" name="p2_1"></td>
@@ -343,10 +342,10 @@
 									<option value="모">모</option>									
 							</select>
 								<p>
-									이름 : <input type="text" style="width: 100px;" name="name1" required>
+									이름 : <input type="text" style="width: 70%;" name="name1" required>
 								</p> <br>
 								<p>
-									번호 : <input type="tel" oninput="hypenTel1(this)" maxlength="13" name="phone1" id="phone" required> 
+									번호 : <input type="tel" style="width: 70%;" oninput="hypenTel1(this)" maxlength="13" name="phone1" id="phone" required> 
 							   <script>
 								  const hypenTel1 = (target) => {
 								 target.value = target.value
@@ -366,10 +365,10 @@
 									<option value="모">모</option>									
 								</select>
 								<p>
-									이름 : <input type="text" style="width: 100px;" name="name2" required>
+									이름 : <input type="text" style="width: 70%;" name="name2" required>
 								</p> <br>
 								<p>
-									번호 : <input type="tel" oninput="hypenTel2(this)" maxlength="13" name="phone2" id="phone" required> 
+									번호 : <input type="tel" style="width: 70%;" oninput="hypenTel2(this)" maxlength="13" name="phone2" id="phone" required> 
 							   <script>
 								  const hypenTel2 = (target) => {
 								 target.value = target.value

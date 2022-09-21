@@ -57,7 +57,7 @@
                             <td class="col-apricot">입학일</td>
                             <td class="txtBox" th:text="${ student.admission }">2022년 02월 14일</td>
                             <td class="col-apricot">졸업일</td>
-                            <td class="txtBox" th:text="${ student.exit }">2030년 01월 17일</td>
+                            <td class="txtBox" th:text="${ #strings.substring(student.exit,0,10) }">2030년 01월 17일</td>
                         </tr>
                         <tr>
                            
@@ -89,7 +89,7 @@
                             <td>2학기</td>
                         </tr>
                         <tr>
-                            <td class="col-apricot">보육일수</td>
+                            <td class="col-apricot">출석</td>
                             <td th:text="${ attendance[0].attendence[0].total }"></td>
                             <td th:text="${ attendance[0].attendence[1].total }"></td>
                             <td th:text="${ attendance[0].attendence[2].total }"></td>

@@ -11,7 +11,6 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link rel="stylesheet" th:href="@{/css/student/Studentupdate.css}">  
 </head>
-
 <body class="sb-nav-fixed">
 
 	<div th:replace="common/header"></div>
@@ -212,7 +211,7 @@
                             <td>2학기</td>
                         </tr>
                         <tr>
-                            <td class="col-apricot">보육일수</td>
+                            <td class="col-apricot">출석</td>
                             <td><input type="number" style="width: 50px;" name="p1_1" th:value="${ attendance[0].attendence[0].total }"></td>
                             <td><input type="number" style="width: 50px;" name="p1_2" th:value="${ attendance[0].attendence[1].total }"></td>
                             <td><input type="number" style="width: 50px;" name="p2_1" th:value="${ attendance[0].attendence[2].total }"></td>
@@ -265,7 +264,7 @@
                             <td class="col-apricot">보호자1</td>
                            <td
 								style="text-align: left; position: relative; left: 20px; top: 7px">
-							<select name="ParentsDTO[0].name">
+							<select name="parents1">
 									<option value="부">부</option>
 									<option value="모">모</option>									
 							</select>
@@ -289,7 +288,7 @@
 							<td class="col-apricot">보호자2</td>
 							<td
 								style="text-align: left; position: relative; left: 20px; top: 7px">
-								<select name="ParentsDTO[1].name">
+								<select name="parents2">
 									<option value="부">부</option>
 									<option value="모">모</option>									
 								</select>

@@ -1,92 +1,91 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>HI KINDERGARTEN</title>
-    </head>
-    <body class="sb-nav-fixed">
-    
-    <div th:replace="common/header"></div>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>HI KINDERGARTEN</title>
+</head>
+<body class="sb-nav-fixed">
+
+	<div th:replace="common/header"></div>
 	<div th:replace="common/sidebar"></div>
 
-            <!-- 컨텐츠 영역 -->
-            <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid px-4">
-                        <h1 class="mt-4">원생관리</h1>
-                        <br>
+	<!-- 컨텐츠 영역 -->
+	<div id="layoutSidenav_content">
+		<main>
+			<div class="container-fluid px-4">
+				<h1 class="mt-4">원생관리</h1>
+				<br>
 
-                        <div class="dataTable-top">
-                        <form id="searchForm"
-                          th:action="@{/student/studentselectlist}"
-                          method="get"
-                          style="display: inline-block">
-                          
-                            <div class="dataTable-search">
-                                <select th:name="searchCondition" id="searchCondition" class="dataTable-selector">
-                                    <option value="category">-선택-</option>
-                                    <option value="no">원생번호</option>
-                                    <option value="name">원생명</option>
-                                    <option value="ban">반</option>
-                                </select>
-                                <input type="search" id="searchValue" name="searchValue"  class="dataTable-input" placeholder="search">
-                            </div>
-                            <button class="btn-orange ms-3" type="submit">검색</button>
-                             </form>
-                            
-                            <div>
-                                <button class="btn-orange"
-                                th:onclick="'location.href=\'/student/studentinsert\''">등록</button>
-                            </div>
-                        </div>
-      
-                        
-                        <table class="dataTable-table">
-                            <colgroup>
-                                <col width="5%">
-                                <col width="5%">
-                                <col width="5%">
-                                <col width="5%">
-                                <col width="10%">
-                                <col width="10%">
-                                <col width="10%">
-                                <col width="10%">                                
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th>원생번호</th>
-                                    <th>원생명</th>
-                                    <th>반</th>
-                                    <th>담당교사</th>
-                                    <th>연락처</th>
-                                    <th>주소</th>
-                                    <th>입학일</th> 
-                                    <th>졸업일</th>                                    
-                                    
-                                </tr>
-                            </thead>
-                            <!-- th:onclick="'location.href=\'/student/studentselect\''" -->
-                            <tbody>
-                                <tr th:each="stu : ${ goStudentList }" >
-                                    <td th:text="${ stu.no }"></td>
-                         		    <td th:text="${ stu.name }" ></td>
-                                    <td th:text="${ stu.classDTO.name }"></td>
-                                    <td th:text="${ stu.employee.name }"></td>
-                                    <td th:text="${ stu.phone }"></td>
-                                    <td th:text="${ stu.adderss }"></td>
-                                    <td th:text="${ stu.admission }"></td>
-                                    <td th:text="${ stu.exit }" th:if="${ stu.exit } != null"></td>                                    
-                                    <td th:if="${ stu.exit } == null">--</td>                                    
-                                </tr>                           
-                            </tbody>
-                            
-                        </table>
-                        
-                        <!-- <div class="dataTable-bottom">
+				<div class="dataTable-top">
+					<form id="searchForm" th:action="@{/student/studentselectlist}"
+						method="get" style="display: inline-block">
+						<div class="dataTable-search">
+							<select th:name="searchCondition" id="searchCondition"
+								class="dataTable-selector">
+								<option value="category">-선택-</option>
+								<option value="no">원생번호</option>
+								<option value="name">원생명</option>
+								<option value="ban">반</option>
+							</select> <input type="search" id="searchValue" name="searchValue"
+								class="dataTable-input" placeholder="search">
+						</div>
+						<button class="btn-orange ms-3" type="submit">검색</button>
+					</form>
+
+					<div>
+						<button class="btn-orange"
+							th:onclick="'location.href=\'/student/studentinsert\''">등록</button>
+					</div>
+				</div>
+
+
+				<table class="dataTable-table">
+					<colgroup>
+						<col width="5%">
+						<col width="5%">
+						<col width="5%">
+						<col width="5%">
+						<col width="10%">
+						<col width="10%">
+						<col width="10%">
+						<col width="10%">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>원생번호</th>
+							<th>원생명</th>
+							<th>반</th>
+							<th>담당교사</th>
+							<th>연락처</th>
+							<th>주소</th>
+							<th>입학일</th>
+							<th>졸업일</th>
+
+						</tr>
+					</thead>
+					<!-- th:onclick="'location.href=\'/student/studentselect\''" -->
+					<tbody>
+						<tr th:each="stu : ${ goStudentList }">
+							<td th:text="${ stu.no }"></td>
+							<td th:text="${ stu.name }"></td>
+							<td th:text="${ stu.classDTO.name }"></td>
+							<td th:text="${ stu.employee.name }"></td>
+							<td th:text="${ stu.phone }"></td>
+							<td th:text="${ stu.adderss }"></td>
+							<td th:text="${ stu.admission }"></td>			
+							<td th:text="${#strings.substring(stu.exit,0,10)}"></td>
+							<!-- <td th:if="${ stu.exit } == null">--</td> -->
+						</tr>
+					</tbody>
+
+				</table>
+
+				<!-- <div class="dataTable-bottom">
                             <nav class="dataTable-pagination">
                                 <ul class="dataTable-pagination-list">
                                     <li class="pager">
@@ -113,64 +112,49 @@
                                 </ul>
                             </nav>
                         </div> -->
-                         <!-- 페이지 처리 -->
-                <div class="dataTable-bottom" align="center">
-                <nav class="dataTable-pagination">
-                    <!-- 맨 앞으로 이동 버튼 -->
-                    <button
-                            th:onclick="'location.href=\'/student/list?currentPage='+ @{${selectCriteria.startPage}} + '\''"
-                            th:disabled="${selectCriteria.pageNo == 1}"
-                    >
-                        <<
-                    </button>
-                    <!-- 이전 페이지 버튼 -->
-                    <button
-                            th:onclick="'location.href=\'/student/studentselectlist?currentPage='+ @{${selectCriteria.pageNo - 1}} + '\''"
-                            th:disabled="${selectCriteria.pageNo == 1}"
-                    >
-                        <
-                    </button>
-                    <!-- 숫자 버튼 -->
-                    <th:block th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
-                        <button
-                                th:text="${ page }"
-                                th:onclick="'location.href=\'/student/studentselectlist?currentPage='+ @{${page}} + '\''"
-                                th:disabled="${ selectCriteria.pageNo eq page }">
-                        </button>
-                    </th:block>
 
-                    <!-- 다음 페이지 버튼 -->
-                    <button
-                            th:onclick="'location.href=\'/student/studentselectlist?currentPage='+ @{${selectCriteria.pageNo + 1}} + '\''"
-                            th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"
-                    >
-                        >
-                    </button>
-                    <!-- 마지막 페이지로 이동 버튼 -->
-                    <button
-                            th:onclick="'location.href=\'/student/studentselectlist?currentPage='+ @{${selectCriteria.maxPage}} + '\''"
-                            th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}"
-                    >
-                        >>
-                    </button>
-                    </nav>
-                </div>
-                    </div>
-                </main>
-            </div>
-            <script th:inline="javascript">
-   
+				<!-- 페이지 처리 -->
+				<div class="pagingArea dataTable-bottom">
+					<nav class="dataTable-pagination">
+						<ul class="dataTable-pagination-list">
+							<li class="pager"><a
+								th:onclick="'location.href=\'/student/studentselectlist?currentPage='+ @{${selectCriteria.startPage}} + '\''"
+								th:disabled="${selectCriteria.pageNo == 1}"> << </a></li>
+							<li class="pager"><a
+								th:onclick="'location.href=\'/student/studentselectlist?currentPage='+ @{${selectCriteria.pageNo - 1}} + '\''"
+								th:disabled="${selectCriteria.pageNo == 1}"> < </a></li>
 
-    if (document.querySelectorAll(".dataTable-table td")) {
-        const $tds = document.querySelectorAll(".dataTable-table td");
-        for (let i = 0; i < $tds.length; i++) {
+							<li class="active"
+								th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
+								<a class="dataTable-pagination-list" th:text="${ page }"
+								th:onclick="'location.href=\'/student/studentselectlist?currentPage='+ @{${page}} + '\''"
+								th:disabled="${ selectCriteria.pageNo eq page }"> </a>
+							</li>
 
-            $tds[i].onclick = function() {
-                const no = this.parentNode.children[0].innerText;
-                location.href = "/student/studentselect?no=" + no;
-            }
-        }
-    }
-</script>
-    </body>
+							<li class="pager"><a
+								th:onclick="'location.href=\'/student/studentselectlist?currentPage='+ @{${selectCriteria.pageNo + 1}} + '\''"
+								th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}">>
+							</a></li>
+							<li class="pager"><a
+								th:onclick="'location.href=\'/student/studentselectlist?currentPage='+ @{${selectCriteria.maxPage}} + '\''"
+								th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}">
+									>> </a></li>
+						</ul>
+					</nav>
+				</div>
+		</main>
+	</div>
+	<script th:inline="javascript">
+		if (document.querySelectorAll(".dataTable-table td")) {
+			const $tds = document.querySelectorAll(".dataTable-table td");
+			for (let i = 0; i < $tds.length; i++) {
+
+				$tds[i].onclick = function() {
+					const no = this.parentNode.children[0].innerText;
+					location.href = "/student/studentselect?no=" + no;
+				}
+			}
+		}
+	</script>
+</body>
 </html>

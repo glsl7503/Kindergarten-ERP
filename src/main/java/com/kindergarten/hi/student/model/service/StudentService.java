@@ -153,14 +153,18 @@ public class StudentService {
 	 	int num1 = mapper.selectStudentNum(student);
 	 	int num2= num1 - 1;
 	 	System.out.println("애들 출결 번호 조회 : " + num1);
-	 	for(int i = 1; i < 7; i++) {
-	 		
+
+	 	int classno = student.getNo();
+	 	for(int i = 1; i < 7; i++) {	 		
 	 		AttendanceDTO attendance = (AttendanceDTO) hm.get("attendence" + i);
+	 		attendance.setClassno(classno);
 	 		System.out.println("insert attendance" + i + " = " + attendance);
 	 		int number = num2 + i;
 	 		attendance.setNo(number);
 	 		result = mapper.updatestudentinfor(attendance);
 	 	}
+	 	
+
 	 	
 		System.out.println("result =" + result);
 		if (result > 0) {

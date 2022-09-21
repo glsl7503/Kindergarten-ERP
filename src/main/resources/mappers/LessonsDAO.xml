@@ -111,7 +111,7 @@
         <result property="rrIdx" column="RR_IDX"/>
         <result property="period" column="PERIOD"/>
         <result property="title" column="TITLE"/>
-        <result property="specalNote" column="SPECIAL_NOTE"/>
+        <result property="specalNote" column="SPECAL_NOTE"/>
         
         <association property="lesEmployeeDTO" resultMap="LesEmployeeResultMap"/>
     </resultMap>
@@ -614,7 +614,7 @@
 				NULL,
 				'N',
 				#{ mainTeacher },
-				1
+				#{ regMem }
 			)
    	</insert>
    	
@@ -658,7 +658,9 @@
 				LEFT JOIN CLASS_KIND B ON (A.CLASS_IDX = B.CLASS_IDX)
 				LEFT JOIN EMPLOYEE C ON (A.REG_MEM = C.EMP_NO)
 			WHERE 1=1
-				AND A.STATUS = 'N'
+				<if test="auth != 'ROLE_AUTH_ADMIN'">
+							AND A.REG_MEM = #{ loginIdx }
+				</if>
 		        <if test="selectVal == 'class'">
 		            AND B.CLASS_NAME LIKE '%' || #{ searchVal } || '%'
 		        </if>
@@ -734,9 +736,12 @@
 			        LEFT JOIN CLASS_KIND B ON (A.CLASS_IDX = B.CLASS_IDX)
 					LEFT JOIN EMPLOYEE C ON (A.REG_MEM  = C.EMP_NO)
 					WHERE 1=1
+						<if test="auth != 'ROLE_AUTH_ADMIN'">
+							AND A.REG_MEM = #{ loginIdx }
+						</if>
 						<if test="selectVal == ''">
-				            AND B.CLASS_NAME LIKE '%' || #{ searchVal } || '%'
-				            OR C.EMP_NAME LIKE '%' || #{ searchVal } || '%'
+				            AND ( B.CLASS_NAME LIKE '%' || #{ searchVal } || '%'
+				            OR C.EMP_NAME LIKE '%' || #{ searchVal } || '%' )
 				        </if>
 						<if test="selectVal == 'class'">
 				            AND B.CLASS_NAME LIKE '%' || #{ searchVal } || '%'
@@ -793,6 +798,7 @@
         LEFT JOIN CLASS_KIND B ON (A.CLASS_IDX = B.CLASS_IDX)
 		LEFT JOIN EMPLOYEE C ON (A.REG_MEM  = C.EMP_NO)
 		LEFT JOIN REPORT_TIMETABLE D ON (A.RR_IDX = D.RR_IDX)
+		WHERE 1=1
 			AND A.RR_IDX = #{ param }
 		ORDER BY D.PERIOD ASC
    	</select>
@@ -824,5 +830,31 @@
 		WHERE
 		RR_IDX = #{ rrIdx }
    	</update>
+   	
+   	<select id="reportTimeSelect" resultMap="ReportTableResultMap">
+   		SELECT
+			A.PERIOD,
+			C.EMP_NAME,
+			A.SPECAL_NOTE 
+		FROM 
+			REPORT_TIMETABLE A
+		LEFT JOIN RESSONS_REPORT B ON (A.RR_IDX = B.RR_IDX)
+		LEFT JOIN EMPLOYEE C ON (A.TITLE = C.EMP_NO)
+		WHERE 1=1
+			AND A.RR_IDX = #{ param }
+		ORDER BY A.PERIOD ASC
+   	</select>
+   	
+   	<select id="authCheck" parameterType="string" resultType="string">
+   		SELECT
+			C.AUTH_NAME 
+		FROM
+			EMPLOYEE A
+		LEFT JOIN EMPL_AUTH B ON
+			(A.EMP_NO = B.EMP_NO)
+		LEFT JOIN AUTHORITY C ON
+			(B.AUTH_NUM  = C.AUTH_NUM)
+			WHERE A.EMP_NO = #{ loginIdx }
+   	</select>
    	
 </mapper>
