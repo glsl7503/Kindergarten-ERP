@@ -208,6 +208,7 @@
  			 		<![CDATA[
        					WHERE F.RNUM >= #{ startRow }
        					  AND F.SUBMIT ='Y'
+       					  AND F.STATUS ='N'
          			]]>
       			ORDER BY 1 ASC
     </select>

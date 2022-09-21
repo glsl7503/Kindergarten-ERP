@@ -170,7 +170,7 @@ public class FoodController {
 
 		foodService.updateStock(food);
 
-		rttr.addFlashAttribute("message","수정 되었습니다.");
+		rttr.addFlashAttribute("message","게시글이 수정 되었습니다.");
 		
 		log.info("[updateStockController] end : ==========================================");
 		
@@ -189,7 +189,7 @@ public class FoodController {
 		
 		foodService.deleteStock(food);
 		
-		rttr.addFlashAttribute("message","수정 되었습니다.");
+		rttr.addFlashAttribute("message","게시글이 삭제 되었습니다.");
 		
 		log.info("[deteleStockController] end : =================================");
 		
