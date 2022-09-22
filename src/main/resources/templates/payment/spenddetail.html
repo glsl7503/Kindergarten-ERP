@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="../css/commons.css">
         <link rel="stylesheet" href="../css/ressonsplan.css">
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </head>
     <body class="sb-nav-fixed">
 
@@ -37,10 +38,9 @@
             <!-- 컨텐츠 영역 -->
             <div id="layoutSidenav_content">
                 <main>
-                    <div class="container-fluid px-4">
+                    <div class="container-fluid px-4" id="containerLayer">
                         <h1 class="mt-4">지출 계획서</h1>
                         <br>
-                       
                         <br>
                         <table class="tbTem">
                             <colgroup>
@@ -103,14 +103,16 @@
                                             <tr>
                                                 <td style="text-align: right; padding-right: 15%;">보고자 : <span th:text="${spend.employee.name}"></span></td>
                                             </tr>
+                                            
                                         </table>
+                                        
                                         <th:block th:if="${file != null}">
                                          <hr>
                                         <span>첨부파일</span>
                                         <br>
                                         <a th:href="|/fileupload/payment/${file.savedName}|" download><span th:text="${file.originName}"></span></a>
                                         </th:block>
-
+										
                                          <hr>
                                     </div>
                                 </td>
@@ -127,11 +129,29 @@
                             <button class="btn-orange ms-3" th:onclick="|submitfail(${spend.no})|">반려하기</button>
                             <button class="btn-orange ms-3" th:onclick="|removeCheck(${spend.no})|">삭제하기</button>
                         </th:block> 
+                        	<button class="btn-orange ms-3" onclick="htmlToPdf()">PDF출력</button>
                             <button class="btn-orange ms-3" onclick="history.back()">돌아가기</button>
                          </div>
                     </div> 
                 </main>
                  <script th:inline="javascript">
+              		function htmlToPdf(){
+              			var element = document.getElementById('containerLayer');
+              			var opt = {
+              			  margin:       0,
+              			  filename:     '지출결의서.pdf',
+              			  image:        { type: 'jpeg', quality: 0.98 },
+              			  html2canvas:  { scale: 1 , y: 515, x: 150, height: 1010},
+              			  jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+              			};
+
+              			// New Promise-based usage:
+              			html2pdf().set(opt).from(element).save();
+
+              			// Old monolithic-style usage:
+              			html2pdf(element, opt);
+              			
+              		}
                  
                  	function submitfinal(no,yN){
 						location.href="/payment/spendSupFinal?no="+no+"&yN="+yN;
@@ -218,6 +238,7 @@
                             }
 
                             }
+                            
                         </script>
             </div>
         </div>

@@ -77,7 +77,7 @@ function select(param) {
 						//$period = $("<td>").text(jsonObjList[i].period);
 						$period = $("<input name='period' style='border:0; text-align:center;' size='1' readonly>").val(jsonObjList[i].period);
 						$select = $("<select name='emp'>");
-						$text = $("<input type='text' name='contents' value="+ jsonObjList[i].specialNote +">");
+						$text = $("<input type='text' name='contents' value=\""+ jsonObjList[i].specialNote +"\">");
 						$plus_btn = $("<button type='button' class='btn-danger' onclick='plus(this); return false;'>+</button>");
 						$minus_btn = $("<button type='button' class='btn-success' onclick='minus(this); return false;'>-</button>");
 
