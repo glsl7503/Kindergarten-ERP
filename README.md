@@ -13,4 +13,4 @@
 
 ### 유치원 직원 관리부터 일정관리까지 한눈에 쉽고 간편하게 파악하는 솔루션
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4cc32e69-88f2-46e2-8fc9-48f0ef7e8459/Untitled.png)
+![Untitled](docs/img/Untitled.png)
